@@ -1,0 +1,27 @@
+body {
+    top: 0;
+    left: 0;
+}
+
+.leftMenu {
+    float: left;
+}
+
+.rightMenu {
+    float: right;
+}
+
+.menuList {
+    float: left;
+    margin-right: 0.3rem;
+}
+
+.menuIcon {
+    float: left;
+    margin: 0.1rem 0.7rem;
+}
+
+.userIcon {
+    float: left;
+    margin: 0.1rem 0.5rem;
+}
