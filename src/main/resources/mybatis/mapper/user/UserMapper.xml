@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insummnia.webpjt.user.service.UserDAO">
+
+    <select id="userInfo" parameterType="user" resultType="user">
+      SELECT USER_ID
+           , USER_NM
+           , NICK_NM
+           , CREATE_USER_ID
+           , CREATE_DATETIME
+        FROM TB_USER_MST
+       WHERE USER_ID = #{userId}
+    </select>
+
+    <insert id="registUserMst" parameterType="user">
+      INSERT INTO TB_USER_MST
+      (
+          USER_ID
+        , PASSWORD
+        , USER_NM
+        , NICK_NM
+        , CREATE_USER_ID
+        , CREATE_DATETIME
+      )
+      VALUES
+      (
+          #{userId}
+        , #{password}
+        , #{userNm} 
+        , #{nickNm}
+        , #{createUserId}
+        , NOW()
+      )
+    </insert>
+
+    <insert id="registUserInfo" parameterType="user">
+      INSERT INTO TB_USER_INFO
+      (
+          USER_ID
+      )
+      VALUES
+      (
+          #{userId}
+      )
+    </insert>
+
+</mapper>

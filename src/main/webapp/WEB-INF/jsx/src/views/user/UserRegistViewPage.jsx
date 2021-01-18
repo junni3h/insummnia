@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
 
+import UserAPIRoute from '../../router/libs/UserAPIRoute';
+
 import {Button, Container, CssBaseline, TextField} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
@@ -43,6 +45,20 @@ export default function UserRegistView (props) {
 
         console.log("state => ", params);
 
+        UserAPIRoute.fetchRegistUsers(params)
+            .then( res => {
+                const data = res.data;
+                
+                if(data.regist){
+                    if(window.confirm(data.message)){
+                        setRegist(true);
+                    }
+                } else {
+                    alert(data.message);
+                }
+
+            });
+    
         event.preventDefault();
 
     }
