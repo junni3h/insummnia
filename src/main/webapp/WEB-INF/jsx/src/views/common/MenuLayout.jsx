@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import {AppBar, Container, List} from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -15,20 +16,18 @@ import '../../css/common/commonStyle.css';
 
 export default function MenuLayout(){
 
-    const handleDialogClick = (type) => {
-        alert("clicked!!");
-    }
-
     return(
         <AppBar position="static">
             <Container maxWidth="xl">
                 <List component="nav" aria-labelledby="main navigation">
                     <div className="leftMenu">
                         <div className="menuList">
-                            <Home className="menuIcon" fontSize="small"/>
-                            <Typography variant="button">
-                                Home
-                            </Typography>
+                            <Link to="/" className="textLink">
+                                <Home className="menuIcon" fontSize="small"/>
+                                <Typography variant="button">
+                                    Home
+                                </Typography>
+                            </Link>
                         </div>
                         <div className="menuList">
                             <AssignmentIndRoundedIcon className="menuIcon" fontSize="small"/>
@@ -40,12 +39,12 @@ export default function MenuLayout(){
                     <div className="rightMenu">
                         <div className="menuList">
                             <Tooltip title="로그인">
-                                <PersonRoundedIcon className="userIcon" fontSize="small" onClick={handleDialogClick}/>
+                                <Link to="/login" className="textLink"><PersonRoundedIcon className="userIcon" fontSize="small"/></Link>
                             </Tooltip>
                         </div>
                         <div className="menuList">
                             <Tooltip title="회원가입">
-                            <PersonAddRoundedIcon className="userIcon" fontSize="small" onClick={handleDialogClick}/>
+                                <Link to="/regist" className="textLink"><PersonAddRoundedIcon className="userIcon" fontSize="small"/></Link>
                             </Tooltip>
                         </div>
                     </div>

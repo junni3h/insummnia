@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import UserAPIRoute from '../../server/route/UserAPIRoute';
 
 import {Button, Container, CssBaseline, TextField} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
+import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 
-import '../common/css/common.css';
+import '../../css/user/userRegistViewCss.css';
 
 export default function UserRegistView (props) {
 
@@ -49,8 +51,9 @@ export default function UserRegistView (props) {
         return <Redirect to="/login" />
     } else {
         return(
-            <Container component="main" maxWidth="xs">
+            <Container component="main" maxWidth="xs" color="inherit">
                 <CssBaseline />
+                <PersonAddRoundedIcon className="logo" fontSize="large"/>
                 <form onSubmit={handleSubmit} method="post">
                     <div className="userBaiscField">
                         <TextField id="userId" name="userId" label="아이디" value={user.userId} onChange={handleChange} variant="outlined" margin="normal" fullWidth required></TextField>
@@ -63,8 +66,8 @@ export default function UserRegistView (props) {
                     </div>
                     <Divider/>
                     <div className="buttonField">
-                        <Button type="submit" variant="contained" color="primary" className="regist" margin="normal" fullWidth>가입완료</Button>
-                        <Link to="/login" className="text-link"><Button type="button" variant="contained" color="secondary" className="login" margin="normal" fullWidth>가입취소</Button></Link>
+                        <Button type="submit" variant="contained" color="primary" className="btn" fullWidth><CheckCircleRoundedIcon fontSize="small"/>가입완료</Button>
+                        <Link to="/" className="textLink"><Button type="button" variant="contained" color="secondary" className="btn" fullWidth><CancelRoundedIcon fontSize="small"/>가입취소</Button></Link>
                     </div>
                 </form>
             </Container>

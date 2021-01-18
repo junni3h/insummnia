@@ -25,3 +25,12 @@ body {
     float: left;
     margin: 0.1rem 0.5rem;
 }
+
+.textLink {
+    color: inherit;
+    text-decoration: inherit;
+}
+
+.btn {
+    margin-bottom: 0.1rem;
+}
