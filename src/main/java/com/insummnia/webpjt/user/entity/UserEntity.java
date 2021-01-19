@@ -16,6 +16,8 @@ public class UserEntity extends CommonEntity implements Serializable {
     private String userNm;
     private String nickNm;
 
+    private String roleId;
+
     public String getUserId() {
         return this.userId;
     }
@@ -46,6 +48,14 @@ public class UserEntity extends CommonEntity implements Serializable {
 
     public void setNickNm(String nickNm) {
         this.nickNm = nickNm;
+    };
+
+    public String getRoleId() {
+        return this.roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
     };
 
 }
