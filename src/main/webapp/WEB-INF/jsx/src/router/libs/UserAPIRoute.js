@@ -8,10 +8,6 @@ class UserAPIRoute {
         return axios.post( USER_API_BASE_URL + "/regist.json",  params );
     }
 
-    fetchListUsers() {
-        return axios.post( USER_API_BASE_URL + "/list.json" );
-    }
-
 }
 
 export default new UserAPIRoute();

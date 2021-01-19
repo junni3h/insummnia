@@ -49,7 +49,7 @@
       SELECT  USER_ID
            ,  IFNULL(USER_NM, '') AS USER_NM
            ,  IFNULL(NICK_NM, '') AS NICK_NM
-           ,  CREATE_DATETIME
+           ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
         FROM TB_USER_MST
     </select>
 
