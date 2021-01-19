@@ -1,13 +1,9 @@
 package com.insummnia.webpjt.common.entity;
 
-import java.io.Serializable;
-
 import javax.persistence.Entity;
 
 @Entity
-public class CommonEntity implements Serializable{
-
-    private static final long serialVersionUID = 1L;
+public class CommonEntity {
     
     private String createUserId = "isMania";
     private String createDatetime;
