@@ -8,6 +8,7 @@ import {Home} from '@material-ui/icons';
 import AssignmentIndRoundedIcon from '@material-ui/icons/AssignmentIndRounded';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
+import SettingsApplicationsRoundedIcon from '@material-ui/icons/SettingsApplicationsRounded';
 
 import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
@@ -34,6 +35,14 @@ export default function MenuLayout(){
                             <Typography variant="button">
                                 Profile
                             </Typography>
+                        </div>
+                        <div className="menuList">
+                            <Link to="/admin" className="textLink">
+                                <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
+                                <Typography variant="button">
+                                    Admin
+                                </Typography>
+                            </Link>
                         </div>
                     </div>
                     <div className="rightMenu">

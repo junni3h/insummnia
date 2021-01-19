@@ -1,16 +1,17 @@
 package com.insummnia.webpjt.main.ui;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class MainController {
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main() throws Exception {
+    public ResponseEntity main() throws Exception {
         System.out.println("/ 접속");
-        return "/main/main";
+        return ResponseEntity.ok("main");
     }
 
 }

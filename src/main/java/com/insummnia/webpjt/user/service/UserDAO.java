@@ -23,4 +23,8 @@ public class UserDAO {
         sqlSession.insert("registUserInfo", params);
     }
 
+    public List<UserEntity> userList() throws Exception {
+        return sqlSession.selectList("selectUserList");
+    }
+
 }

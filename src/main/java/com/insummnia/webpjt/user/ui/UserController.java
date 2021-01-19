@@ -24,12 +24,8 @@ import org.springframework.web.servlet.ModelAndView;
 public class UserController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
-    /**
-     * uri: /user/regist.do
-     * 회원가입 페이지 View 호출 
-     **/
     @RequestMapping(value = "/regist.do")
     public ModelAndView registView() throws Exception {
 
@@ -40,7 +36,6 @@ public class UserController {
 
     @RequestMapping(value = "/regist.json", method = RequestMethod.POST)
     public ResponseEntity regist(@RequestBody UserEntity user) throws Exception {
-
         Map<String, Object> rtnMap = new HashMap<String, Object>();
 
         //패스워드를 SHA-256으로 인코딩
@@ -50,18 +45,18 @@ public class UserController {
         //SHA-256로 인코딩한 패스워드를 다시 UserEntity에 SET.
         user.setPassword(rtnPassword);
 
-        List<UserEntity> rtnParams = new ArrayList<UserEntity>();
-        rtnParams = userService.userRegist(user);
-
-        if(rtnParams.size() != 0){
-            rtnMap.put("regist", true);
-            rtnMap.put("message", "회원가입에 성공하였습니다!");
-        } else {
-            rtnMap.put("regist", false);
-            rtnMap.put("message", "회원가입에 실패하였습니다!");
-        } 
+        //회원가입 결과 Return
+        rtnMap = userService.userRegist(user);
 
         return ResponseEntity.ok(rtnMap);
+    }
+
+    @RequestMapping(value = "/list.json", method = RequestMethod.POST)
+    public ResponseEntity userList() throws Exception {
+        List<UserEntity> rtnList = new ArrayList<UserEntity>();
+        rtnList = userService.userList();
+
+        return ResponseEntity.ok(rtnList);
     }
 
 }
