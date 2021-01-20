@@ -1,6 +1,23 @@
 body {
     top: 0;
     left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.background {
+    width: 100%;
+    height: 15rem;
+    overflow: hidden;
+}
+
+.backgroundImages {
+    width: 100%;
+    height: 200%;
+}
+
+.bodyContainer {
+    margin: 2rem auto;
 }
 
 .leftMenu {
@@ -31,6 +48,14 @@ body {
     text-decoration: inherit;
 }
 
+.textLink:hover {
+    font-weight: bold;
+}
+
+.MuiDivider-root {
+    margin: 0.7rem auto !important;
+}
+
 .btnRightField {
     margin: 0.5rem auto;
     float: right;
@@ -40,6 +65,6 @@ body {
     margin-left: 0.3rem !important;
 }
 
-.btn {
-    margin-bottom: 0.1rem;
+.btnVertical {
+    margin: 0.5rem auto !important;
 }

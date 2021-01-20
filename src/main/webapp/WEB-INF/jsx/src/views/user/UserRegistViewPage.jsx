@@ -9,6 +9,7 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 
+import '../../css/common/common.css';
 import '../../css/user/userRegistViewCss.css';
 
 export default function UserRegistView (props) {
@@ -63,7 +64,7 @@ export default function UserRegistView (props) {
         return <Redirect to="/login" />
     } else {
         return(
-            <Container component="main" maxWidth="xs" color="inherit">
+            <Container className="bodyContainer" component="main" maxWidth="xs" color="inherit">
                 <CssBaseline />
                 <PersonAddRoundedIcon className="logo" fontSize="large"/>
                 <form onSubmit={handleSubmit} method="post">
@@ -76,10 +77,10 @@ export default function UserRegistView (props) {
                         <TextField id="userNm" name="userNm" label="이름" value={user.userNm} onChange={handleChange} variant="outlined" margin="normal" fullWidth></TextField>
                         <TextField id="nickNm" name="nickNm" label="별명" value={user.nickNm} onChange={handleChange} variant="outlined" margin="normal" fullWidth></TextField>
                     </div>
-                    <Divider/>
+                    <Divider className="divider"/>
                     <div className="buttonField">
-                        <Button type="submit" variant="contained" color="primary" className="btn" fullWidth><CheckCircleRoundedIcon fontSize="small"/>가입완료</Button>
-                        <Link to="/" className="textLink"><Button type="button" variant="contained" color="secondary" className="btn" fullWidth><CancelRoundedIcon fontSize="small"/>가입취소</Button></Link>
+                        <Button type="submit" className="btnVertical" variant="contained" color="primary" startIcon={<CheckCircleRoundedIcon />} fullWidth>가입완료</Button>
+                        <Link to="/" className="textLink"><Button type="button" className="btnVertical" variant="contained" color="secondary" startIcon={<CancelRoundedIcon />} fullWidth>가입취소</Button></Link>
                     </div>
                 </form>
             </Container>

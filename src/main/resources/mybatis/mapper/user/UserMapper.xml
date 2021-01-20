@@ -58,6 +58,8 @@
            ,  IFNULL(USER_NM, '') AS USER_NM
            ,  IFNULL(NICK_NM, '') AS NICK_NM
            ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+           ,  IFNULL(UPDATE_USER_ID, '') AS UPDATE_USER_ID
+           ,  DATE_FORMAT(UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
         FROM TB_USER_MST
     </select>
 

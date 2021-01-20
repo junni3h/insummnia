@@ -66,7 +66,7 @@ export default function UserInfoViewPage(props) {
 
     const handleSubmit = (event) => {
         const params = user;
-        console.log(params);
+        console.log("submit==>", params);
 
         UserAPIRoute.fetchUpdateUsers(params)
                     .then( res => {
@@ -108,15 +108,15 @@ export default function UserInfoViewPage(props) {
                                     <TableBody>
                                         <TableRow>
                                             <TableCell>이름</TableCell>
-                                            <TableCell><TextField id="userNm" name="userNm" value={user.userNm} onChange={handleChange} variant="outlined" size="small"></TextField></TableCell>
+                                            <TableCell><TextField id="userNm" name="userNm" value={user.userNm} onChange={handleChange} size="small"></TextField></TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>비밀번호</TableCell>
-                                            <TableCell><TextField type="password" id="password" name="password" value={user.password} onChange={handleChange} variant="outlined" size="small" required></TextField></TableCell>
+                                            <TableCell><TextField type="password" id="password" name="password" value={user.password} onChange={handleChange} size="small" required></TextField></TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>별명</TableCell>
-                                            <TableCell><TextField id="nickNm" name="nickNm" value={user.nickNm} onChange={handleChange} variant="outlined" size="small"></TextField></TableCell>
+                                            <TableCell><TextField id="nickNm" name="nickNm" value={user.nickNm} onChange={handleChange} size="small"></TextField></TableCell>
                                         </TableRow>
                                         <TableRow>
                                             <TableCell>등록일</TableCell>
