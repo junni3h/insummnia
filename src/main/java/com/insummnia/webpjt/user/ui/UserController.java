@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.insummnia.webpjt.common.utils.CommonUtils;
-import com.insummnia.webpjt.user.entity.UserEntity;
+import com.insummnia.webpjt.user.entity.UserMSTEntity;
 import com.insummnia.webpjt.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +35,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/regist.json", method = RequestMethod.POST)
-    public ResponseEntity regist(@RequestBody UserEntity user) throws Exception {
+    public ResponseEntity regist(@RequestBody UserMSTEntity user) throws Exception {
         Map<String, Object> rtnMap = new HashMap<String, Object>();
 
         //패스워드를 SHA-256으로 인코딩
@@ -51,12 +51,38 @@ public class UserController {
         return ResponseEntity.ok(rtnMap);
     }
 
+    @RequestMapping(value = "/update.json", method = RequestMethod.POST)
+    public ResponseEntity userUpdate(@RequestBody UserMSTEntity user) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+
+        //패스워드를 SHA-256으로 인코딩
+        String password = user.getPassword();
+        String rtnPassword = CommonUtils.encodePwd(password);
+
+        //SHA-256로 인코딩한 패스워드를 다시 UserEntity에 SET.
+        user.setPassword(rtnPassword);
+
+        //회원가입 결과 Return
+        rtnMap = userService.userUpdate(user);
+
+        return ResponseEntity.ok(rtnMap);
+    }
+
     @RequestMapping(value = "/list.json", method = RequestMethod.POST)
     public ResponseEntity userList() throws Exception {
-        List<UserEntity> rtnList = new ArrayList<UserEntity>();
+        List<UserMSTEntity> rtnList = new ArrayList<UserMSTEntity>();
         rtnList = userService.userList();
 
         return ResponseEntity.ok(rtnList);
+    }
+
+    @RequestMapping(value = "/info.json", method = RequestMethod.POST)
+    public ResponseEntity userInfo(@RequestBody UserMSTEntity user) throws Exception {
+        String userId = user.getUserId();
+        UserMSTEntity rtnParams = new UserMSTEntity();
+        rtnParams = userService.userInfo(userId);
+
+        return ResponseEntity.ok(rtnParams);
     }
 
 }

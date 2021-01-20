@@ -31,6 +31,15 @@ body {
     text-decoration: inherit;
 }
 
+.btnRightField {
+    margin: 0.5rem auto;
+    float: right;
+}
+
+.btnRight {
+    margin-left: 0.3rem !important;
+}
+
 .btn {
     margin-bottom: 0.1rem;
 }

@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.insummnia.webpjt.user.entity.UserEntity;
+import com.insummnia.webpjt.user.entity.UserMSTEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,37 +18,63 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> userRegist(UserEntity params) throws Exception {
+    public Map<String, Object> userRegist(UserMSTEntity params) throws Exception {
 
         Map<String, Object> rtnMap = new HashMap<String, Object>();
-        List<UserEntity> rtnParam = new ArrayList<UserEntity>();
+
+        Boolean isRegist = false;
 
         try {
-
             userDAO.userRegist(params);
-            rtnParam = userDAO.userInfo(params.getUserId());
+            
+            try {
+                isRegist = userDAO.userCheck(params.getUserId());
 
-            if(rtnParam.size() != 0){
-                rtnMap.put("regist", true);
+                rtnMap.put("regist", isRegist);
                 rtnMap.put("message", "회원가입에 성공하였습니다!");
-            } else {
-                rtnMap.put("regist", false);
+            } catch (Exception e) {
+                rtnMap.put("regist", isRegist);
                 rtnMap.put("message", "회원가입에 실패하였습니다!");
-            } 
-
+            }
         } catch (Exception e) {
-            rtnMap.put("regist", false);
+            rtnMap.put("regist", isRegist);
             rtnMap.put("message", "회원가입에 실패하였습니다!");
         }
 
         return rtnMap;
     }
 
-    public List<UserEntity> userList() throws Exception {
-        List<UserEntity> rtnList = new ArrayList<UserEntity>();
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> userUpdate(UserMSTEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        Boolean isUpdate = false;
+
+        try {
+            userDAO.userUpdate(params);
+
+            isUpdate = true;
+            rtnMap.put("update", isUpdate);
+            rtnMap.put("message", "회원 수정에 성공하였습니다!");
+        } catch (Exception e) {
+            rtnMap.put("update", isUpdate);
+            rtnMap.put("message", e.getMessage());
+        }
+
+        return rtnMap;
+    }
+
+    public List<UserMSTEntity> userList() throws Exception {
+        List<UserMSTEntity> rtnList = new ArrayList<UserMSTEntity>();
         rtnList = userDAO.userList();
 
         return rtnList;
+    }
+
+    public UserMSTEntity userInfo(String userId) throws Exception {
+        UserMSTEntity rtnParams = new UserMSTEntity();
+        rtnParams = userDAO.userInfo(userId).get(0);
+
+        return rtnParams;
     }
 
 }

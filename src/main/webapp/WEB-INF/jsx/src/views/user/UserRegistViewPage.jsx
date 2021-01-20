@@ -40,10 +40,7 @@ export default function UserRegistView (props) {
 
     // form 데이터 전송
     const handleSubmit = (event) => {
-
         const params = user;
-
-        console.log("state => ", params);
 
         UserAPIRoute.fetchRegistUsers(params)
             .then( res => {
@@ -60,7 +57,6 @@ export default function UserRegistView (props) {
             });
     
         event.preventDefault();
-
     }
 
     if(regist){

@@ -3,17 +3,7 @@
 
 <mapper namespace="com.insummnia.webpjt.user.service.UserDAO">
 
-    <select id="userInfo" parameterType="user" resultType="user">
-      SELECT USER_ID
-           , USER_NM
-           , NICK_NM
-           , CREATE_USER_ID
-           , CREATE_DATETIME
-        FROM TB_USER_MST
-       WHERE USER_ID = #{userId}
-    </select>
-
-    <insert id="registUserMst" parameterType="user">
+    <insert id="registUserMST" parameterType="user">
       INSERT INTO TB_USER_MST
       (
           USER_ID
@@ -45,12 +35,41 @@
       )
     </insert>
 
+    <update id="updateUserMST" parameterType="user">
+      UPDATE TB_USER_MST
+         SET PASSWORD        = #{password}
+           , USER_NM         = #{userNm}
+           , NICK_NM         = #{nickNm}
+           , UPDATE_USER_ID  = #{userId}
+           , UPDATE_DATETIME = NOW()
+       WHERE USER_ID = #{userId}
+    </update>
+
+    <select id="selectUserCheck" parameterType="user" resultType="java.lang.Boolean">
+      SELECT EXISTS ( 
+        SELECT USER_ID 
+          FROM TB_USER_MST
+         WHERE USER_ID = #{userId}
+      )
+    </select>
+
     <select id="selectUserList" resultType="user">
       SELECT  USER_ID
            ,  IFNULL(USER_NM, '') AS USER_NM
            ,  IFNULL(NICK_NM, '') AS NICK_NM
            ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
         FROM TB_USER_MST
+    </select>
+
+    <select id="selectUserInfo" parameterType="java.lang.String" resultType="user">
+      SELECT  USER_ID
+           ,  IFNULL(USER_NM, '') AS USER_NM
+           ,  IFNULL(NICK_NM, '') AS NICK_NM
+           ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+           ,  IFNULL(UPDATE_USER_ID, '') AS UPDATE_USER_ID
+           ,  DATE_FORMAT(UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
+        FROM TB_USER_MST
+       WHERE USER_ID = #{userId}
     </select>
 
 </mapper>

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import com.insummnia.webpjt.common.entity.CommonEntity;
 
 @Entity
-public class UserEntity extends CommonEntity implements Serializable {
+public class UserMSTEntity extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
@@ -56,6 +56,12 @@ public class UserEntity extends CommonEntity implements Serializable {
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
+    }
+
+    @Override
+    public String toString() {
+        return "UserMSTEntity [nickNm=" + nickNm + ", password=" + password + ", roleId=" + roleId + ", userId="
+                + userId + ", userNm=" + userNm + "]";
     };
 
 }

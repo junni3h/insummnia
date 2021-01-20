@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 import { Container } from '@material-ui/core';
@@ -40,7 +41,11 @@ export default function UserListViewPage() {
                             <TableBody>
                                 {list.map((item, index) => (
                                     <TableRow key={index}>
-                                        <TableCell>{item.userId}</TableCell>
+                                        <TableCell>
+                                            <Link to={`/admin/user/info/${item.userId}`}>
+                                                {item.userId}
+                                            </Link>
+                                        </TableCell>
                                         <TableCell>{item.userNm}</TableCell>
                                         <TableCell>{item.nickNm}</TableCell>
                                         <TableCell>{item.createDatetime}</TableCell>

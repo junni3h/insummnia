@@ -16,7 +16,7 @@ public class CommonUtils {
         return rtnString;
 
     }
-
+    
     public static String encodePwd(String password) throws Exception {
 
         // 리턴 받을 암호화된 패스워드

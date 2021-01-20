@@ -5,6 +5,7 @@ import MainViewPage from '../src/views/main/MainViewPage';
 import UserLoginViewPage from '../src/views/main/UserLoginViewPage';
 import UserRegistViewPage from '../src/views/user/UserRegistViewPage';
 import UserListViewPage from '../src/views/user/UserListViewPage';
+import UserInfoViewPage from '../src/views/user/UserInfoViewPage';
 
 export default function App(){
     return(
@@ -14,7 +15,8 @@ export default function App(){
           <Route exact path="/" component={MainViewPage}></Route>
           <Route path="/login" component={UserLoginViewPage}></Route>
           <Route path="/regist" component={UserRegistViewPage}></Route>
-          <Route path="/admin" component={UserListViewPage}></Route>
+          <Route path="/admin/user/list" component={UserListViewPage}></Route>
+          <Route path="/admin/user/info/:userId" component={UserInfoViewPage} ></Route>
         </Switch>
       </Router>
     );

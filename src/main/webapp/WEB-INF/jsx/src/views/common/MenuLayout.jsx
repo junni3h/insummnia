@@ -13,7 +13,7 @@ import SettingsApplicationsRoundedIcon from '@material-ui/icons/SettingsApplicat
 import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
 
-import '../../css/common/commonStyle.css';
+import '../../css/common/common.css';
 
 export default function MenuLayout(){
 
@@ -37,7 +37,7 @@ export default function MenuLayout(){
                             </Typography>
                         </div>
                         <div className="menuList">
-                            <Link to="/admin" className="textLink">
+                            <Link to="/admin/user/list" className="textLink">
                                 <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
                                 <Typography variant="button">
                                     Admin
