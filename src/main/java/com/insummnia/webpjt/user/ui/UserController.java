@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @CrossOrigin
 @RestController
@@ -26,14 +25,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping(value = "/regist.do")
-    public ModelAndView registView() throws Exception {
-
-        ModelAndView mv = new ModelAndView("/user/userRegist");
-        
-        return mv;
-    }
-
+    /**
+     * 사용자 등록
+     * @param user 사용자 마스터
+     * @return Map<String, Objecty> 사용자 등록 성공 여부
+     * @throws Exception
+     */
     @RequestMapping(value = "/regist.json", method = RequestMethod.POST)
     public ResponseEntity regist(@RequestBody UserMSTEntity user) throws Exception {
         Map<String, Object> rtnMap = new HashMap<String, Object>();
@@ -51,6 +48,12 @@ public class UserController {
         return ResponseEntity.ok(rtnMap);
     }
 
+    /**
+     * 사용자 정보 수정
+     * @param user 사용자 마스터
+     * @return Map<String, Objecty> 사용자 수정 성공 여부
+     * @throws Exception
+     */
     @RequestMapping(value = "/update.json", method = RequestMethod.POST)
     public ResponseEntity userUpdate(@RequestBody UserMSTEntity user) throws Exception {
         Map<String, Object> rtnMap = new HashMap<String, Object>();
@@ -68,6 +71,11 @@ public class UserController {
         return ResponseEntity.ok(rtnMap);
     }
 
+    /**
+     * 사용자 리스트 조회
+     * @return List<UserMSTEntity> 사용자 마스터 리스트
+     * @throws Exception
+     */
     @RequestMapping(value = "/list.json", method = RequestMethod.POST)
     public ResponseEntity userList() throws Exception {
         List<UserMSTEntity> rtnList = new ArrayList<UserMSTEntity>();
@@ -76,6 +84,12 @@ public class UserController {
         return ResponseEntity.ok(rtnList);
     }
 
+    /**
+     * 사용자 조회
+     * @param userId 사용자 아이디 ( 사용자 마스터에서 GET )
+     * @return 사용자 마스터
+     * @throws Exception
+     */
     @RequestMapping(value = "/info.json", method = RequestMethod.POST)
     public ResponseEntity userInfo(@RequestBody UserMSTEntity user) throws Exception {
         String userId = user.getUserId();

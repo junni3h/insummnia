@@ -18,7 +18,7 @@ public class UserDAO {
      * 사용자 가입
      * @param params 사용자 마스터
      * @throws Exception
-     */
+     **/
     public void userRegist(UserMSTEntity params) throws Exception {
         sqlSession.insert("registUserMST", params);
         sqlSession.insert("registUserInfo", params);
@@ -28,7 +28,7 @@ public class UserDAO {
      * 사용자 정보 수정
      * @param params 사용자 마스터
      * @throws Exception
-     */
+     **/
     public void userUpdate(UserMSTEntity params) throws Exception {
         sqlSession.update("updateUserMST", params);
     }
@@ -38,7 +38,7 @@ public class UserDAO {
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
-     */
+     **/
     public Boolean userCheck(String userId) throws Exception {
         return sqlSession.selectOne("selectUserCheck", userId);
     }
@@ -47,7 +47,7 @@ public class UserDAO {
      * 사용자 목록 조회
      * @return
      * @throws Exception
-     */
+     **/
     public List<UserMSTEntity> userList() throws Exception {
         return sqlSession.selectList("selectUserList");
     }
@@ -57,7 +57,7 @@ public class UserDAO {
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
-     */
+     **/
     public List<UserMSTEntity> userInfo(String userId) throws Exception {
         return sqlSession.selectList("selectUserInfo", userId);
     }
