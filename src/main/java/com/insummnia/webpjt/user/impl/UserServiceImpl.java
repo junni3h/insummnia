@@ -1,4 +1,4 @@
-package com.insummnia.webpjt.user.service;
+package com.insummnia.webpjt.user.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
      **/
     public UserMSTEntity userInfo(String userId) throws Exception {
         UserMSTEntity rtnParams = new UserMSTEntity();
-        rtnParams = userDAO.userInfo(userId).get(0);
+        rtnParams = userDAO.userInfo(userId);
 
         return rtnParams;
     }

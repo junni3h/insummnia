@@ -26,7 +26,6 @@ export default function UserRegistView (props) {
 
     // form 데이터 생성
     const handleChange = (event) => {
-
         const target = event.target;
         const value  = target.value;
         const name   = target.name;
@@ -69,13 +68,13 @@ export default function UserRegistView (props) {
                 <PersonAddRoundedIcon className="logo" fontSize="large"/>
                 <form onSubmit={handleSubmit} method="post">
                     <div className="userBaiscField">
-                        <TextField id="userId" name="userId" label="아이디" value={user.userId} onChange={handleChange} variant="outlined" margin="normal" fullWidth required></TextField>
-                        <TextField type="password" id="password" name="password" label="비밀번호" value={user.password} onChange={handleChange} variant="outlined" margin="normal" fullWidth required></TextField>
+                        <TextField id="userId" name="userId" label="아이디" value={user.userId} onChange={handleChange}  margin="normal" fullWidth required></TextField>
+                        <TextField type="password" id="password" name="password" label="비밀번호" value={user.password} onChange={handleChange} margin="normal" fullWidth required></TextField>
                     </div>
                     <Divider/>
                     <div className="userInfoField">
-                        <TextField id="userNm" name="userNm" label="이름" value={user.userNm} onChange={handleChange} variant="outlined" margin="normal" fullWidth></TextField>
-                        <TextField id="nickNm" name="nickNm" label="별명" value={user.nickNm} onChange={handleChange} variant="outlined" margin="normal" fullWidth></TextField>
+                        <TextField id="userNm" name="userNm" label="이름" value={user.userNm} onChange={handleChange} margin="normal" fullWidth></TextField>
+                        <TextField id="nickNm" name="nickNm" label="별명" value={user.nickNm} onChange={handleChange} margin="normal" fullWidth></TextField>
                     </div>
                     <Divider className="divider"/>
                     <div className="buttonField">

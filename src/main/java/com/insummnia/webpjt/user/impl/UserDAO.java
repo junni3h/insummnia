@@ -1,4 +1,4 @@
-package com.insummnia.webpjt.user.service;
+package com.insummnia.webpjt.user.impl;
 
 import java.util.List;
 
@@ -20,8 +20,14 @@ public class UserDAO {
      * @throws Exception
      **/
     public void userRegist(UserMSTEntity params) throws Exception {
+        // 사용자 마스터 정보 등록
         sqlSession.insert("registUserMST", params);
+        // 사용자 추가 정보 등록
         sqlSession.insert("registUserInfo", params);
+        // 사용자 권한 등록
+        sqlSession.insert("registUserAuth", params);
+        // 사용자 인증 등록
+        sqlSession.insert("registUserRole", params);
     }
 
     /**
@@ -34,13 +40,23 @@ public class UserDAO {
     }
 
     /**
-     * 사용자 가입확인
+     * 사용자 가입확인 (회원가입 후처리)
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
      **/
     public Boolean userCheck(String userId) throws Exception {
         return sqlSession.selectOne("selectUserCheck", userId);
+    }
+
+    /**
+     * 사용자 가입확인 (로그인)
+     * @param params 사용자 마스터
+     * @return
+     * @throws Exception
+     **/
+    public Boolean loginCheck(UserMSTEntity user) throws Exception {
+        return sqlSession.selectOne("selectLoginCheck", user);
     }
 
     /**
@@ -58,8 +74,8 @@ public class UserDAO {
      * @return
      * @throws Exception
      **/
-    public List<UserMSTEntity> userInfo(String userId) throws Exception {
-        return sqlSession.selectList("selectUserInfo", userId);
+    public UserMSTEntity userInfo(String userId) throws Exception {
+        return sqlSession.selectOne("selectUserInfo", userId);
     }
 
 }

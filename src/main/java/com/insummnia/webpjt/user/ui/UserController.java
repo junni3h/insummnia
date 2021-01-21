@@ -5,10 +5,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.insummnia.webpjt.common.utils.CommonUtils;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
-import com.insummnia.webpjt.user.service.UserService;
+import com.insummnia.webpjt.user.impl.UserService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -21,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -77,7 +83,10 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping(value = "/list.json", method = RequestMethod.POST)
-    public ResponseEntity userList() throws Exception {
+    public ResponseEntity userList(HttpServletRequest request) throws Exception {
+        logger.info("/list.json");
+        logger.info("request ==> {}", request.getSession().getAttribute("loginUser"));
+
         List<UserMSTEntity> rtnList = new ArrayList<UserMSTEntity>();
         rtnList = userService.userList();
 
@@ -91,7 +100,10 @@ public class UserController {
      * @throws Exception
      */
     @RequestMapping(value = "/info.json", method = RequestMethod.POST)
-    public ResponseEntity userInfo(@RequestBody UserMSTEntity user) throws Exception {
+    public ResponseEntity userInfo(HttpServletRequest request, @RequestBody UserMSTEntity user) throws Exception {
+        logger.info("/info.json");
+        logger.info("request ==> {}", request.getSession().getAttribute("loginUser"));
+
         String userId = user.getUserId();
         UserMSTEntity rtnParams = new UserMSTEntity();
         rtnParams = userService.userInfo(userId);

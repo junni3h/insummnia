@@ -10,7 +10,7 @@ import UserInfoViewPage from '../src/views/user/UserInfoViewPage';
 export default function App(){
     return(
       <Router>
-        <MenuLayout/>
+        <MenuLayout />
         <Switch>
           <Route exact path="/" component={MainViewPage}></Route>
           <Route path="/login" component={UserLoginViewPage}></Route>

@@ -1,4 +1,4 @@
-package com.insummnia.webpjt.user.service;
+package com.insummnia.webpjt.user.impl;
 
 import java.util.List;
 import java.util.Map;

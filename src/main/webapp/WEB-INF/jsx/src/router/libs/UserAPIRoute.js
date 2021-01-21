@@ -16,6 +16,14 @@ class UserAPIRoute {
         return axios.post( USER_API_BASE_URL + "/info.json",  {userId: param} );
     }
 
+    fetchUserLogin = ( params ) => {
+        return axios.post( "/login.do", params );
+    }
+
+    fetchUserLogout = ( ) => {
+        return axios.post( "/logout.do" );
+    }
+
 
 }
 
