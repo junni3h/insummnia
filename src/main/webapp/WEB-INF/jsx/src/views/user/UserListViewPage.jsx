@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { Link, Redirect } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+
+import UserAPIRoute from '../../router/libs/UserAPIRoute';
 
 import { Container } from '@material-ui/core';
 
@@ -16,53 +19,65 @@ import '../../css/common/common.css';
 import '../../css/common/commonTable.css';
 import '../../css/user/userListView.css';
 
-export default function UserListViewPage() {
+export default function UserListViewPage(props) {
+
+    const login = useSelector(state => state.UserReducer);
+    const path = props.location.pathname;
 
     const [list, setList] = useState([]);
 
+    async function fetchData(){
+        const result = await UserAPIRoute.fetchUserList();
+        const data = result.data;
+
+        setList(data);
+    }
+
     useEffect(() => {
-        async function fetchData(){
-            const result = await axios.post("/user/list.json" );
-            setList(result.data);
-        }
         fetchData();
     }, []);
 
-    return(
-        <Container className="container" component="main" maxWidth="lg" color="inherit">
-            <Grid container spacing={3}>
-                <Grid item xs={12}>
-                    <TableContainer>
-                        <Table id="table" size="small">
-                            <TableHead className="tableHeader">
-                                <TableCell className="header">아이디</TableCell>
-                                <TableCell className="header">이름</TableCell>
-                                <TableCell className="header">별명</TableCell>
-                                <TableCell className="header">등록일</TableCell>
-                                <TableCell className="header">수정자</TableCell>
-                                <TableCell className="header">등록일</TableCell>
-                            </TableHead>
-                            <TableBody>
-                                {list.map((item, index) => (
-                                    <TableRow key={index}>
-                                        <TableCell>
-                                            <Link to={`/admin/user/info/${item.userId}`} className="textLink">
-                                                {item.userId}
-                                            </Link>
-                                        </TableCell>
-                                        <TableCell>{item.userNm}</TableCell>
-                                        <TableCell>{item.nickNm}</TableCell>
-                                        <TableCell>{item.createDatetime}</TableCell>
-                                        <TableCell>{item.updateUserId}</TableCell>
-                                        <TableCell>{item.updateDatetime}</TableCell>
-                                    </TableRow>
-                                ))}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
+    if(login.isLogin){
+        return(
+            <Container className="container" component="main" maxWidth="lg" color="inherit">
+                <Grid container spacing={3}>
+                    <Grid item xs={12}>
+                        <TableContainer>
+                            <Table id="table" size="small">
+                                <TableHead className="tableHeader">
+                                    <TableCell className="header">아이디</TableCell>
+                                    <TableCell className="header">이름</TableCell>
+                                    <TableCell className="header">별명</TableCell>
+                                    <TableCell className="header">등록일</TableCell>
+                                    <TableCell className="header">수정자</TableCell>
+                                    <TableCell className="header">등록일</TableCell>
+                                </TableHead>
+                                <TableBody>
+                                    {list.map((item, index) => (
+                                        <TableRow key={index}>
+                                            <TableCell>
+                                                <Link to={`/admin/user/info/${item.userId}`} className="textLink">
+                                                    {item.userId}
+                                                </Link>
+                                            </TableCell>
+                                            <TableCell>{item.userNm}</TableCell>
+                                            <TableCell>{item.nickNm}</TableCell>
+                                            <TableCell>{item.createDatetime}</TableCell>
+                                            <TableCell>{item.updateUserId}</TableCell>
+                                            <TableCell>{item.updateDatetime}</TableCell>
+                                        </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                    </Grid>
                 </Grid>
-            </Grid>
-        </Container>
-    );
+            </Container>
+        );
+    } else {
+        return (
+            <Redirect to='/error/auth' />
+        );
+    }
 
 }

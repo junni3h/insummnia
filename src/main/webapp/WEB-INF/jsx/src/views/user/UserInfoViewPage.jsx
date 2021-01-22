@@ -32,7 +32,7 @@ export default function UserInfoViewPage(props) {
         const result = await UserAPIRoute.fetchUserInfo(userId);
         const data = result.data;
 
-        setUser(result.data);
+        setUser(data);
     };
 
     useEffect(() => {

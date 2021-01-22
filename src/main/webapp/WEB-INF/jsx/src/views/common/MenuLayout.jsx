@@ -14,6 +14,7 @@ import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import SettingsApplicationsRoundedIcon from '@material-ui/icons/SettingsApplicationsRounded';
+import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 
 import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
@@ -74,9 +75,15 @@ export default function MenuLayout(){
                                 <Link to="/admin/user/list" className="textLink">
                                     <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
                                     <Typography variant="button">
-                                        Admin
+                                        User
                                     </Typography>
                                 </Link>
+                            </div>
+                            <div className="menuList">
+                                <LocalCafeRoundedIcon className="menuIcon" fontSize="small"/>
+                                <Typography variant="button">
+                                    Community
+                                </Typography>
                             </div>
                         </div>
                         {login.isLogin ? (
