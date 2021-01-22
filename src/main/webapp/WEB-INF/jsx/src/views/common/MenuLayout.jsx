@@ -1,7 +1,9 @@
-import {React, useState} from 'react';
-import {Link} from 'react-router-dom';
+import { React, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
+import RootActions from '../../libs/reducer/RootActions';
 
 import {AppBar, Container, List} from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
@@ -19,10 +21,13 @@ import 'fontsource-roboto';
 import '../../css/common/common.css';
 import background from '../../images/background.jpg';
 
-export default function MenuLayout(props){
+export default function MenuLayout(){
 
-    const [isLogout, SetIsLogout] = useState(true);
+    const login = useSelector(state => state.UserReducer);
+    const dispatch = useDispatch();
 
+    console.log(login);
+    
     const handleLogout = (event) => {
         UserAPIRoute.fetchUserLogout()
                     .then(res => {
@@ -30,7 +35,14 @@ export default function MenuLayout(props){
 
                         if(data.isLogout){
                             if(window.confirm(data.message)){
-                                SetIsLogout(data.isLogout);
+                                dispatch(
+                                    RootActions.UserReducerAction.logout(
+                                        {
+                                              isRegist: false
+                                            , isLogin: false
+                                        }
+                                    )
+                                );
                             }
                         } else {
                             alert(data.message);
@@ -38,37 +50,44 @@ export default function MenuLayout(props){
                     });
     }
 
-    if(isLogout){
-
-        return(
-            <div>
-                 <AppBar position="static">
-                    <Container maxWidth="xl">
-                        <List component="nav" aria-labelledby="main navigation">
-                            <div className="leftMenu">
-                                <div className="menuList">
-                                    <Link to="/" className="textLink">
-                                        <Home className="menuIcon" fontSize="small"/>
-                                        <Typography variant="button">
-                                            Home
-                                        </Typography>
-                                    </Link>
-                                </div>
-                                <div className="menuList">
-                                    <AssignmentIndRoundedIcon className="menuIcon" fontSize="small"/>
+    return(
+        <div>
+            <AppBar position="static">
+                <Container maxWidth="xl">
+                    <List component="nav" aria-labelledby="main navigation">
+                        <div className="leftMenu">
+                            <div className="menuList">
+                                <Link to="/" className="textLink">
+                                    <Home className="menuIcon" fontSize="small"/>
                                     <Typography variant="button">
-                                        Profile
+                                        Home
                                     </Typography>
-                                </div>
+                                </Link>
+                            </div>
+                            <div className="menuList">
+                                <AssignmentIndRoundedIcon className="menuIcon" fontSize="small"/>
+                                <Typography variant="button">
+                                    Profile
+                                </Typography>
+                            </div>
+                            <div className="menuList">
+                                <Link to="/admin/user/list" className="textLink">
+                                    <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
+                                    <Typography variant="button">
+                                        Admin
+                                    </Typography>
+                                </Link>
+                            </div>
+                        </div>
+                        {login.isLogin ? (
+                            <div className="rightMenu">
                                 <div className="menuList">
-                                    <Link to="/admin/user/list" className="textLink">
-                                        <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
-                                        <Typography variant="button">
-                                            Admin
-                                        </Typography>
-                                    </Link>
+                                    <Tooltip title="로그아웃">
+                                        <LockRoundedIcon className="userIcon" fontSize="small" onClick={handleLogout}/>
+                                    </Tooltip>
                                 </div>
                             </div>
+                        ):(
                             <div className="rightMenu">
                                 <div className="menuList">
                                     <Tooltip title="로그인">
@@ -80,68 +99,15 @@ export default function MenuLayout(props){
                                         <Link to="/regist" className="textLink"><PersonAddRoundedIcon className="userIcon" fontSize="small"/></Link>
                                     </Tooltip>
                                 </div>
-                            </div>
-                        </List>
-                    </Container>
-                </AppBar>
-                <div className='background'>
-                    <img className="backgroundImages" src={background}/>
-                </div>
-            </div>              
-        );
-
-    } else {
-        
-        return(
-            <div>
-                 <AppBar position="static">
-                    <Container maxWidth="xl">
-                        <List component="nav" aria-labelledby="main navigation">
-                            <div className="leftMenu">
-                                <div className="menuList">
-                                    <Link to="/" className="textLink">
-                                        <Home className="menuIcon" fontSize="small"/>
-                                        <Typography variant="button">
-                                            Home
-                                        </Typography>
-                                    </Link>
-                                </div>
-                                <div className="menuList">
-                                    <AssignmentIndRoundedIcon className="menuIcon" fontSize="small"/>
-                                    <Typography variant="button">
-                                        Profile
-                                    </Typography>
-                                </div>
-                                <div className="menuList">
-                                    <Link to="/admin/user/list" className="textLink">
-                                        <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
-                                        <Typography variant="button">
-                                            Admin
-                                        </Typography>
-                                    </Link>
-                                </div>
-                            </div>
-                            <div className="rightMenu">
-                                <div className="menuList">
-                                    <Tooltip title="로그아웃">
-                                        <LockRoundedIcon className="userIcon" fontSize="small" onClick={handleLogout}/>
-                                    </Tooltip>
-                                </div>
-                                <div className="menuList">
-                                    <Tooltip title="회원가입">
-                                        <Link to="/regist" className="textLink"><PersonAddRoundedIcon className="userIcon" fontSize="small"/></Link>
-                                    </Tooltip>
-                                </div>
-                            </div>
-                        </List>
-                    </Container>
-                </AppBar>
-                <div className='background'>
-                    <img className="backgroundImages" src={background}/>
-                </div>
-            </div>              
-        );
-
-    }
+                            </div>  
+                        )}
+                    </List>
+                </Container>
+            </AppBar>
+            <div className='background'>
+                <img className="backgroundImages" src={background}/>
+            </div>
+        </div>              
+    );   
 
 }

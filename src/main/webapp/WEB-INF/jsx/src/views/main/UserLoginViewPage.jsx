@@ -1,7 +1,9 @@
 import {React, useState} from 'react';
 import {Link, Redirect} from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
+import RootActions from '../../libs/reducer/RootActions';
 
 import {Button, Container, TextField} from '@material-ui/core';
 import PersonRoundedIcon from '@material-ui/icons/PersonRounded';
@@ -9,15 +11,15 @@ import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 
 import '../../css/common/common.css';
 
-export default function UserLoginViewPage(props){
+export default function UserLoginViewPage(){
+
+    const login = useSelector(state => state.UserReducer);
+    const dispatch = useDispatch();
 
     const [ user, setUser ] = useState({
             userId: ''
         ,   password: ''
     });
-
-    const [ isLogin, setIsLogin ] = useState(false);
-    const [ isLogout, SetIsLogout ] = useState(true);
 
     // form 데이터 생성
     const handleChange = (event) => {
@@ -42,7 +44,14 @@ export default function UserLoginViewPage(props){
                 
                 if(data.isLogin){
                     if(window.confirm(data.message)){
-                        setIsLogin(data.isLogin);
+                        dispatch(
+                            RootActions.UserReducerAction.login(
+                                {
+                                      isRegist: false
+                                    , isLogin: false
+                                }
+                            )
+                        );
                     }
                 } else {
                     alert(data.message);
@@ -53,7 +62,7 @@ export default function UserLoginViewPage(props){
         event.preventDefault();
     }
 
-    if(isLogin) {
+    if(login.isLogin) {
 
         return(
             <Redirect to="/"/>

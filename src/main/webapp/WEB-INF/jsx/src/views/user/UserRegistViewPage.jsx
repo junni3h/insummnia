@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { Redirect, Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
+import RootActions from '../../libs/reducer/RootActions';
 
 import {Button, Container, CssBaseline, TextField} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
@@ -12,7 +14,7 @@ import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 import '../../css/common/common.css';
 import '../../css/user/userRegistViewCss.css';
 
-export default function UserRegistView (props) {
+export default function UserRegistView () {
 
     // 유저정보
     const [ user, setUser ] = useState({
@@ -22,7 +24,10 @@ export default function UserRegistView (props) {
             , nickNm: ''
     });
 
-    const [ regist, setRegist ] = useState(false);
+    const regist = useSelector(state => state.UserReducer);
+    const dispatch = useDispatch();
+
+    console.log(regist);
 
     // form 데이터 생성
     const handleChange = (event) => {
@@ -48,20 +53,24 @@ export default function UserRegistView (props) {
                 
                 if(data.regist){
                     if(window.confirm(data.message)){
-                        setRegist(true);
+                        dispatch(
+                            RootActions.UserReducerAction.regist(
+                                {
+                                      isRegist: true
+                                }
+                            )
+                        );
                     }
                 } else {
                     alert(data.message);
                 }
 
             });
-    
+
         event.preventDefault();
     }
 
-    if(regist){
-        return <Redirect to="/login" />
-    } else {
+    if(!regist.isRegist){
         return(
             <Container className="bodyContainer" component="main" maxWidth="xs" color="inherit">
                 <CssBaseline />
@@ -83,6 +92,10 @@ export default function UserRegistView (props) {
                     </div>
                 </form>
             </Container>
+        );
+    } else {
+        return (
+            <Redirect to="/login"></Redirect>
         );
     }
 
