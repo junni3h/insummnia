@@ -1,4 +1,5 @@
-const UserReducer = (state = {}, action) => {
+const UserReducer = (state = {}, action) => {   
+    console.log(action);
     switch (action.type) {
         case "USER_REGIST":
             return {
@@ -8,8 +9,10 @@ const UserReducer = (state = {}, action) => {
         case "USER_LOGIN":
             return {
                 ...state
-              , isLogin: true    
-          };
+                , isRegist: action.user.isRegist
+                , isLogin: action.user.isLogin
+                , loginUser: action.user.loginUser
+            };
         case "USER_LOGOUT":
             return {
                 ...state
@@ -19,7 +22,7 @@ const UserReducer = (state = {}, action) => {
             return {
                 ...state
               , isRegist: false
-              , isLogin: false    
+              , isLogin: false
             };
     }
 };

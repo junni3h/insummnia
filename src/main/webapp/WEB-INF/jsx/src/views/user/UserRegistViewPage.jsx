@@ -27,13 +27,13 @@ export default function UserRegistView () {
     const regist = useSelector(state => state.UserReducer);
     const dispatch = useDispatch();
 
-    console.log(regist);
-
     // form 데이터 생성
     const handleChange = (event) => {
         const target = event.target;
         const value  = target.value;
         const name   = target.name;
+
+        console.log(name);
 
         setUser(
             {   

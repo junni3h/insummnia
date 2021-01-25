@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.insummnia.webpjt.common.utils.CommonUtils;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
@@ -82,10 +83,12 @@ public class UserController {
      * @return List<UserMSTEntity> 사용자 마스터 리스트
      * @throws Exception
      */
-    @RequestMapping(value = "/list.json", method = RequestMethod.POST)
+    @RequestMapping(value = "/list.json", method = RequestMethod.GET)
     public ResponseEntity userList(HttpServletRequest request) throws Exception {
-        logger.info("/list.json");
-        logger.info("request ==> {}", request.getSession().getAttribute("loginUser"));
+        logger.info("REQUEST URL ==> {}", request.getRequestURI());
+        
+        HttpSession session = request.getSession();
+        logger.info("session ==> {}", session.getAttribute("loginUser"));
 
         List<UserMSTEntity> rtnList = new ArrayList<UserMSTEntity>();
         rtnList = userService.userList();
@@ -102,7 +105,10 @@ public class UserController {
     @RequestMapping(value = "/info.json", method = RequestMethod.POST)
     public ResponseEntity userInfo(HttpServletRequest request, @RequestBody UserMSTEntity user) throws Exception {
         logger.info("/info.json");
-        logger.info("request ==> {}", request.getSession().getAttribute("loginUser"));
+
+        HttpSession session = request.getSession();
+        logger.info("session ==> {}", session.getAttribute("loginUser"));
+        logger.info("session ==> {}", session.getId());
 
         String userId = user.getUserId();
         UserMSTEntity rtnParams = new UserMSTEntity();

@@ -3,8 +3,6 @@ package com.insummnia.webpjt.auth.authentication.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
 import com.insummnia.webpjt.user.impl.UserDAO;
 
@@ -23,22 +21,26 @@ public class LoginServiceImpl implements LoginService {
 
     public Map<String, Object> login(UserMSTEntity user) throws Exception {
         logger.info("LoginService ==> login");
-        logger.info("password ==> {}", user.getPassword());
 
         Map<String, Object> rtnMap = new HashMap<String,Object>();
-        UserMSTEntity loginInfo = new UserMSTEntity();
+        UserMSTEntity loginUser = new UserMSTEntity();
 
         Boolean isUserCheck = false;
         isUserCheck = userDAO.loginCheck(user);
 
         if(isUserCheck){
-            loginInfo = userDAO.userInfo(user.getUserId());
+            // 로그인 사용자 정보 조회
+            loginUser = userDAO.userInfo(user.getUserId());
+            // 로그인 후 최근 로그인 시간 업데이트
+            userDAO.loginUpdate(user.getUserId());
 
             rtnMap.put("isLogin", true);
-            rtnMap.put("loginUser", loginInfo);
+            rtnMap.put("loginUser", loginUser);
+            rtnMap.put("message", "로그인에 성공하였습니다!");
         } else {
             rtnMap.put("isLogin", false);
             rtnMap.put("loginUser", null);
+            rtnMap.put("message", "로그인에 실패하였습니다!");
         }
 
         return rtnMap;

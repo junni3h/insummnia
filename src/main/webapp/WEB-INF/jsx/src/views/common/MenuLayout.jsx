@@ -15,6 +15,7 @@ import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
 import SettingsApplicationsRoundedIcon from '@material-ui/icons/SettingsApplicationsRounded';
 import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
+import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 import Typography from '@material-ui/core/Typography';
 import 'fontsource-roboto';
@@ -88,6 +89,13 @@ export default function MenuLayout(){
                         </div>
                         {login.isLogin ? (
                             <div className="rightMenu">
+                                <div className="menuList">
+                                    <Link to={`/admin/user/info/${login.loginUser.userId}`} className="textLink">
+                                        <Tooltip title="내 정보">
+                                            <AssignmentIndIcon className="userIcon" fontSize="small" />
+                                        </Tooltip>
+                                    </Link>
+                                </div>
                                 <div className="menuList">
                                     <Tooltip title="로그아웃">
                                         <LockRoundedIcon className="userIcon" fontSize="small" onClick={handleLogout}/>

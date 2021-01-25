@@ -26,11 +26,7 @@ public class LoginController {
     private LoginService loginService;
     
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
-    public ResponseEntity login(HttpServletRequest request, @RequestBody UserMSTEntity user) throws Exception {
-        
-        HttpSession session = request.getSession();
-        Map<String, Object> rtnMap = new HashMap<String, Object>();
-
+    public ResponseEntity login(HttpSession session, @RequestBody UserMSTEntity user) throws Exception {
         //패스워드를 SHA-256으로 인코딩
         String password = user.getPassword();
         String rtnPassword = CommonUtils.encodePwd(password);
@@ -40,23 +36,17 @@ public class LoginController {
 
         Map<String, Object> rtnLogin = new HashMap<String, Object>(); 
         rtnLogin = loginService.login(user);
-        
-        if((boolean) rtnLogin.get("isLogin")) {
-            session.setAttribute("loginUser", rtnLogin.get("loginUser"));
-            session.setMaxInactiveInterval(5000);
-            
-            rtnMap.put("isLogin", (boolean) rtnLogin.get("isLogin"));
-            rtnMap.put("message", "로그인에 성공하였습니다!");
 
-        } else {
-            rtnMap.put("isLogin", (boolean) rtnLogin.get("isLogin"));
-            rtnMap.put("message", "로그인에 실패하였습니다!");
+        if(rtnLogin.get("loginUser") != null) {
+            session.setAttribute("loginUser", rtnLogin.get("loginUser"));
+            session.setMaxInactiveInterval(1800);
         }
         
-        return ResponseEntity.ok(rtnMap);
+        return ResponseEntity.ok(rtnLogin);
     }
 
-    @RequestMapping(value = "/logout.do")
+    @RequestMapping(value = "/logout.do"
+    )
     public ResponseEntity logout(HttpServletRequest request) throws Exception {
 
         Map<String, Object> rtnMap = new HashMap<String, Object>();
@@ -68,7 +58,7 @@ public class LoginController {
             rtnMap.put("isLogout", true);
             rtnMap.put("message", "로그아웃 되었습니다!");
         } else {
-            rtnMap.put("isLogout", true);
+            rtnMap.put("isLogout", false);
             rtnMap.put("message", "로그아웃 실패했습니다!");
         }
 

@@ -60,6 +60,24 @@ public class UserDAO {
     }
 
     /**
+     * 사용자 로그인 정보 업데이트 (로그인 성공시)
+     * @param userId
+     * @throws Exception
+     */
+    public void loginUpdate(String userId) throws Exception {
+        sqlSession.update("updateLoginUserInfo", userId);
+    }
+
+    /**
+     * 사용자 로그인 정보 업데이트 (로그아웃 성공시)
+     * @param userId
+     * @throws Exception
+     */
+    public void logOutUpdate(String userId) throws Exception {
+        sqlSession.update("updateLogOutUserInfo", userId);
+    }
+
+    /**
      * 사용자 목록 조회
      * @return
      * @throws Exception

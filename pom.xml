@@ -49,7 +49,7 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
-		</dependency>
+		</dependency>	
 
 		<!-- jsp 사용을 위한 dependency 적용 -->
 		<dependency>

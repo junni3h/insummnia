@@ -41,14 +41,14 @@ export default function UserLoginViewPage(){
         UserAPIRoute.fetchUserLogin(params)
             .then( res => {
                 const data = res.data;
-                
                 if(data.isLogin){
                     if(window.confirm(data.message)){
                         dispatch(
                             RootActions.UserReducerAction.login(
                                 {
                                       isRegist: false
-                                    , isLogin: false
+                                    , isLogin: true
+                                    , loginUser: data.loginUser  
                                 }
                             )
                         );

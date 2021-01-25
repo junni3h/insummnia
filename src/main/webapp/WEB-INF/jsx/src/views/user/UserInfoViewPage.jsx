@@ -32,6 +32,8 @@ export default function UserInfoViewPage(props) {
         const result = await UserAPIRoute.fetchUserInfo(userId);
         const data = result.data;
 
+        console.log("data ==> ", data);
+
         setUser(data);
     };
 
@@ -119,7 +121,11 @@ export default function UserInfoViewPage(props) {
                                             <TableCell><TextField id="nickNm" name="nickNm" value={user.nickNm} onChange={handleChange} size="small"></TextField></TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell>등록일</TableCell>
+                                            <TableCell>등록일시</TableCell>
+                                            <TableCell>{user.recentLoginDatetime}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
+                                            <TableCell>접속일시</TableCell>
                                             <TableCell>{user.createDatetime}</TableCell>
                                         </TableRow>
                                         <TableRow>
@@ -127,7 +133,7 @@ export default function UserInfoViewPage(props) {
                                             <TableCell>{user.updateUserId}</TableCell>
                                         </TableRow>
                                         <TableRow>
-                                            <TableCell>수정일</TableCell>
+                                            <TableCell>수정일시</TableCell>
                                             <TableCell>{user.updateDatetime}</TableCell>
                                         </TableRow>
                                     </TableBody>
@@ -172,15 +178,19 @@ export default function UserInfoViewPage(props) {
                                         <TableCell>{user.nickNm}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>등록일</TableCell>
+                                        <TableCell>등록일시</TableCell>
                                         <TableCell>{user.createDatetime}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>접속일시</TableCell>
+                                        <TableCell>{user.recentLoginDatetime}</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>수정자</TableCell>
                                         <TableCell>{user.updateUserId}</TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell>수정일</TableCell>
+                                        <TableCell>수정일시</TableCell>
                                         <TableCell>{user.updateDatetime}</TableCell>
                                     </TableRow>
                                 </TableBody>

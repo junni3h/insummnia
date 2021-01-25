@@ -57,11 +57,23 @@
       VALUES
       (
           #{userId}
-        , 'ROLE_USER'
+        , 'ROLE_GUEST'
         , #{createUserId}
         , NOW()
       )
     </insert>
+
+    <update id="updateLoginUserInfo" parameterType="user">
+      UPDATE TB_USER_AUTH
+         SET RECENT_LOGIN_DATETIME = NOW()
+       WHERE USER_ID = #{userId}
+    </update>
+
+    <update id="updateLogOutUserInfo" parameterType="user">
+      UPDATE TB_USER_AUTH
+         SET LAST_LOGOUT_DATETIME = NOW()
+       WHERE USER_ID = #{userId}
+    </update>
 
     <update id="updateUserMST" parameterType="user">
       UPDATE TB_USER_MST
@@ -101,14 +113,27 @@
     </select>
 
     <select id="selectUserInfo" parameterType="java.lang.String" resultType="user">
-      SELECT  USER_ID
+      SELECT  UM.USER_ID
            ,  IFNULL(USER_NM, '') AS USER_NM
            ,  IFNULL(NICK_NM, '') AS NICK_NM
-           ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
-           ,  IFNULL(UPDATE_USER_ID, '') AS UPDATE_USER_ID
-           ,  DATE_FORMAT(UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
-        FROM TB_USER_MST
-       WHERE USER_ID = #{userId}
+           ,  UR.ROLE_ID
+           ,  RM.ROLE_NM_KR AS ROLE_NM
+           ,  IS_USER_ENABLED
+           ,  IS_USER_LOCKED
+           ,  IS_USER_EXPIRED
+           ,  IS_USER_DELETED
+           ,  DATE_FORMAT(UA.RECENT_LOGIN_DATETIME, '%Y-%m-%d %H:%i:%s') AS RECENT_LOGIN_DATETIME
+           ,  DATE_FORMAT(UA.LAST_LOGOUT_DATETIME, '%Y-%m-%d %H:%i:%s') AS LAST_LOGOUT_DATETIME
+           ,  DATE_FORMAT(UM.CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+           ,  IFNULL(UM.UPDATE_USER_ID, '') AS UPDATE_USER_ID
+           ,  DATE_FORMAT(UM.UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
+        FROM TB_USER_MST UM
+       INNER JOIN TB_USER_INFO UI ON (UI.USER_ID = UM.USER_ID)
+       INNER JOIN TB_USER_ROLE UR ON (UR.USER_ID = UM.USER_ID)
+       INNER JOIN TB_USER_AUTH UA ON (UA.USER_ID = UM.USER_ID)
+       INNER JOIN TB_ROLE_MST RM ON (RM.ROLE_ID = UR.ROLE_ID)
+       WHERE UM.USER_ID = #{userId}
+         AND UI.IS_USER_DELETED IS FALSE
     </select>
 
 </mapper>

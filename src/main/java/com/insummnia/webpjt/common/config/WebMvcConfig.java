@@ -26,8 +26,9 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(authInterceptor)
                 // 로그인 및 회원가입을 제외한 모든 URL은 인터셉트를 통과해야 함
                 .addPathPatterns("/**")
-                // 로그인 시도는 인증/인가 통과 유무와 상관없이 인터셉터를 거치지 않고 진행이 되어야 함
-                .excludePathPatterns("/login.do", "/logout.do", "/user/regist.json", "/board/*");
+                .addPathPatterns("/*/*.json")
+                // 로그인 및 로그아웃 시도는 인증/인가 통과 유무와 상관없이 인터셉터를 거치지 않고 진행이 되어야 함
+                .excludePathPatterns("/login.do", "/logout.do", "/user/regist.json");
     }
     
 }

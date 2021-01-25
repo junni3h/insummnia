@@ -11,15 +11,28 @@ public class UserMSTEntity extends CommonEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    private String userId;
-    private String password;
-    private String userNm;
-    private String nickNm;
+    // 사용자 기본정보
+    private String userId;   // 사용자 아이디
+    private String password; // 패스워드
+    private String userNm;   // 사용자 이름
+    private String nickNm;   // 사용자 별명
 
-    private String roleId;
+    // 사용자 부가정보(권한)
+    private String roleId;   // 사용자 권한 아이디
+    private String roleNm;   // 사용자 권한 이름
+
+    // 사용자 부가정보()
+    private String isUserEnabled; // 사용자 사용 여부
+    private String isUserLocked;  // 사용자 잠김 여부
+    private String isUserExpired; // 사용자 만료 여부
+    private String isUserDeleted; // 사용자 삭제 여부
+
+    // 사용자 부가정보 (로그인)
+    private String recentLoginDatetime; // 사용자 최근 로그인 시간
+    private String lastLogoutDatetime;  // 시용자 마지막 로그아웃 시간 
 
     public String getUserId() {
-        return this.userId;
+        return userId;
     }
 
     public void setUserId(String userId) {
@@ -27,7 +40,7 @@ public class UserMSTEntity extends CommonEntity implements Serializable {
     }
 
     public String getPassword() {
-        return this.password;
+        return password;
     }
 
     public void setPassword(String password) {
@@ -35,7 +48,7 @@ public class UserMSTEntity extends CommonEntity implements Serializable {
     }
 
     public String getUserNm() {
-        return this.userNm;
+        return userNm;
     }
 
     public void setUserNm(String userNm) {
@@ -43,25 +56,83 @@ public class UserMSTEntity extends CommonEntity implements Serializable {
     }
 
     public String getNickNm() {
-        return this.nickNm;
+        return nickNm;
     }
 
     public void setNickNm(String nickNm) {
         this.nickNm = nickNm;
-    };
+    }
 
     public String getRoleId() {
-        return this.roleId;
+        return roleId;
     }
 
     public void setRoleId(String roleId) {
         this.roleId = roleId;
     }
 
+    public String getRoleNm() {
+        return roleNm;
+    }
+
+    public void setRoleNm(String roleNm) {
+        this.roleNm = roleNm;
+    }
+
+    public String getIsUserEnabled() {
+        return isUserEnabled;
+    }
+
+    public void setIsUserEnabled(String isUserEnabled) {
+        this.isUserEnabled = isUserEnabled;
+    }
+
+    public String getIsUserLocked() {
+        return isUserLocked;
+    }
+
+    public void setIsUserLocked(String isUserLocked) {
+        this.isUserLocked = isUserLocked;
+    }
+
+    public String getIsUserExpired() {
+        return isUserExpired;
+    }
+
+    public void setIsUserExpired(String isUserExpired) {
+        this.isUserExpired = isUserExpired;
+    }
+
+    public String getIsUserDeleted() {
+        return isUserDeleted;
+    }
+
+    public void setIsUserDeleted(String isUserDeleted) {
+        this.isUserDeleted = isUserDeleted;
+    }
+
+    public String getRecentLoginDatetime() {
+        return recentLoginDatetime;
+    }
+
+    public void setRecentLoginDatetime(String recentLoginDatetime) {
+        this.recentLoginDatetime = recentLoginDatetime;
+    }
+
+    public String getLastLogoutDatetime() {
+        return lastLogoutDatetime;
+    }
+
+    public void setLastLogoutDatetime(String lastLogoutDatetime) {
+        this.lastLogoutDatetime = lastLogoutDatetime;
+    }
+
     @Override
     public String toString() {
-        return "UserMSTEntity [nickNm=" + nickNm + ", password=" + password + ", roleId=" + roleId + ", userId="
-                + userId + ", userNm=" + userNm + "]";
-    };
+        return "UserMSTEntity [isUserDeleted=" + isUserDeleted + ", isUserEnabled=" + isUserEnabled + ", isUserExpired="
+                + isUserExpired + ", isUserLocked=" + isUserLocked + ", lastLogoutDatetime=" + lastLogoutDatetime
+                + ", nickNm=" + nickNm + ", password=" + password + ", recentLoginDatetime=" + recentLoginDatetime
+                + ", roleId=" + roleId + ", roleNm=" + roleNm + ", userId=" + userId + ", userNm=" + userNm + "]";
+    }
 
 }

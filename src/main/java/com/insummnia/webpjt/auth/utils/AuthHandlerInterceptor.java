@@ -17,32 +17,31 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        
         logger.info("AuthHandlerInterceptor ==> preHandle");
+        logger.info("AuthHandlerInterceptor ==> preHandle ==> getRequestURI ==> {}", request.getRequestURI());
+        
+        HttpSession session = request.getSession();
 
-        HttpSession session = request.getSession(false);
-
-        logger.info("session ==> {}", request.getSession().getAttribute("loginUser"));
-
-        if(session.getAttribute("loginUser") != null) { 
+        logger.info("AuthHandlerInterceptor ==> preHandle ==> session ==> {}", session.getAttribute("loginUser"));
+        if(session.getAttribute("loginUser") != null){
+            session.setMaxInactiveInterval(30 * 60);
             return true;
         } else {
-            logger.info("Not Authorizied!!");
-            throw new IllegalArgumentException("Not Authorizied!!");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "You're Not Login ! Please Login !");
+            return false;
         }
         
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-    
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {    
         logger.info("AuthHandlerInterceptor ==> postHandle");
         logger.info("session ==> {}", request.getSession().getAttribute("loginUser"));
-    
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        logger.info("AuthHandlerInterceptor ==> postHandle");
     }
 
 }
