@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insummnia.webpjt.admin.impl.MenuMgmtDAO">
+
+    <select id="selectMenuList" resultType="menu">
+        SELECT MENU_ID
+             , MENU_URL
+             , MENU_NM_KR
+             , MENU_NM_EN
+             , MENU_ICON
+             , MENU_UPPER_ID
+             , MENU_ORD
+             , MENU_DEPTH
+          FROM TB_MENU_MST
+         ORDER BY MENU_ORD DESC, MENU_DEPTH DESC
+    </select>
+
+    <select id="findMenuItemByRoot" resultType="menu">
+        SELECT MENU_ID
+             , MENU_URL
+             , MENU_NM_EN AS MENU_NM
+             , MENU_ICON
+             , MENU_UPPER_ID
+             , MENU_ORD
+             , MENU_DEPTH
+          FROM TB_MENU_MST
+         WHERE MENU_UPPER_ID = 'MENU_ROOT'
+         ORDER BY MENU_ORD ASC, MENU_DEPTH ASC
+    </select>
+
+    <select id="findMenuItemByUpperId" resultType="menu">
+        SELECT MENU_ID
+             , MENU_URL
+             , MENU_NM_EN AS MENU_NM
+             , MENU_ICON
+             , MENU_UPPER_ID
+             , MENU_ORD
+             , MENU_DEPTH
+          FROM TB_MENU_MST
+         WHERE MENU_UPPER_ID = #{menuId}
+         ORDER BY MENU_ORD DESC, MENU_DEPTH DESC
+    </select>
+    
+</mapper>

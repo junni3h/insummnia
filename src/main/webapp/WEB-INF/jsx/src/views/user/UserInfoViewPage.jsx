@@ -121,6 +121,10 @@ export default function UserInfoViewPage(props) {
                                             <TableCell><TextField id="nickNm" name="nickNm" value={user.nickNm} onChange={handleChange} size="small"></TextField></TableCell>
                                         </TableRow>
                                         <TableRow>
+                                            <TableCell>권한</TableCell>
+                                            <TableCell>{user.roleNm}</TableCell>
+                                        </TableRow>
+                                        <TableRow>
                                             <TableCell>등록일시</TableCell>
                                             <TableCell>{user.recentLoginDatetime}</TableCell>
                                         </TableRow>
@@ -176,6 +180,10 @@ export default function UserInfoViewPage(props) {
                                     <TableRow>
                                         <TableCell>별명</TableCell>
                                         <TableCell>{user.nickNm}</TableCell>
+                                    </TableRow>
+                                    <TableRow>
+                                        <TableCell>권한</TableCell>
+                                        <TableCell>{user.roleNm}</TableCell>
                                     </TableRow>
                                     <TableRow>
                                         <TableCell>등록일시</TableCell>

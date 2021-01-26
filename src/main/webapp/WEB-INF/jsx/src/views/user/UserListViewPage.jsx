@@ -19,10 +19,9 @@ import '../../css/common/common.css';
 import '../../css/common/commonTable.css';
 import '../../css/user/UserListView.css';
 
-export default function UserListViewPage(props) {
+export default function UserListViewPage() {
 
     const login = useSelector(state => state.UserReducer);
-    const path = props.location.pathname;
 
     const [list, setList] = useState([]);
 
@@ -48,6 +47,7 @@ export default function UserListViewPage(props) {
                                     <TableCell className="header">아이디</TableCell>
                                     <TableCell className="header">이름</TableCell>
                                     <TableCell className="header">별명</TableCell>
+                                    <TableCell className="header">권한</TableCell>
                                     <TableCell className="header">등록일</TableCell>
                                     <TableCell className="header">수정자</TableCell>
                                     <TableCell className="header">등록일</TableCell>
@@ -62,6 +62,7 @@ export default function UserListViewPage(props) {
                                             </TableCell>
                                             <TableCell>{item.userNm}</TableCell>
                                             <TableCell>{item.nickNm}</TableCell>
+                                            <TableCell>{item.roleNm}</TableCell>
                                             <TableCell>{item.createDatetime}</TableCell>
                                             <TableCell>{item.updateUserId}</TableCell>
                                             <TableCell>{item.updateDatetime}</TableCell>

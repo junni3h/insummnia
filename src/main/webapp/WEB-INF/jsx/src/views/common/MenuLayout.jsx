@@ -1,20 +1,18 @@
-import { React, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
+import MainAPIRoute from '../../router/libs/MainAPIRoute';
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
 import RootActions from '../../libs/reducer/RootActions';
 
 import {AppBar, Container, List} from '@material-ui/core';
 import Tooltip from '@material-ui/core/Tooltip';
 
-import {Home} from '@material-ui/icons';
-import AssignmentIndRoundedIcon from '@material-ui/icons/AssignmentIndRounded';
+import Home from '@material-ui/icons/Home';
 import LockRoundedIcon from '@material-ui/icons/LockRounded';
 import LockOpenRoundedIcon from '@material-ui/icons/LockOpenRounded';
 import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
-import SettingsApplicationsRoundedIcon from '@material-ui/icons/SettingsApplicationsRounded';
-import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 import Typography from '@material-ui/core/Typography';
@@ -26,9 +24,20 @@ import background from '../../images/background.jpg';
 export default function MenuLayout(){
 
     const login = useSelector(state => state.UserReducer);
+    const [menu, setMenu] = useState([]);
+
     const dispatch = useDispatch();
 
-    console.log(login);
+    async function fetchData(){
+        const result = await MainAPIRoute.fetchMainAPI();
+        const data = result.data;
+
+        setMenu(data.menu); 
+    }
+
+    useEffect(() => {
+        fetchData();    
+    }, []);
     
     const handleLogout = (event) => {
         UserAPIRoute.fetchUserLogout()
@@ -66,26 +75,17 @@ export default function MenuLayout(){
                                     </Typography>
                                 </Link>
                             </div>
-                            <div className="menuList">
-                                <AssignmentIndRoundedIcon className="menuIcon" fontSize="small"/>
-                                <Typography variant="button">
-                                    Profile
-                                </Typography>
-                            </div>
-                            <div className="menuList">
-                                <Link to="/admin/user/list" className="textLink">
-                                    <SettingsApplicationsRoundedIcon className="menuIcon" fontSize="small"/>
-                                    <Typography variant="button">
-                                        User
-                                    </Typography>
-                                </Link>
-                            </div>
-                            <div className="menuList">
-                                <LocalCafeRoundedIcon className="menuIcon" fontSize="small"/>
-                                <Typography variant="button">
-                                    Community
-                                </Typography>
-                            </div>
+                            {
+                                menu.map((item, index) => (
+                                    <div className="menuList">
+                                        <Link to={item.menuUrl} className="textLink">
+                                            <Typography variant="button">
+                                                {item.menuNm}
+                                            </Typography>
+                                        </Link>
+                                    </div>
+                                ))
+                            }
                         </div>
                         {login.isLogin ? (
                             <div className="rightMenu">
@@ -119,10 +119,18 @@ export default function MenuLayout(){
                     </List>
                 </Container>
             </AppBar>
-            <div className='background'>
+            <div className="background">
                 <img className="backgroundImages" src={background}/>
             </div>
-        </div>              
+            
+            <div className="sideMenu">
+                <List component="nav" aria-labelledby="main navigation">
+                <p>1</p>
+                </List>
+            </div>
+        </div>
+        
+        
     );   
 
 }

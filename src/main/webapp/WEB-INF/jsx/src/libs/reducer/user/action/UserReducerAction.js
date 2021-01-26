@@ -4,10 +4,10 @@ const regist = () => {
     };
 };
 
-const login = user => {
+const login = data => {
     return {
           type: 'USER_LOGIN'
-        , user
+        , data
     };
 };
 

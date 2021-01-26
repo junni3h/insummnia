@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.insummnia.webpjt.admin.impl.MenuMgmtService;
 import com.insummnia.webpjt.auth.authentication.impl.LoginService;
 import com.insummnia.webpjt.common.utils.CommonUtils;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
@@ -24,6 +25,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private MenuMgmtService menuService;
     
     @RequestMapping(value = "/login.do", method = RequestMethod.POST)
     public ResponseEntity login(HttpSession session, @RequestBody UserMSTEntity user) throws Exception {
@@ -39,7 +43,10 @@ public class LoginController {
 
         if(rtnLogin.get("loginUser") != null) {
             session.setAttribute("loginUser", rtnLogin.get("loginUser"));
+            session.setAttribute("menu", menuService.findMenuItemByRoot());
             session.setMaxInactiveInterval(1800);
+
+            rtnLogin.put("menu", menuService.findMenuItemByRoot());
         }
         
         return ResponseEntity.ok(rtnLogin);

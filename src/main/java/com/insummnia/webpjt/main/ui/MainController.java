@@ -1,8 +1,15 @@
 package com.insummnia.webpjt.main.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.insummnia.webpjt.admin.entity.MenuEntity;
+import com.insummnia.webpjt.admin.impl.MenuMgmtService;
 import com.insummnia.webpjt.user.impl.UserService;
 
 import org.slf4j.Logger;
@@ -22,6 +29,9 @@ public class MainController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    MenuMgmtService menuService;
     
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public ResponseEntity index(HttpServletRequest request) throws Exception {
@@ -34,9 +44,18 @@ public class MainController {
     @RequestMapping(value = "/main.do")
     public ResponseEntity main(HttpServletRequest request) throws Exception {
         logger.info("REQUEST URL ==> {}", request.getRequestURI());
+        Map<String, Object> rtnParams = new HashMap<String, Object>();
+
         HttpSession session = request.getSession();
 
-        return ResponseEntity.ok(session.getAttribute("loginUser"));
+        if(session.getAttribute("loginUser") != null && session.getAttribute("menu") != null){
+            rtnParams.put("loginUser", session.getAttribute("loginUser"));
+            rtnParams.put("menu", menuService.findMenuItemByRoot());
+        } else {
+            rtnParams.put("menu", menuService.findMenuItemByRoot());
+        }
+
+        return ResponseEntity.ok(rtnParams);
     }
 
 

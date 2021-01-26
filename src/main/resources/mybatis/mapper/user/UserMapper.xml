@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.insummnia.webpjt.user.service.UserDAO">
+<mapper namespace="com.insummnia.webpjt.user.impl.UserDAO">
 
     <insert id="registUserMST" parameterType="user">
       INSERT INTO TB_USER_MST
@@ -103,13 +103,17 @@
     </select>
 
     <select id="selectUserList" resultType="user">
-      SELECT  USER_ID
-           ,  IFNULL(USER_NM, '') AS USER_NM
-           ,  IFNULL(NICK_NM, '') AS NICK_NM
-           ,  DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
-           ,  IFNULL(UPDATE_USER_ID, '') AS UPDATE_USER_ID
-           ,  DATE_FORMAT(UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
-        FROM TB_USER_MST
+      SELECT  UM.USER_ID
+           ,  IFNULL(UM.USER_NM, '') AS USER_NM
+           ,  IFNULL(UM.NICK_NM, '') AS NICK_NM
+           ,  RM.ROLE_ID
+           ,  RM.ROLE_NM_KR AS ROLE_NM
+           ,  DATE_FORMAT(UM.CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+           ,  IFNULL(UM.UPDATE_USER_ID, '') AS UPDATE_USER_ID
+           ,  DATE_FORMAT(UM.UPDATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
+        FROM TB_USER_MST UM
+       INNER JOIN TB_USER_ROLE UR ON (UR.USER_ID = UM.USER_ID)
+       INNER JOIN TB_ROLE_MST RM ON (RM.ROLE_ID = UR.ROLE_ID)
     </select>
 
     <select id="selectUserInfo" parameterType="java.lang.String" resultType="user">

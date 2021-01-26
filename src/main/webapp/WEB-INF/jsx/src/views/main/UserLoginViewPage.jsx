@@ -14,6 +14,7 @@ import '../../css/common/common.css';
 export default function UserLoginViewPage(){
 
     const login = useSelector(state => state.UserReducer);
+
     const dispatch = useDispatch();
 
     const [ user, setUser ] = useState({
@@ -48,7 +49,7 @@ export default function UserLoginViewPage(){
                                 {
                                       isRegist: false
                                     , isLogin: true
-                                    , loginUser: data.loginUser  
+                                    , loginUser: data.loginUser
                                 }
                             )
                         );
