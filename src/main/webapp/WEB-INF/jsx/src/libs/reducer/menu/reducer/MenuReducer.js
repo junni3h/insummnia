@@ -1,9 +1,15 @@
 const MenuReducer = (state = {}, action) => {
     switch (action.type) {
         case "MENU":
-            return action.data;
+            return {
+                ...state
+                , menu: action.data
+            };
         default: 
-            return [];
+            return {
+                ...state
+                , menu: []
+            };
     }
 };
 

@@ -32,8 +32,8 @@ public class MenuMgmtDAO {
      * @throws Exception
      */
 
-    public List<MenuEntity> findMenuItemByUpperId(MenuEntity params) throws Exception {
-        return sqlSession.selectList("findMenuItemByUpperId", params);
+    public List<MenuEntity> findMenuItemByUpperId(String menuId) throws Exception {
+        return sqlSession.selectList("findMenuItemByUpperId", menuId);
     }
     
 }

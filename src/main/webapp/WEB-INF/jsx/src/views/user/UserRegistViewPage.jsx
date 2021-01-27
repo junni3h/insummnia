@@ -5,14 +5,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
 import RootActions from '../../libs/reducer/RootActions';
 
-import {Button, Container, CssBaseline, TextField} from '@material-ui/core';
+import {Button, Container, CssBaseline, TextField, Typography} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import PersonAddRoundedIcon from '@material-ui/icons/PersonAddRounded';
+
+import InputAdornment from '@material-ui/core/InputAdornment';
+
+import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import CancelRoundedIcon from '@material-ui/icons/CancelRounded';
 
+
 import '../../css/common/common.css';
-import '../../css/user/userRegistViewCss.css';
 
 export default function UserRegistView () {
 
@@ -24,16 +27,21 @@ export default function UserRegistView () {
             , nickNm: ''
     });
 
+    const [ error, setError ] = useState({});
+
     const regist = useSelector(state => state.UserReducer);
     const dispatch = useDispatch();
 
     // form 데이터 생성
+
+    const handleValidation = (event) => {
+        console.log(event.target.value);
+    }
+
     const handleChange = (event) => {
         const target = event.target;
         const value  = target.value;
         const name   = target.name;
-
-        console.log(name);
 
         setUser(
             {   
@@ -74,16 +82,75 @@ export default function UserRegistView () {
         return(
             <Container className="bodyContainer" component="main" maxWidth="xs" color="inherit">
                 <CssBaseline />
-                <PersonAddRoundedIcon className="logo" fontSize="large"/>
+                <Typography className="logo" align="center">
+                    inssumnia
+                </Typography>
                 <form onSubmit={handleSubmit} method="post">
                     <div className="userBaiscField">
-                        <TextField id="userId" name="userId" label="아이디" value={user.userId} onChange={handleChange}  margin="normal" fullWidth required></TextField>
-                        <TextField type="password" id="password" name="password" label="비밀번호" value={user.password} onChange={handleChange} margin="normal" fullWidth required></TextField>
+                        <TextField 
+                            id="userId" 
+                            name="userId" 
+                            label="아이디" 
+                            value={user.userId} 
+                            onChange={handleValidation}  
+                            margin="normal"
+                            InputProps={
+                            {startAdornment:
+                                (<InputAdornment position="start">
+                                    <AccountCircleRoundedIcon />
+                                </InputAdornment>)
+                            }}
+                            fullWidth required>
+                        </TextField>
+                        <TextField 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            label="비밀번호" 
+                            value={user.password}
+                            onChange={handleChange} 
+                            margin="normal" 
+                            InputProps={
+                                {startAdornment:
+                                    (<InputAdornment position="start">
+                                        <AccountCircleRoundedIcon />
+                                    </InputAdornment>)
+                                }}
+                            fullWidth required>
+                        </TextField>
                     </div>
                     <Divider/>
                     <div className="userInfoField">
-                        <TextField id="userNm" name="userNm" label="이름" value={user.userNm} onChange={handleChange} margin="normal" fullWidth></TextField>
-                        <TextField id="nickNm" name="nickNm" label="별명" value={user.nickNm} onChange={handleChange} margin="normal" fullWidth></TextField>
+                        <TextField 
+                            id="userNm" 
+                            name="userNm" 
+                            label="이름" 
+                            value={user.userNm}
+                            onChange={handleChange} 
+                            margin="normal" 
+                            InputProps={
+                                {startAdornment:
+                                    (<InputAdornment position="start">
+                                        <AccountCircleRoundedIcon />
+                                    </InputAdornment>)
+                                }}
+                            fullWidth>
+                        </TextField>
+                        <TextField 
+                            id="nickNm" 
+                            name="nickNm" 
+                            label="별명" 
+                            value={user.nickNm}
+                            onChange={handleChange} 
+                            margin="normal" 
+                            InputProps={
+                                {startAdornment:
+                                    (<InputAdornment position="start">
+                                        <AccountCircleRoundedIcon />
+                                    </InputAdornment>)
+                                }}
+                            fullWidth>
+                        </TextField>
                     </div>
                     <Divider className="divider"/>
                     <div className="buttonField">

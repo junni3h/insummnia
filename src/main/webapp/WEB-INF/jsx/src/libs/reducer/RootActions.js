@@ -1,9 +1,9 @@
 import UserReducerAction from './user/action/UserReducerAction';
-import MenuReducreAction from './menu/action/MenuReducerAction';
+import MenuReducerAction from './menu/action/MenuReducerAction';
 
 const RootActions = {
       UserReducerAction
-    , MenuReducreAction
+    , MenuReducerAction
 };
 
 export default RootActions;

@@ -1,5 +1,6 @@
 import { React, useState, useEffect } from 'react';
 import { Link, Redirect } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
 
@@ -23,6 +24,8 @@ import '../../css/common/common.css';
 
 export default function UserInfoViewPage(props) {
 
+    const login = useSelector(state => state.UserReducer);
+
     const { userId } = props.match.params;
     const [ user, setUser ] = useState({});
 
@@ -31,8 +34,6 @@ export default function UserInfoViewPage(props) {
     async function fetchData(){
         const result = await UserAPIRoute.fetchUserInfo(userId);
         const data = result.data;
-
-        console.log("data ==> ", data);
 
         setUser(data);
     };

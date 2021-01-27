@@ -11,3 +11,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@font-face {
+  font-family: 'Monitha';
+  src: url('./fonts/Monitha.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Bright Cheerful';
+  src: url('./fonts/Bright Cheerful.otf');
+}

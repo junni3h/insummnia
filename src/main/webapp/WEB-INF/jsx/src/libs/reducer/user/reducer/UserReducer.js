@@ -1,4 +1,4 @@
-const UserReducer = (state = {}, action) => { 
+const UserReducer = (state = {}, action) => {
     switch (action.type) {
         case "USER_REGIST":
             return {
@@ -11,11 +11,12 @@ const UserReducer = (state = {}, action) => {
                 , isRegist: action.data.isRegist
                 , isLogin: action.data.isLogin
                 , loginUser: action.data.loginUser
+                , menu: action.data.menu
             };
         case "USER_LOGOUT":
             return {
                 ...state
-              , isLogin: false    
+              , isLogin: false
           };
         default: 
             return {

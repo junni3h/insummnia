@@ -39,7 +39,7 @@
              , MENU_DEPTH
           FROM TB_MENU_MST
          WHERE MENU_UPPER_ID = #{menuId}
-         ORDER BY MENU_ORD DESC, MENU_DEPTH DESC
+         ORDER BY MENU_DEPTH DESC, MENU_ORD DESC
     </select>
     
 </mapper>

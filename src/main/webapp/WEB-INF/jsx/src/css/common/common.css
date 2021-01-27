@@ -5,10 +5,23 @@ body {
     height: 100%;
 }
 
+.main {
+    font-family: 'Bright Cheerful' !important;
+    font-weight: bold;
+}
+
+.logo {
+    margin: 0 auto !important;
+    font-family: 'Bright Cheerful' !important;
+    font-weight: bold;
+    font-size: 100px !important;
+}
+
 .background {
     width: 100%;
     height: 15rem;
     overflow: hidden;
+    background-color: #000000;
 }
 
 .backgroundImages {
@@ -20,6 +33,12 @@ body {
     margin: 2rem auto;
 }
 
+.card {
+    width: 200px !important;
+    height: 100%;
+    margin-right: 15px !important;
+}
+
 .sideMenu {
     top: 0;
     left: 0;
@@ -27,8 +46,10 @@ body {
 
     width: 100%;
     max-width: 350px;
+    height: 100%;
+
+    overflow: hidden;
     float: left !important;
-    background-color: #EBF7FF;
 }
 
 .leftMenu {
@@ -41,7 +62,7 @@ body {
 
 .menuList {
     float: left;
-    margin-right: 0.3rem;
+    margin: 1rem;
 }
 
 .menuIcon {
@@ -78,4 +99,5 @@ body {
 
 .btnVertical {
     margin: 0.5rem auto !important;
+    background-color: #000000 !important;
 }

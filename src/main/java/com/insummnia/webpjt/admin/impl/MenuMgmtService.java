@@ -17,11 +17,11 @@ public interface MenuMgmtService {
     
     /**
      * 상위 메뉴별 하위 메뉴 조회
-     * @param params 상위 메뉴 아이디
+     * @param menuId 상위 메뉴 아이디
      * @return
      * @throws Exception
      */
 
-    public List<MenuEntity> findMenuItembyUpperId(MenuEntity params) throws Exception;
+    public List<MenuEntity> findMenuItemByUpperId(String menuId) throws Exception;
 
 }

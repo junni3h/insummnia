@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const API_BASE_URL = "/";
 
-class MinAPIRoute {
+class MainAPIRoute {
 
     fetchMainAPI = ( ) => {
         return axios.post( API_BASE_URL + "main.do" );
@@ -10,4 +10,4 @@ class MinAPIRoute {
 
 }
 
-export default new MinAPIRoute();
+export default new MainAPIRoute();

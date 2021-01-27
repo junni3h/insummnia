@@ -2,6 +2,7 @@ import {BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 import MenuLayout from '../src/views/common/MenuLayout';
 import MainViewPage from '../src/views/main/MainViewPage';
+import MyInfoViewPage from './views/user/MyInfoViewPage';
 
 import UserLoginViewPage from '../src/views/main/UserLoginViewPage';
 import UserRegistViewPage from '../src/views/user/UserRegistViewPage';
@@ -22,6 +23,7 @@ export default function App(){
           <Route exact path="/" component={MainViewPage}/>
           <Route path="/login" component={UserLoginViewPage}/>
           <Route path="/regist" component={UserRegistViewPage}/>
+          <Route path="/myInfo" component={MyInfoViewPage} />
 
           <Route path="/admin/user/list" component={UserListViewPage}/>
           <Route path="/admin/user/info/:userId" component={UserInfoViewPage}/>
