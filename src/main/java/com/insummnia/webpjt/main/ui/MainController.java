@@ -53,6 +53,7 @@ public class MainController {
             rtnParams.put("menu", menuService.findMenuItemByRoot());
         } else {
             rtnParams.put("menu", menuService.findMenuItemByRoot());
+            rtnParams.put("test", menuService.findMenuItemByTree());
         }
 
         return ResponseEntity.ok(rtnParams);

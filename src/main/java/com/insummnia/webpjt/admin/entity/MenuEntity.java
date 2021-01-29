@@ -1,6 +1,7 @@
 package com.insummnia.webpjt.admin.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -21,7 +22,9 @@ public class MenuEntity extends CommonEntity implements Serializable{
     private String menuOrd;
     private String menuDepth;
 
-    private List<MenuEntity> children;
+    private String hasParent;
+    private MenuEntity child;
+    private List<MenuEntity> children = new ArrayList<MenuEntity>();
 
     public String getMenuId() {
         return menuId;
@@ -79,6 +82,22 @@ public class MenuEntity extends CommonEntity implements Serializable{
         this.menuDepth = menuDepth;
     }
 
+    public String getHasParent() {
+        return hasParent;
+    }
+
+    public void setHasParent(String hasParent) {
+        this.hasParent = hasParent;
+    }
+
+    public MenuEntity getChild() {
+        return child;
+    }
+
+    public void setChild(MenuEntity child) {
+        this.child = child;
+    }
+
     public List<MenuEntity> getChildren() {
         return children;
     }
@@ -89,9 +108,9 @@ public class MenuEntity extends CommonEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "MenuEntity [children=" + children + ", menuDepth=" + menuDepth + ", menuIcon=" + menuIcon + ", menuId="
-                + menuId + ", menuNm=" + menuNm + ", menuOrd=" + menuOrd + ", menuUpperId=" + menuUpperId + ", menuUrl="
-                + menuUrl + "]";
+        return "MenuEntity [children=" + children + ",hasParent=" + hasParent + ", menuDepth=" + menuDepth + 
+        ", menuIcon=" + menuIcon + ", menuId=" + menuId + ", menuNm=" + menuNm + ", menuOrd=" + menuOrd + 
+        ", menuUpperId=" + menuUpperId + ", menuUrl=" + menuUrl + "]";
     }
 
 }

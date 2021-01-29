@@ -6,6 +6,8 @@ import com.insummnia.webpjt.admin.entity.MenuEntity;
 
 public interface MenuMgmtService {
 
+    public MenuEntity findMenuItemByTree() throws Exception;
+
     /**
      * 루트 메뉴별 하위 메뉴 조회
      * @param params

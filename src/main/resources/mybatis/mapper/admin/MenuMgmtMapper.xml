@@ -3,7 +3,21 @@
 
 <mapper namespace="com.insummnia.webpjt.admin.impl.MenuMgmtDAO">
 
-    <select id="selectMenuList" resultType="menu">
+     <select id="findMenuItemByAll" resultType="menu">
+          SELECT MENU_ID
+               , MENU_URL
+               , MENU_NM_KR
+               , MENU_NM_EN
+               , MENU_ICON
+               , MENU_UPPER_ID
+               , MENU_ORD
+               , MENU_DEPTH
+               , IF(HAS_PARENT , 'TRUE', 'FALSE') AS HAS_PARENT
+            FROM TB_MENU_MST
+            ORDER BY MENU_DEPTH ASC
+      </select>
+
+    <select id="findRootMenuItem" resultType="menu">
         SELECT MENU_ID
              , MENU_URL
              , MENU_NM_KR
@@ -13,7 +27,51 @@
              , MENU_ORD
              , MENU_DEPTH
           FROM TB_MENU_MST
-         ORDER BY MENU_ORD DESC, MENU_DEPTH DESC
+         WHERE MENU_UPPER_ID = ''
+    </select>
+
+    <select id="findParentMenuItem" resultType="menu">
+     SELECT MENU_ID
+          , MENU_URL
+          , MENU_NM_KR
+          , MENU_NM_EN
+          , MENU_ICON
+          , MENU_UPPER_ID
+          , MENU_ORD
+          , MENU_DEPTH
+       FROM TB_MENU_MST
+      WHERE HAS_CHILDREN IS TRUE
+     </select>
+
+    <select id="findMenuItemByTree" resultType="menu">
+          WITH RECURSIVE MENU AS
+          (
+               SELECT M1.MENU_ID
+                    , M1.MENU_UPPER_ID
+               FROM TB_MENU_MST M1
+               WHERE M1.HAS_CHILDREN IS FALSE
+               
+               UNION ALL
+               
+               SELECT M2.MENU_ID
+                    , M2.MENU_UPPER_ID
+               FROM TB_MENU_MST M2, MENU M1
+               WHERE M2.MENU_ID = M1.MENU_UPPER_ID
+                 AND M2.MENU_UPPER_ID != ''
+          
+          )
+
+          SELECT DISTINCT MM.MENU_UPPER_ID
+               , MM.MENU_ID
+               , MM.MENU_URL
+               , MM.MENU_NM_EN AS MENU_NM
+               , MM.MENU_ICON
+               , MM.MENU_ORD
+               , MM.MENU_DEPTH
+               , IF(MM.HAS_PARENT , 'true', 'false') AS HAS_PARENT
+          FROM MENU M
+          INNER JOIN TB_MENU_MST MM ON (MM.MENU_ID = M.MENU_ID)
+          ORDER BY MM.MENU_DEPTH ASC
     </select>
 
     <select id="findMenuItemByRoot" resultType="menu">
@@ -26,7 +84,7 @@
              , MENU_DEPTH
           FROM TB_MENU_MST
          WHERE MENU_UPPER_ID = 'MENU_ROOT'
-         ORDER BY MENU_ORD ASC, MENU_DEPTH ASC
+         ORDER BY MENU_DEPTH ASC, MENU_ORD ASC 
     </select>
 
     <select id="findMenuItemByUpperId" resultType="menu">
@@ -39,7 +97,7 @@
              , MENU_DEPTH
           FROM TB_MENU_MST
          WHERE MENU_UPPER_ID = #{menuId}
-         ORDER BY MENU_DEPTH DESC, MENU_ORD DESC
+         ORDER BY MENU_DEPTH ASC, MENU_ORD ASC
     </select>
     
 </mapper>

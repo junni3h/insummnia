@@ -38,6 +38,8 @@ export default function MenuLayout(){
         const result = await MainAPIRoute.fetchMainAPI();
         const data = result.data;
 
+        console.log(data.test);
+
         setMenu(data.menu);
     }
 
