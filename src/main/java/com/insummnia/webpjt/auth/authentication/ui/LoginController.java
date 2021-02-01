@@ -42,11 +42,12 @@ public class LoginController {
         rtnLogin = loginService.login(user);
 
         if(rtnLogin.get("loginUser") != null) {
-            session.setAttribute("loginUser", rtnLogin.get("loginUser"));
-            session.setAttribute("menu", menuService.findMenuItemByRoot());
+            UserMSTEntity login = (UserMSTEntity) rtnLogin.get("loginUser");
+            session.setAttribute("loginUser", login);
+            session.setAttribute("menu", menuService.findMenuItemByRoot(login));
             session.setMaxInactiveInterval(1800);
 
-            rtnLogin.put("menu", menuService.findMenuItemByRoot());
+            rtnLogin.put("menu", menuService.findMenuItemByRoot(login));
         }
         
         return ResponseEntity.ok(rtnLogin);

@@ -53,7 +53,6 @@ export default function UserLoginViewPage(){
                                       isRegist: false
                                     , isLogin: true
                                     , loginUser: data.loginUser
-                                    , menu: data.menu
                                 }
                             )
                         );

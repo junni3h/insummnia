@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import com.insummnia.webpjt.admin.entity.MenuEntity;
 import com.insummnia.webpjt.admin.impl.MenuMgmtService;
+import com.insummnia.webpjt.user.entity.UserMSTEntity;
 import com.insummnia.webpjt.user.impl.UserService;
 
 import org.slf4j.Logger;
@@ -48,12 +49,13 @@ public class MainController {
 
         HttpSession session = request.getSession();
 
+        logger.info("session ==> ", session);
+
         if(session.getAttribute("loginUser") != null && session.getAttribute("menu") != null){
             rtnParams.put("loginUser", session.getAttribute("loginUser"));
-            rtnParams.put("menu", menuService.findMenuItemByRoot());
+            rtnParams.put("menu", session.getAttribute("menu"));
         } else {
-            rtnParams.put("menu", menuService.findMenuItemByRoot());
-            rtnParams.put("test", menuService.findMenuItemByTree());
+            rtnParams.put("menu", menuService.findMenuItemByRoot(null));
         }
 
         return ResponseEntity.ok(rtnParams);

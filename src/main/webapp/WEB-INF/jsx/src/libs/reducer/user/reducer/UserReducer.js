@@ -8,8 +8,8 @@ const UserReducer = (state = {}, action) => {
         case "USER_LOGIN":
             return {
                 ...state
-                , isRegist: action.data.isRegist
-                , isLogin: action.data.isLogin
+                , isRegist: false
+                , isLogin: true
                 , loginUser: action.data.loginUser
                 , menu: action.data.menu
             };
@@ -17,6 +17,8 @@ const UserReducer = (state = {}, action) => {
             return {
                 ...state
               , isLogin: false
+              , loginUser: {}
+              , menu: []
           };
         default: 
             return {

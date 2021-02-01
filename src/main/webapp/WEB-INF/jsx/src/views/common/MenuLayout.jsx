@@ -33,23 +33,18 @@ export default function MenuLayout(){
 
     const login = useSelector(state => state.UserReducer);
     const dispatch = useDispatch();
-    
+
     async function fetchData(){
         const result = await MainAPIRoute.fetchMainAPI();
         const data = result.data;
-
-        console.log(data.test);
+        console.log(data);
 
         setMenu(data.menu);
     }
 
     useEffect(() => {
-        if(login.menu != null){
-            setMenu(login.menu);
-        } else {
-            fetchData(); 
-        }
-    }, []);
+        fetchData();
+    }, [menu, login]);
 
     const handleMenuOpen = (event) => {
         setTarget(event.currentTarget);
@@ -78,9 +73,13 @@ export default function MenuLayout(){
                                         {
                                               isRegist: false
                                             , isLogin: false
+                                            , login: {}
+                                            , menu: []
                                         }
                                     )
                                 );
+
+                                fetchData();
                             }
                         } else {
                             alert(data.message);

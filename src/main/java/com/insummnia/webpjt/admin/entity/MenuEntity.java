@@ -15,6 +15,8 @@ public class MenuEntity extends CommonEntity implements Serializable{
 
     private String menuId;
     private String menuNm;
+    private String menuNmKr;
+    private String menuNmEn;
     private String menuUrl;
     private String menuUpperId;
 
@@ -23,6 +25,9 @@ public class MenuEntity extends CommonEntity implements Serializable{
     private String menuDepth;
 
     private String hasParent;
+    private String hasChildren;
+    private String isAdmin;
+
     private MenuEntity child;
     private List<MenuEntity> children = new ArrayList<MenuEntity>();
 
@@ -40,6 +45,22 @@ public class MenuEntity extends CommonEntity implements Serializable{
 
     public void setMenuNm(String menuNm) {
         this.menuNm = menuNm;
+    }
+
+    public String getMenuNmKr() {
+        return menuNmKr;
+    }
+
+    public void setMenuNmKr(String menuNmKr) {
+        this.menuNmKr = menuNmKr;
+    }
+
+    public String getMenuNmEn() {
+        return menuNmEn;
+    }
+
+    public void setMenuNmEn(String menuNmEn) {
+        this.menuNmEn = menuNmEn;
     }
 
     public String getMenuUrl() {
@@ -90,6 +111,22 @@ public class MenuEntity extends CommonEntity implements Serializable{
         this.hasParent = hasParent;
     }
 
+    public String getHasChildren() {
+        return hasChildren;
+    }
+
+    public void setHasChildren(String hasChildren) {
+        this.hasChildren = hasChildren;
+    }
+
+    public String getIsAdmin() {
+        return isAdmin;
+    }
+
+    public void setIsAdmin(String isAdmin) {
+        this.isAdmin = isAdmin;
+    }
+
     public MenuEntity getChild() {
         return child;
     }
@@ -108,9 +145,10 @@ public class MenuEntity extends CommonEntity implements Serializable{
 
     @Override
     public String toString() {
-        return "MenuEntity [children=" + children + ",hasParent=" + hasParent + ", menuDepth=" + menuDepth + 
-        ", menuIcon=" + menuIcon + ", menuId=" + menuId + ", menuNm=" + menuNm + ", menuOrd=" + menuOrd + 
-        ", menuUpperId=" + menuUpperId + ", menuUrl=" + menuUrl + "]";
+        return "MenuEntity [child=" + child + ", children=" + children + ", hasChildren=" + hasChildren + ", hasParent="
+                + hasParent + ", isAdmin=" + isAdmin + ", menuDepth=" + menuDepth + ", menuIcon=" + menuIcon
+                + ", menuId=" + menuId + ", menuNm=" + menuNm + ", menuNmEn=" + menuNmEn + ", menuNmKr=" + menuNmKr
+                + ", menuOrd=" + menuOrd + ", menuUpperId=" + menuUpperId + ", menuUrl=" + menuUrl + "]";
     }
 
 }
