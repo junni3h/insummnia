@@ -4,12 +4,16 @@ import { useSelector } from 'react-redux';
 
 import MenuAPIRoute from '../../router/libs/MenuAPIRoute';
 
-import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, Paper, Switch, Table, TableCell, TableRow, TextField, Typography } from '@material-ui/core';
-import UpdateRoundedIcon from '@material-ui/icons/UpdateRounded';
+import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, InputAdornment, Paper, Switch, Table, TableCell, TableRow, TextField, Typography } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+
+import UpdateRoundedIcon from '@material-ui/icons/UpdateRounded';
+import ArrowDropDownRoundedIcon from '@material-ui/icons/ArrowDropDownRounded';
+import ArrowRightRoundedIcon from '@material-ui/icons/ArrowRightRounded';
+import InfoRoundedIcon from '@material-ui/icons/InfoRounded';
+import AddCircleRoundedIcon from '@material-ui/icons/AddCircleRounded';
+import HighlightOffRoundedIcon from '@material-ui/icons/HighlightOffRounded';
 
 import '../../css/common/common.css';
 
@@ -19,8 +23,8 @@ export default function MenuMgmtViewPage() {
 
     const [ menu, setMenu ] = useState([]);
     const [ info, setInfo ] = useState({});
-
-    const [ value, setValue ]  = useState('');
+    const [ children, setChildren ] = useState([]);
+    const [ itemId, setItemId] = useState('');
     const [ isAdmin, setIsAdmin ] = useState(false);
 
     async function fetchData(){
@@ -47,9 +51,11 @@ export default function MenuMgmtViewPage() {
     );
 
     const handleNodeClick = (event, node) => {
-        const menuId = node;
+        setItemId(node);
 
-        MenuAPIRoute.fetchFindMenuItemByMenuId(menuId)
+        const menuId = node;
+        if(node != 'newId'){
+            MenuAPIRoute.fetchFindMenuItemByMenuId(menuId)
                     .then( res => {
                         const data = res.data;
 
@@ -61,6 +67,47 @@ export default function MenuMgmtViewPage() {
 
                         setInfo(data);
                     });
+        } else {
+            setInfo({
+                    menuId: node
+                ,   menuUpperId: itemId
+                ,   menuNmKr: ''
+                ,   menuNmEn: ''
+                ,   menuUrl: ''
+                ,   menuDepth: '9'
+                ,   menuOrder: '0'
+                ,   isAdmin: false
+            });
+        }
+        
+    }
+
+    const handleNodeAddClick = () => {
+        if(menu.id == itemId){
+            setChildren(menu.children);
+
+            const child = {};
+            child.id = "newId";
+            child.upperId = itemId;
+            child.label = "Label";
+            child.children = [];
+
+            children.push(child);
+
+            console.log(children);
+
+            setMenu({
+                ...menu
+                , children: children
+            });
+        } else {
+            alert("메뉴 아이디가 다릅니다");
+        }
+    }
+
+    const handleNodeDelClick = () => {
+        alert("del click");
+        console.log("del ==> ", itemId);
     }
 
     const handleInfoChange = (event) => {
@@ -92,7 +139,6 @@ export default function MenuMgmtViewPage() {
 
     const handleInfoSubmit = (event) => {
         const params = info;
-        console.log("handleInfoSubmit ==> " , params);
 
         MenuAPIRoute.fetchUpdateMenuItem(params)
             .then( res => {
@@ -119,10 +165,18 @@ export default function MenuMgmtViewPage() {
                         <Typography>
                             Menu List
                         </Typography>
-                        <Divider className="divider"/>
+                        <Divider variant="fullWidth"/> 
+                        <div className="rightMenu">
+                            <IconButton className="btnRight" size="small">
+                                <AddCircleRoundedIcon className="userIcon" fontSize="small" onClick={handleNodeAddClick} />
+                            </IconButton>
+                            <IconButton className="btnRight" size="small">
+                                <HighlightOffRoundedIcon className="userIcon" fontSize="small" onClick={handleNodeDelClick} />
+                            </IconButton>
+                        </div>
                         <TreeView className="tree" 
-                                defaultCollapseIcon={<ExpandMoreIcon />}
-                                defaultExpandIcon={<ChevronRightIcon />}
+                                defaultCollapseIcon={<ArrowDropDownRoundedIcon />}
+                                defaultExpandIcon={<ArrowRightRoundedIcon />}
                                 onNodeSelect={handleNodeClick}>
                             {renderTree(menu)}
                         </TreeView>
@@ -136,6 +190,36 @@ export default function MenuMgmtViewPage() {
                             <Divider className="divider"/>
                             <Table size="small">
                                 <TableRow>
+                                    {info.menuId == 'newId' ? (
+                                            <TableCell colSpan={6}>
+                                            <TextField 
+                                                className="textField"
+                                                id="menuId"
+                                                name="menuId"
+                                                label="Id"
+                                                value={info.menuId} 
+                                                onChange={handleInfoChange} 
+                                                variant="outlined" 
+                                                size="small" 
+                                                fullWidth
+                                                InputProps={
+                                                    {
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <InfoRoundedIcon fontSize="small"/>
+                                                            </InputAdornment>
+                                                        )
+                                                    }
+                                                }
+                                                InputLabelProps={{ shrink: true }}>
+                                            </TextField>
+                                        </TableCell>
+                                        ):(
+                                            null
+                                        )
+                                    }
+                                    </TableRow>
+                                    <TableRow>
                                     <TableCell colSpan={3}>
                                         <TextField 
                                             className="textField"
@@ -147,6 +231,15 @@ export default function MenuMgmtViewPage() {
                                             variant="outlined" 
                                             size="small" 
                                             fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
@@ -161,6 +254,15 @@ export default function MenuMgmtViewPage() {
                                             variant="outlined" 
                                             size="small" 
                                             fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
@@ -177,6 +279,15 @@ export default function MenuMgmtViewPage() {
                                             variant="outlined" 
                                             size="small"
                                             fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
@@ -191,6 +302,15 @@ export default function MenuMgmtViewPage() {
                                             variant="outlined" 
                                             size="small"
                                             fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
@@ -208,6 +328,15 @@ export default function MenuMgmtViewPage() {
                                             size="small" 
                                             fullWidth
                                             disabled
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
@@ -223,12 +352,22 @@ export default function MenuMgmtViewPage() {
                                             size="small" 
                                             fullWidth
                                             disabled
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
                                             InputLabelProps={{ shrink: true }}>
                                         </TextField>
                                     </TableCell>
                                 </TableRow>
                                 <TableRow>
                                     <TableCell colSpan={6}>
+                                        <FormControl>
                                             <FormControlLabel
                                                 className="formLabel" 
                                                 label="Is Admin?"
@@ -238,8 +377,11 @@ export default function MenuMgmtViewPage() {
                                                         name="isAdmin"
                                                         checked={isAdmin}
                                                         onChange={handleInfoCheckChange}
+                                                        size="small"
+                                                        color="default"
                                                     />
                                                 }/>
+                                        </FormControl>
                                     </TableCell>
                                 </TableRow>
                             </Table>

@@ -82,14 +82,37 @@
           ORDER BY MENU_DEPTH ASC, MENU_ORD ASC 
      </select>
 
-     <update id="updateMenuItem" parameterType="menu">
-          UPDATE TB_MENU_MST
-             SET MENU_NM_KR = #{menuNmKr}
-               , MENU_NM_EN = #{menuNmEn}
-               , MENU_URL   = #{menuUrl}
-               , MENU_ICON  = #{menuIcon}
-               , IS_ADMIN   = CAST(#{isAdmin} AS INT)
-           WHERE MENU_ID    = #{menuId}
-     </update>
+     <insert id="upsertMenuItem" parameterType="menu">
+          INSERT INTO TB_MENU_MST
+          (
+                    MENU_ID
+               ,    MENU_UPPER_ID
+               ,    MENU_NM_KR
+               ,    MENU_NM_EN
+               ,    MENU_URL
+               ,    MENU_ICON
+               ,    HAS_PARENT
+               ,    HAS_CHILDREN
+               ,    IS_ADMIN
+          )
+          VALUES
+          (
+                    #{menuId}
+               ,    #{menuUpperId}
+               ,    #{menuNmKr}
+               ,    #{menuNmEn}
+               ,    #{menuUrl}
+               ,    #{menuIcon}
+               ,    CAST(TRUE AS INT)
+               ,    CAST(FALSE AS INT)
+               ,    CAST(#{isAdmin} AS INT)
+          ) 
+          ON DUPLICATE KEY UPDATE
+                    MENU_NM_KR = #{menuNmKr}
+               ,    MENU_NM_EN = #{menuNmEn}
+               ,    MENU_URL   = #{menuUrl}
+               ,    MENU_ICON  = #{menuIcon}
+               ,    IS_ADMIN   = CAST(#{isAdmin} AS INT)
+     </insert>
     
 </mapper>

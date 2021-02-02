@@ -84,7 +84,7 @@ public class MenuMgmtDAO {
     }
 
     public void updateMenuItem(MenuEntity params) throws Exception {
-        sqlSession.update("updateMenuItem", params);
+        sqlSession.insert("upsertMenuItem", params);
     }
 
 }
