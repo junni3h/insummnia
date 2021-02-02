@@ -12,7 +12,7 @@
                , IF(HAS_PARENT , 'TRUE', 'FALSE') AS HAS_PARENT
                , IF(HAS_CHILDREN, 'TRUE', 'FALSE') AS HAS_CHILDREN
                FROM TB_MENU_MST
-               ORDER BY MENU_DEPTH ASC
+               ORDER BY MENU_DEPTH ASC, MENU_ORD ASC
      </select>
 
      <!-- 모든 부모 메뉴 조회 -->
@@ -44,8 +44,10 @@
                , MENU_URL
                , MENU_NM_EN
                , MENU_NM_KR
+               , MENU_ICON
                , MENU_ORD
                , MENU_DEPTH
+               , IF(IS_ADMIN, true, false) AS IS_ADMIN
             FROM TB_MENU_MST
             WHERE MENU_ID = #{menuId}
      </select>
@@ -79,5 +81,15 @@
           </if>
           ORDER BY MENU_DEPTH ASC, MENU_ORD ASC 
      </select>
+
+     <update id="updateMenuItem" parameterType="menu">
+          UPDATE TB_MENU_MST
+             SET MENU_NM_KR = #{menuNmKr}
+               , MENU_NM_EN = #{menuNmEn}
+               , MENU_URL   = #{menuUrl}
+               , MENU_ICON  = #{menuIcon}
+               , IS_ADMIN   = CAST(#{isAdmin} AS INT)
+           WHERE MENU_ID    = #{menuId}
+     </update>
     
 </mapper>

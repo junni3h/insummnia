@@ -1,6 +1,7 @@
 package com.insummnia.webpjt.admin.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import com.insummnia.webpjt.admin.entity.MenuEntity;
 import com.insummnia.webpjt.admin.entity.MenuTreeEntity;
@@ -42,5 +43,14 @@ public interface MenuMgmtService {
      */
 
     public List<MenuEntity> findMenuItemByUpperId(String menuId) throws Exception;
+
+    /**
+     * 메뉴 정보 업데이트
+     * @param params 메뉴 
+     * @return 업데이트 유무, 메시지
+     * @throws Exception
+     */
+
+    public Map<String, Object> updateMenuItem(MenuEntity params) throws Exception;
 
 }

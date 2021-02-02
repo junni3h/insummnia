@@ -42,9 +42,15 @@ export default function MenuLayout(){
         setMenu(data.menu);
     }
 
-    useEffect(() => {
-        fetchData();
-    }, [menu, login]);
+    useEffect(async () => {
+        if(login.isLogin){
+            fetchData();
+        } else {
+            fetchData();
+        }
+        console.log(login);
+        
+    }, [login.isLogin]);
 
     const handleMenuOpen = (event) => {
         setTarget(event.currentTarget);

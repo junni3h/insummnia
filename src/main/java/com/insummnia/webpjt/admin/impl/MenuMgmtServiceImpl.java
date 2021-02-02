@@ -1,7 +1,9 @@
 package com.insummnia.webpjt.admin.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.insummnia.webpjt.admin.entity.MenuEntity;
 import com.insummnia.webpjt.admin.entity.MenuTreeEntity;
@@ -11,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class MenuMgmtServiceImpl implements MenuMgmtService {
@@ -109,6 +112,24 @@ public class MenuMgmtServiceImpl implements MenuMgmtService {
         rtnMenus = menuDAO.findMenuItemByUpperId(menuId);
 
         return rtnMenus;
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> updateMenuItem(MenuEntity params) throws Exception {
+        logger.info("updateMenuItem ==> {}", params);
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+
+        try {
+            menuDAO.updateMenuItem(params);
+            
+            rtnMap.put("isUpdate", true);
+            rtnMap.put("message", "저장되었습니다!");
+        } catch (Exception e) {
+            rtnMap.put("isUpdate", false);
+            rtnMap.put("message", "저장에 실패하였습니다!");
+        }
+
+        return rtnMap;
     }
 
 

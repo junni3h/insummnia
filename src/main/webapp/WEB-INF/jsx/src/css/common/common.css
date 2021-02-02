@@ -101,3 +101,12 @@ body {
     margin: 0.5rem auto !important;
     background-color: #000000 !important;
 }
+
+.textField {
+    margin: 0.5rem auto !important;
+}
+
+.formLabel {
+    font-size: 0.75rem !important;
+    margin: 0.5rem auto !important;
+}

@@ -17,6 +17,10 @@ class MenuAPIRoute {
         return axios.post( API_BASE_URL + "/findByUpperId.do" , { menuId: menuId } );
     }
 
+    fetchUpdateMenuItem = ( menu ) => {
+        return axios.post( API_BASE_URL + "/updateMenu.do", menu);
+    }
+
 }
 
 export default new MenuAPIRoute();

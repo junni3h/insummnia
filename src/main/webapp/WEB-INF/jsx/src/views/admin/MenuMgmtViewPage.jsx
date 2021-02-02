@@ -4,11 +4,14 @@ import { useSelector } from 'react-redux';
 
 import MenuAPIRoute from '../../router/libs/MenuAPIRoute';
 
-import { Button, Container, Grid, Paper, Table, TableCell, TableRow, TextField } from '@material-ui/core';
+import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, Paper, Switch, Table, TableCell, TableRow, TextField, Typography } from '@material-ui/core';
+import UpdateRoundedIcon from '@material-ui/icons/UpdateRounded';
 import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+
+import '../../css/common/common.css';
 
 export default function MenuMgmtViewPage() {
 
@@ -16,6 +19,9 @@ export default function MenuMgmtViewPage() {
 
     const [ menu, setMenu ] = useState([]);
     const [ info, setInfo ] = useState({});
+
+    const [ value, setValue ]  = useState('');
+    const [ isAdmin, setIsAdmin ] = useState(false);
 
     async function fetchData(){
         const result = await MenuAPIRoute.fetchFindMenuItemByTree();
@@ -46,7 +52,13 @@ export default function MenuMgmtViewPage() {
         MenuAPIRoute.fetchFindMenuItemByMenuId(menuId)
                     .then( res => {
                         const data = res.data;
-                        console.log("data ==> ", data);
+
+                        if(data.isAdmin){
+                            setIsAdmin(true);
+                        } else {
+                            setIsAdmin(false);
+                        }
+
                         setInfo(data);
                     });
     }
@@ -64,9 +76,38 @@ export default function MenuMgmtViewPage() {
         );
     }
 
+    const handleInfoCheckChange = (event) => {
+        const target = event.target;
+        const value  = target.checked;
+        const name   = target.name;
+
+        setIsAdmin(value);
+        setInfo(
+            {
+                  ...info
+                , [name]: value
+            }
+        );
+    }
+
     const handleInfoSubmit = (event) => {
         const params = info;
-        console.log(info);
+        console.log("handleInfoSubmit ==> " , params);
+
+        MenuAPIRoute.fetchUpdateMenuItem(params)
+            .then( res => {
+                const data = res.data;
+                console.log(data);
+
+                if(data.isUpdate){
+                    if(window.confirm(data.message)){
+                        fetchData();
+                    }
+                } else {
+                    alert(data.message);
+                }
+            });
+
         event.preventDefault();
     }
     
@@ -74,7 +115,11 @@ export default function MenuMgmtViewPage() {
         return (
             <Container className="container" component="main" maxWidth="lg" color="inherit">
                 <Grid container className="gridContainer" spacing={2}>
-                    <Grid item xs={6} className="menuTree" >
+                    <Grid item xs={3} className="menuTree" >
+                        <Typography>
+                            Menu List
+                        </Typography>
+                        <Divider className="divider"/>
                         <TreeView className="tree" 
                                 defaultCollapseIcon={<ExpandMoreIcon />}
                                 defaultExpandIcon={<ChevronRightIcon />}
@@ -82,31 +127,131 @@ export default function MenuMgmtViewPage() {
                             {renderTree(menu)}
                         </TreeView>
                     </Grid>
-                    <Grid item xs={6} className="menuInfo">
+                    <Divider orientation="vertical" flexItem/>
+                    <Grid item xs={8} className="menuInfo">
                         <form onSubmit={handleInfoSubmit} method="post">
-                            <Button type="submit" color="primary">수정</Button>
+                            <Typography>
+                                Menu Info
+                            </Typography>
+                            <Divider className="divider"/>
                             <Table size="small">
                                 <TableRow>
-                                    <TableCell colSpan={1}>아이디</TableCell>
-                                    <TableCell colSpan={5}><TextField id="menuId" name="menuId" value={info.menuId} disabled fullWidth></TextField></TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            className="textField"
+                                            id="menuNmKr"
+                                            name="menuNmKr"
+                                            label="Name (Korean)"
+                                            value={info.menuNmKr} 
+                                            onChange={handleInfoChange} 
+                                            variant="outlined" 
+                                            size="small" 
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField
+                                            className="textField" 
+                                            id="menuNmEn"
+                                            name="menuNmEn" 
+                                            label="Name (English)" 
+                                            value={info.menuNmEn} 
+                                            onChange={handleInfoChange} 
+                                            variant="outlined" 
+                                            size="small" 
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={1}>이름(한글)</TableCell>
-                                    <TableCell colSpan={2}><TextField id="menuNmKr" name="menuNmKr" value={info.menuNmKr} onChange={handleInfoChange}></TextField></TableCell>
-                                    <TableCell colSpan={1}>이름(영문)</TableCell>
-                                    <TableCell colSpan={2}><TextField id="menuNmEn" name="menuNmEn" value={info.menuNmEn} onChange={handleInfoChange}></TextField></TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField
+                                            className="textField" 
+                                            id="menuUrl" 
+                                            name="menuUrl" 
+                                            label="Url" 
+                                            value={info.menuUrl} 
+                                            onChange={handleInfoChange}
+                                            variant="outlined" 
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField
+                                            className="textField" 
+                                            id="menuIcon" 
+                                            name="menuIcon" 
+                                            label="Icon" 
+                                            value={info.menuIcon} 
+                                            onChange={handleInfoChange}
+                                            variant="outlined" 
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={1}>URL</TableCell>
-                                    <TableCell colSpan={5}><TextField id="menuUrl" name="menuUrl" value={info.menuUrl} onChange={handleInfoChange} fullWidth></TextField></TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            className="textField"
+                                            id="menuDepth" 
+                                            name="menuDepth" 
+                                            label="Level" 
+                                            value={info.menuDepth} 
+                                            onChange={handleInfoChange} 
+                                            variant="outlined"
+                                            size="small" 
+                                            fullWidth
+                                            disabled
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            className="textField"
+                                            id="menuOrd" 
+                                            name="menuOrd" 
+                                            label="Order" 
+                                            value={info.menuOrd} 
+                                            onChange={handleInfoChange} 
+                                            variant="outlined"
+                                            size="small" 
+                                            fullWidth
+                                            disabled
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
                                 </TableRow>
                                 <TableRow>
-                                    <TableCell colSpan={1}>레벨</TableCell>
-                                    <TableCell colSpan={2}><TextField id="menuDepth" name="menuDepth" value={info.menuDepth} onChange={handleInfoChange}></TextField></TableCell>
-                                    <TableCell colSpan={1}>순서</TableCell>
-                                    <TableCell colSpan={2}><TextField id="menuOrd" name="menuOrd" value={info.menuOrd} onChange={handleInfoChange}></TextField></TableCell>
+                                    <TableCell colSpan={6}>
+                                            <FormControlLabel
+                                                className="formLabel" 
+                                                label="Is Admin?"
+                                                control={
+                                                    <Checkbox 
+                                                        id="isAdmin"
+                                                        name="isAdmin"
+                                                        checked={isAdmin}
+                                                        onChange={handleInfoCheckChange}
+                                                    />
+                                                }/>
+                                    </TableCell>
                                 </TableRow>
                             </Table>
+                            <div className="btnRightField">
+                                <Button className="btnRight" 
+                                    type="submit" 
+                                    variant="contained" 
+                                    color="primary" 
+                                    size="small" 
+                                    startIcon={<UpdateRoundedIcon />}>
+                                저장</Button>
+                            </div>
                         </form>
                     </Grid>
                 </Grid>

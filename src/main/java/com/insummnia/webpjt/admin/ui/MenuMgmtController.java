@@ -1,7 +1,9 @@
 package com.insummnia.webpjt.admin.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.ws.Response;
 
@@ -31,7 +33,6 @@ public class MenuMgmtController {
 
     @RequestMapping(value = "/findByMenuId.do", method = RequestMethod.POST)
     public ResponseEntity findMenuItemByMenuId(@RequestBody MenuEntity params) throws Exception {
-        logger.info("menuId ==> {}", params);
         MenuEntity rtnMenu = menuService.findMenuItemByMenuId(params);
 
         return ResponseEntity.ok(rtnMenu);
@@ -39,7 +40,6 @@ public class MenuMgmtController {
 
     @RequestMapping(value = "/findByUpperId.do")
     public ResponseEntity findMenuItemByUpperId(@RequestBody MenuEntity params) throws Exception {
-        logger.info("menuId ==> {}", params);
         List<MenuEntity> rtnMenus = new ArrayList<MenuEntity>();
         rtnMenus = menuService.findMenuItemByUpperId(params.getMenuId());
 
@@ -48,7 +48,6 @@ public class MenuMgmtController {
 
     @RequestMapping(value = "/findByTree.do")
     public ResponseEntity findMenuItemByTree() throws Exception {
-
         MenuTreeEntity rtnMenu = new MenuTreeEntity();
         rtnMenu = menuService.findMenuItemByTree();
 
@@ -56,8 +55,11 @@ public class MenuMgmtController {
     }
 
     @RequestMapping(value = "/updateMenu.do", method = RequestMethod.POST)
-    public ResponseEntity UpdateMenuItem(@RequestBody MenuEntity menu) throws Exception {
-        return ResponseEntity.ok("");
+    public ResponseEntity UpdateMenuItem(@RequestBody MenuEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        rtnMap = menuService.updateMenuItem(params);
+
+        return ResponseEntity.ok(rtnMap);
     }
     
 }

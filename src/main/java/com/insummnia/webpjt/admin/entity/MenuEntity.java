@@ -26,7 +26,7 @@ public class MenuEntity extends CommonEntity implements Serializable{
 
     private String hasParent;
     private String hasChildren;
-    private String isAdmin;
+    private Boolean isAdmin;
 
     private MenuEntity child;
     private List<MenuEntity> children = new ArrayList<MenuEntity>();
@@ -119,11 +119,11 @@ public class MenuEntity extends CommonEntity implements Serializable{
         this.hasChildren = hasChildren;
     }
 
-    public String getIsAdmin() {
+    public Boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIsAdmin(String isAdmin) {
+    public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
 
