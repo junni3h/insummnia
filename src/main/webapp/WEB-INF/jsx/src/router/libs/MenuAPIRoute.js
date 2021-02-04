@@ -18,7 +18,11 @@ class MenuAPIRoute {
     }
 
     fetchUpdateMenuItem = ( menu ) => {
-        return axios.post( API_BASE_URL + "/updateMenu.do", menu);
+        return axios.post( API_BASE_URL + "/updateMenu.do", menu );
+    }
+
+    fetchDeleteMenuItem = ( menu ) => {
+        return axios.post( API_BASE_URL + "/deleteMenu.do", menu );
     }
 
 }

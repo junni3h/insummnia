@@ -28,7 +28,6 @@ public class MenuMgmtServiceImpl implements MenuMgmtService {
      * @return
      * @throws Exception
      */
-
     public MenuTreeEntity findMenuItemByTree() throws Exception {
 
         MenuTreeEntity root = new MenuTreeEntity();
@@ -37,10 +36,9 @@ public class MenuMgmtServiceImpl implements MenuMgmtService {
         List<MenuEntity> allMenus = new ArrayList<MenuEntity>();
         allMenus = menuDAO.findMenuItemByAll();
 
+        // 자식 메뉴를 가진 부모 메뉴 조회
         List<MenuTreeEntity> parents = new ArrayList<MenuTreeEntity>();
         parents = menuDAO.findParentTreeItem();
-
-        // 자식 메뉴를 가진 부모 메뉴 조회
 
         List<MenuTreeEntity> children = new ArrayList<MenuTreeEntity>();
 
@@ -91,7 +89,6 @@ public class MenuMgmtServiceImpl implements MenuMgmtService {
      * @return
      * @throws Exception
      */
-
     public List<MenuEntity> findMenuItemByRoot(UserMSTEntity user) throws Exception {
         logger.info("user ==> {}", user);
         List<MenuEntity> rtnMenus = new ArrayList<MenuEntity>();
@@ -106,35 +103,60 @@ public class MenuMgmtServiceImpl implements MenuMgmtService {
      * @return
      * @throws Exception
      */
-
     public List<MenuEntity> findMenuItemByUpperId(String menuId) throws Exception {
         List<MenuEntity> rtnMenus = new ArrayList<MenuEntity>();
         rtnMenus = menuDAO.findMenuItemByUpperId(menuId);
 
         return rtnMenus;
     }
-
+    
+    /**
+     * 메뉴 아이템 추가 및 수정
+     * @param params
+     * @return
+     * @throws Exception
+     */
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, Object> updateMenuItem(MenuEntity params) throws Exception {
-        logger.info("updateMenuItem ==> {}", params);
+    public Map<String, Object> upsertMenuItem(MenuEntity params) throws Exception {
         Map<String, Object> rtnMap = new HashMap<String, Object>();
 
         try {
-            menuDAO.updateMenuItem(params);
+            menuDAO.upsertMenuItem(params);
             
-            rtnMap.put("isUpdate", true);
+            rtnMap.put("success", true);
             rtnMap.put("message", "저장되었습니다!");
         } catch (Exception e) {
-            rtnMap.put("isUpdate", false);
+            rtnMap.put("success", false);
             rtnMap.put("message", "저장에 실패하였습니다!");
         }
 
         return rtnMap;
     }
 
+    /**
+     * 메뉴 아이템 삭제
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> deleteMenuItem(MenuEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+
+        try {
+            menuDAO.deleteMenuItem(params);
+            
+            rtnMap.put("success", true);
+            rtnMap.put("message", "삭제되었습니다!");
+        } catch (Exception e) {
+            rtnMap.put("success", false);
+            rtnMap.put("message", "삭제에 실패하였습니다!");
+        }
+
+        return rtnMap;
+    }
 
     private MenuTreeEntity generateTreeChild(MenuEntity menu) throws Exception {
-
         MenuTreeEntity rtnMenu = new MenuTreeEntity();
 
         rtnMenu.setId(menu.getMenuId());

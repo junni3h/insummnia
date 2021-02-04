@@ -12,6 +12,7 @@
                , IF(HAS_PARENT , 'TRUE', 'FALSE') AS HAS_PARENT
                , IF(HAS_CHILDREN, 'TRUE', 'FALSE') AS HAS_CHILDREN
                FROM TB_MENU_MST
+               WHERE IS_DELETED IS FALSE
                ORDER BY MENU_DEPTH ASC, MENU_ORD ASC
      </select>
 
@@ -21,7 +22,8 @@
                , MENU_NM_EN AS LABEL
                , MENU_UPPER_ID AS UPPER_ID
                FROM TB_MENU_MST
-               WHERE HAS_CHILDREN IS TRUE
+               WHERE MENU_DEPTH <![CDATA[ < ]]> (SELECT MAX(MENU_DEPTH) FROM TB_MENU_MST)
+                 AND IS_DELETED IS FALSE
      </select>
 
      <!-- 부모 메뉴아이디 별 메뉴조회 -->
@@ -35,6 +37,7 @@
                , MENU_DEPTH
           FROM TB_MENU_MST
           WHERE MENU_UPPER_ID = #{menuId}
+            AND IS_DELETED IS FALSE
           ORDER BY MENU_DEPTH ASC, MENU_ORD ASC
      </select>
 
@@ -79,6 +82,7 @@
           <if test="roleId == null or !roleId.equals('ROLE_ADMIN')">
                AND IS_ADMIN IS FALSE
           </if>
+               AND IS_DELETED IS FALSE
           ORDER BY MENU_DEPTH ASC, MENU_ORD ASC 
      </select>
 
@@ -91,9 +95,14 @@
                ,    MENU_NM_EN
                ,    MENU_URL
                ,    MENU_ICON
+               ,    MENU_DEPTH
+               ,    MENU_ORD
                ,    HAS_PARENT
                ,    HAS_CHILDREN
                ,    IS_ADMIN
+               ,    IS_DELETED
+               ,    CREATE_USER_ID
+               ,    CREATE_DATETIME
           )
           VALUES
           (
@@ -103,9 +112,14 @@
                ,    #{menuNmEn}
                ,    #{menuUrl}
                ,    #{menuIcon}
+               ,    (SELECT MENU_DEPTH + 1 FROM TB_MENU_MST M1 WHERE M1.MENU_ID = #{menuUpperId} )
+               ,    (SELECT IFNULL(MAX(MENU_ORD) + 1, 0) FROM TB_MENU_MST M2 WHERE M2.MENU_UPPER_ID = #{menuUpperId})
                ,    CAST(TRUE AS INT)
                ,    CAST(FALSE AS INT)
                ,    CAST(#{isAdmin} AS INT)
+               ,    CAST(FALSE AS INT)
+               ,    #{createUserId}
+               ,    NOW()
           ) 
           ON DUPLICATE KEY UPDATE
                     MENU_NM_KR = #{menuNmKr}
@@ -113,6 +127,16 @@
                ,    MENU_URL   = #{menuUrl}
                ,    MENU_ICON  = #{menuIcon}
                ,    IS_ADMIN   = CAST(#{isAdmin} AS INT)
+               ,    UPDATE_USER_ID = #{createUserId}
+               ,    UPDATE_DATETIME = NOW()
      </insert>
+
+     <update id="deleteMenuItem" parameterType="menu">
+          UPDATE TB_MENU_MST
+             SET IS_DELETED = TRUE
+               , UPDATE_USER_ID = #{updateUserId}
+               , UPDATE_DATETIME = NOW()
+           WHERE MENU_ID = #{menuId}
+     </update>
     
 </mapper>

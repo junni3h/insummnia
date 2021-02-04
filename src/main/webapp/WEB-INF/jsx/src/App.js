@@ -9,6 +9,8 @@ import UserRegistViewPage from '../src/views/user/UserRegistViewPage';
 import UserListViewPage from '../src/views/user/UserListViewPage';
 import UserInfoViewPage from '../src/views/user/UserInfoViewPage';
 
+import CommunityViewPage from './views/common/community/CommunityViewPage';
+
 import MenuMgmtViewPage from '../src/views/admin/MenuMgmtViewPage';
 
 import NotFoundErrorPage from '../src/views/error/NotFoundErrorPage';
@@ -24,6 +26,10 @@ export default function App(){
           <Route path="/login" component={UserLoginViewPage}/>
           <Route path="/regist" component={UserRegistViewPage}/>
           <Route path="/myInfo" component={MyInfoViewPage} />
+
+          <Route path="/community/notice" component={CommunityViewPage}/>
+          <Route path="/community/board" component={CommunityViewPage}/>
+          <Route path="/community/qna" component={CommunityViewPage}/>
 
           <Route path="/admin/user/list" component={UserListViewPage}/>
           <Route path="/admin/user/info/:userId" component={UserInfoViewPage}/>

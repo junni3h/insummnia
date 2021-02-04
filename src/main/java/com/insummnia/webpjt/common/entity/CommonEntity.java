@@ -9,6 +9,8 @@ public class CommonEntity {
     private String createDatetime;
     private String updateUserId;
     private String updateDatetime;
+    
+    private Boolean isDeleted;
 
     public String getCreateUserId() {
         return this.createUserId;
@@ -40,6 +42,14 @@ public class CommonEntity {
 
     public void setUpdateDatetime(String updateDatetime) {
         this.updateDatetime = updateDatetime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
     };
 
 }

@@ -5,7 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.xml.ws.Response;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import com.insummnia.webpjt.admin.entity.MenuEntity;
 import com.insummnia.webpjt.admin.entity.MenuTreeEntity;
@@ -55,9 +56,17 @@ public class MenuMgmtController {
     }
 
     @RequestMapping(value = "/updateMenu.do", method = RequestMethod.POST)
-    public ResponseEntity UpdateMenuItem(@RequestBody MenuEntity params) throws Exception {
+    public ResponseEntity upsertMenuItem(@RequestBody MenuEntity params) throws Exception {        
         Map<String, Object> rtnMap = new HashMap<String, Object>();
-        rtnMap = menuService.updateMenuItem(params);
+        rtnMap = menuService.upsertMenuItem(params);
+
+        return ResponseEntity.ok(rtnMap);
+    }
+
+    @RequestMapping(value = "/deleteMenu.do")
+    public ResponseEntity deleteMenuItem(@RequestBody MenuEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        rtnMap = menuService.deleteMenuItem(params);
 
         return ResponseEntity.ok(rtnMap);
     }

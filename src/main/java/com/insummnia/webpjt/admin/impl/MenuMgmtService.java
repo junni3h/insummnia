@@ -14,7 +14,6 @@ public interface MenuMgmtService {
      * @return
      * @throws Exception
      **/
-
     public MenuTreeEntity findMenuItemByTree() throws Exception;
 
     /**
@@ -23,7 +22,6 @@ public interface MenuMgmtService {
      * @return
      * @throws Exception
      **/
-    
     public MenuEntity findMenuItemByMenuId(MenuEntity menu) throws Exception;
 
     /**
@@ -32,7 +30,6 @@ public interface MenuMgmtService {
      * @return
      * @throws Exception
      **/
-
     public List<MenuEntity> findMenuItemByRoot(UserMSTEntity user) throws Exception;
     
     /**
@@ -41,16 +38,22 @@ public interface MenuMgmtService {
      * @return
      * @throws Exception
      */
-
     public List<MenuEntity> findMenuItemByUpperId(String menuId) throws Exception;
 
     /**
-     * 메뉴 정보 업데이트
+     * 메뉴 아이템 추가 및 수정
      * @param params 메뉴 
-     * @return 업데이트 유무, 메시지
+     * @return 추가 및 수정 성공 유무, 메시지
      * @throws Exception
      */
+    public Map<String, Object> upsertMenuItem(MenuEntity params) throws Exception;
 
-    public Map<String, Object> updateMenuItem(MenuEntity params) throws Exception;
+    /**
+     * 메뉴 아이템 삭제
+     * @param params
+     * @return 삭제 성공 유무, 메시지
+     * @throws Exception
+     */
+    public Map<String, Object> deleteMenuItem(MenuEntity params) throws Exception;
 
 }

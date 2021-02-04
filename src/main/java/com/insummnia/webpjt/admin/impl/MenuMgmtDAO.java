@@ -83,8 +83,12 @@ public class MenuMgmtDAO {
         return sqlSession.selectOne("findMenuItemByMenuId", menuId);
     }
 
-    public void updateMenuItem(MenuEntity params) throws Exception {
+    public void upsertMenuItem(MenuEntity params) throws Exception {
         sqlSession.insert("upsertMenuItem", params);
+    }
+
+    public void deleteMenuItem(MenuEntity params) throws Exception {
+        sqlSession.update("deleteMenuItem", params);
     }
 
 }
