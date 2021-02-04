@@ -27,8 +27,6 @@ export default function UserRegistView () {
             , nickNm: ''
     });
 
-    const [ error, setError ] = useState({});
-
     const regist = useSelector(state => state.UserReducer);
     const dispatch = useDispatch();
 

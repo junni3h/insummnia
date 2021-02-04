@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insummnia.webpjt.board.impl.BoardDAO">
+
+    <select id="findBoardIdByUrl" parameterType="board" resultType="board">
+        SELECT BOARD_ID
+          FROM TB_BOARD_MST
+         WHERE BOARD_URL = #{boardUrl}
+    </select>
+
+</mapper>

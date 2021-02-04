@@ -10,6 +10,7 @@ import UserListViewPage from '../src/views/user/UserListViewPage';
 import UserInfoViewPage from '../src/views/user/UserInfoViewPage';
 
 import CommunityViewPage from './views/common/community/CommunityViewPage';
+import CommunityWriteViewPage from './views/common/community/CommunityWriteViewPage';
 
 import MenuMgmtViewPage from '../src/views/admin/MenuMgmtViewPage';
 
@@ -30,6 +31,8 @@ export default function App(){
           <Route path="/community/notice" component={CommunityViewPage}/>
           <Route path="/community/board" component={CommunityViewPage}/>
           <Route path="/community/qna" component={CommunityViewPage}/>
+          
+          <Route path="/community/write/:boardId" component={CommunityWriteViewPage}/>
 
           <Route path="/admin/user/list" component={UserListViewPage}/>
           <Route path="/admin/user/info/:userId" component={UserInfoViewPage}/>

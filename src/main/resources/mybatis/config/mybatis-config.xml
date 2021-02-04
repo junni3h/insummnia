@@ -13,6 +13,7 @@
 
 	<typeAliases>
         <typeAlias type="com.insummnia.webpjt.user.entity.UserMSTEntity" alias="user"/>
+		<typeAlias type="com.insummnia.webpjt.board.entity.BoardEntity" alias="board"/>
 		<typeAlias type="com.insummnia.webpjt.admin.entity.MenuEntity" 	 alias="menu"/>
 		<typeAlias type="com.insummnia.webpjt.admin.entity.MenuTreeEntity" alias="menuTree"/>
 	</typeAliases>

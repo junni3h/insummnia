@@ -1,6 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import { Link, Redirect } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
 
@@ -23,8 +22,6 @@ import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import '../../css/common/common.css';
 
 export default function UserInfoViewPage(props) {
-
-    const login = useSelector(state => state.UserReducer);
 
     const { userId } = props.match.params;
     const [ user, setUser ] = useState({});
@@ -69,7 +66,6 @@ export default function UserInfoViewPage(props) {
 
     const handleSubmit = (event) => {
         const params = user;
-        console.log("submit==>", params);
 
         UserAPIRoute.fetchUpdateUsers(params)
                     .then( res => {

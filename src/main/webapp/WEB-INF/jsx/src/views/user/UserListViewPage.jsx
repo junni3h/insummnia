@@ -6,7 +6,6 @@ import { useSelector } from 'react-redux';
 import UserAPIRoute from '../../router/libs/UserAPIRoute';
 
 import { Container } from '@material-ui/core';
-import { DataGrid } from '@material-ui/data-grid';
 
 import Grid from '@material-ui/core/Grid';
 import Table from '@material-ui/core/Table';
@@ -19,9 +18,6 @@ import TableRow from '@material-ui/core/TableRow';
 import '../../css/common/common.css';
 import '../../css/common/commonTable.css';
 import '../../css/user/UserListView.css';
-
-
-
 
 export default function UserListViewPage() {
 
