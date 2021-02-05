@@ -31,7 +31,7 @@ export default function App(){
           <Route path="/community/notice" component={CommunityViewPage}/>
           <Route path="/community/board" component={CommunityViewPage}/>
           <Route path="/community/qna" component={CommunityViewPage}/>
-          
+  
           <Route path="/community/write/:boardId" component={CommunityWriteViewPage}/>
 
           <Route path="/admin/user/list" component={UserListViewPage}/>

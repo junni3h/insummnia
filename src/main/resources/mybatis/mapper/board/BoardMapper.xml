@@ -3,10 +3,60 @@
 
 <mapper namespace="com.insummnia.webpjt.board.impl.BoardDAO">
 
-    <select id="findBoardIdByUrl" parameterType="board" resultType="board">
+    <select id="findBoardById" parameterType="board" resultType="board">
         SELECT BOARD_ID
+             , BOARD_NM
+             , BOARD_URL
+          FROM TB_BOARD_MST
+         WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <select id="findBoardByUrl" parameterType="board" resultType="board">
+        SELECT BOARD_ID
+             , BOARD_NM
+             , BOARD_URL
           FROM TB_BOARD_MST
          WHERE BOARD_URL = #{boardUrl}
     </select>
+
+    <select id="findBoardSeqById" parameterType="board" resultType="java.lang.Integer">
+        SELECT IFNULL(MAX(BOARD_SEQ) + 1, 1) 
+          FROM TB_BOARD_DTL 
+         WHERE BOARD_ID = #{boardId}
+    </select>
+
+    <select id="findBoardContentById" parameterType="board" resultType="board">
+        SELECT BOARD_ID
+             , BOARD_SEQ
+             , BOARD_TITLE
+             , (
+                    SELECT CONCAT(NICK_NM, ' (', USER_ID, ')')
+                      FROM TB_USER_MST UM
+                     WHERE UM.USER_ID = BD.CREATE_USER_ID
+               ) AS CREATE_USER_ID
+             , CREATE_DATETIME
+          FROM TB_BOARD_DTL BD
+         WHERE BOARD_ID = #{boardId}
+         ORDER BY BOARD_SEQ ASC
+    </select>
+
+    <insert id="wirteBoardContent" parameterType="board">
+        INSERT INTO TB_BOARD_DTL
+        (
+                BOARD_ID
+            ,   BOARD_SEQ
+            ,   BOARD_TITLE
+            ,   BOARD_CONTENT
+            ,   CREATE_USER_ID
+            ,   CREATE_DATETIME
+        ) VALUES (
+                #{boardId}
+            ,   #{boardSeq}
+            ,   #{boardTitle}
+            ,   #{boardContent}
+            ,   #{createUserId}
+            ,   NOW()
+        )
+    </insert>
 
 </mapper>

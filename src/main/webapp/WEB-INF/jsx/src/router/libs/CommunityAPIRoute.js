@@ -4,8 +4,20 @@ const COMMU_API_BASE_URL = "/community/";
 
 class CommunityAPIRoute {
 
-    fetchBoardIdByUrl = ( board ) => {
-        return axios.post( COMMU_API_BASE_URL + "findBoardIdByUrl.json" , board );
+    fetchBoardById = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "findBoardById.json", board );
+    }
+
+    fetchBoardByUrl = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "findBoardByUrl.json" , board );
+    }
+
+    fetchBoardContentById = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "/findBoardContentById.json", board );
+    }
+
+    fetchWriteBoard = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "writeBoardContent.json", board );
     }
 
 }
