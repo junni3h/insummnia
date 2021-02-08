@@ -3,6 +3,27 @@
 
 <mapper namespace="com.insummnia.webpjt.board.impl.BoardDAO">
 
+    <sql id="searchBoardContentSQL">
+        <if test="boardSeq != null">
+            AND BOARD_SEQ = #{boardSeq}
+        </if>
+        <if test="boardTitle != null and boardTitle != ''">
+            AND BOARD_TITLE LIKE CONCAT('%', #{boardTitle}, '%')
+        </if>
+        <if test="createUserNm != null and createUserNm != ''">
+            AND CREATE_USER_ID IN ( 
+                SELECT USER_ID 
+                  FROM TB_USER_MST 
+                 WHERE NICK_NM LIKE CONCAT('%', #{createUserNm}, '%')
+            )
+        </if>
+        <if test="startedOn != null and startedOn != '' and endedOn != null and endedOn != ''">
+            AND CREATE_DATETIME BETWEEN 
+                DATE_FORMAT(STR_TO_DATE( CONCAT(#{startedOn}, ' 00:00:00'), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H:%i:%s')
+                    AND DATE_FORMAT(STR_TO_DATE( CONCAT(#{endedOn}, ' 23:59:59'), '%Y-%m-%d %H:%i:%s'), '%Y-%m-%d %H:%i:%s')
+        </if>
+    </sql>
+
     <select id="findBoardById" parameterType="board" resultType="board">
         SELECT BOARD_ID
              , BOARD_NM
@@ -16,7 +37,7 @@
              , BOARD_NM
              , BOARD_URL
           FROM TB_BOARD_MST
-         WHERE BOARD_URL = #{boardUrl}
+         WHERE BOARD_URL LIKE CONCAT('%', #{boardUrl}, '%')
     </select>
 
     <select id="findBoardSeqById" parameterType="board" resultType="java.lang.Integer">
@@ -29,15 +50,35 @@
         SELECT BOARD_ID
              , BOARD_SEQ
              , BOARD_TITLE
+             , CREATE_USER_ID
              , (
                     SELECT CONCAT(NICK_NM, ' (', USER_ID, ')')
                       FROM TB_USER_MST UM
                      WHERE UM.USER_ID = BD.CREATE_USER_ID
-               ) AS CREATE_USER_ID
+               ) AS CREATE_USER_NM
              , CREATE_DATETIME
           FROM TB_BOARD_DTL BD
          WHERE BOARD_ID = #{boardId}
-         ORDER BY BOARD_SEQ ASC
+            <include refid="searchBoardContentSQL"></include>
+           AND IS_DELETED IS FALSE
+         ORDER BY BOARD_SEQ DESC
+    </select>
+
+    <select id="findBoardContent" parameterType="board" resultType="board">
+        SELECT BOARD_ID
+             , BOARD_SEQ
+             , BOARD_TITLE
+             , BOARD_CONTENT
+             , CREATE_USER_ID
+             , (
+                    SELECT CONCAT(NICK_NM, ' (', USER_ID, ')')
+                      FROM TB_USER_MST UM
+                     WHERE UM.USER_ID = BD.CREATE_USER_ID
+               ) AS CREATE_USER_NM
+             , CREATE_DATETIME
+          FROM TB_BOARD_DTL BD
+         WHERE BOARD_ID = #{boardId}
+            <include refid="searchBoardContentSQL"></include>
     </select>
 
     <insert id="wirteBoardContent" parameterType="board">
@@ -56,7 +97,24 @@
             ,   #{boardContent}
             ,   #{createUserId}
             ,   NOW()
-        )
+        ) 
     </insert>
+
+    <update id="updateBoardContent" parameterType="board">
+        UPDATE TB_BOARD_DTL
+           SET BOARD_TITLE = #{boardTitle}
+             , BOARD_CONTENT = #{boardContent}
+             , UPDATE_USER_ID = #{updateUserId}
+             , UPDATE_DATETIME = NOW()
+         WHERE BOARD_ID = #{boardId}
+           AND BOARD_SEQ = #{boardSeq}
+    </update>
+
+    <update id="deleteBoardContent" parameterType="board">
+        UPDATE TB_BOARD_DTL
+           SET IS_DELETED = TRUE
+         WHERE BOARD_ID = #{boardId}
+           AND BOARD_SEQ = #{boardSeq}
+    </update>
 
 </mapper>

@@ -48,6 +48,14 @@ public class BoardController {
         return ResponseEntity.ok(rtnBrd);
     }
 
+    @RequestMapping(value = "/findBoardContent.json", method = RequestMethod.POST)
+    public ResponseEntity findBoardContent(@RequestBody BoardEntity params) throws Exception {
+        BoardEntity rtnBrd = new BoardEntity();
+        rtnBrd = boardService.findBoardContent(params);
+
+        return ResponseEntity.ok(rtnBrd);
+    }
+
     @RequestMapping(value = "/writeBoardContent.json", method = RequestMethod.POST)
     public ResponseEntity writeBoardContent(@RequestBody BoardEntity params) throws Exception {
         Map<String, Object> rtnMap = new HashMap<String, Object>();
@@ -55,5 +63,20 @@ public class BoardController {
 
         return ResponseEntity.ok(rtnMap);
     }
+
+    @RequestMapping(value = "/updateBoardContent.json", method = RequestMethod.POST)
+    public ResponseEntity updateBoardContent(@RequestBody BoardEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        rtnMap = boardService.updateBoardContent(params);
+
+        return ResponseEntity.ok(rtnMap);
+    }
     
+    @RequestMapping(value = "/deleteBoardContent.json", method = RequestMethod.POST)
+    public ResponseEntity deleteBoardContent(@RequestBody BoardEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        rtnMap = boardService.deleteBoardContent(params);
+
+        return ResponseEntity.ok(rtnMap);
+    }
 }

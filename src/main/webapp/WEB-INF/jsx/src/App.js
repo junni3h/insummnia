@@ -9,6 +9,7 @@ import UserRegistViewPage from '../src/views/user/UserRegistViewPage';
 import UserListViewPage from '../src/views/user/UserListViewPage';
 import UserInfoViewPage from '../src/views/user/UserInfoViewPage';
 
+import CommunityListViewPage from './views/common/community/CommunityListViewPage';
 import CommunityViewPage from './views/common/community/CommunityViewPage';
 import CommunityWriteViewPage from './views/common/community/CommunityWriteViewPage';
 
@@ -28,11 +29,17 @@ export default function App(){
           <Route path="/regist" component={UserRegistViewPage}/>
           <Route path="/myInfo" component={MyInfoViewPage} />
 
-          <Route path="/community/notice" component={CommunityViewPage}/>
-          <Route path="/community/board" component={CommunityViewPage}/>
-          <Route path="/community/qna" component={CommunityViewPage}/>
+          <Route exact path="/community/notice" component={CommunityListViewPage}/>
+          <Route exact path="/community/board" component={CommunityListViewPage}/>
+          <Route exact path="/community/qna" component={CommunityListViewPage}/>
   
-          <Route path="/community/write/:boardId" component={CommunityWriteViewPage}/>
+          <Route exact path="/community/notice/view/:boardSeq" component={CommunityViewPage}/>
+          <Route exact path="/community/board/view/:boardSeq" component={CommunityViewPage}/>
+          <Route exact path="/community/qna/view/:boardSeq" component={CommunityViewPage}/>
+          
+          <Route exact path="/community/notice/write" component={CommunityWriteViewPage}/>
+          <Route exact path="/community/board/write" component={CommunityWriteViewPage}/>
+          <Route exact path="/community/qna/write" component={CommunityWriteViewPage}/>
 
           <Route path="/admin/user/list" component={UserListViewPage}/>
           <Route path="/admin/user/info/:userId" component={UserInfoViewPage}/>

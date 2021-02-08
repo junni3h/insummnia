@@ -50,6 +50,16 @@ public class BoardDAO {
     }
 
     /**
+     * 게시판 게시글 조회
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public BoardEntity findBoardContent(BoardEntity params) throws Exception {
+        return sqlSession.selectOne("findBoardContent", params);
+    }
+
+    /**
      * 게시글 작성 순번 조회
      * @param params
      * @return
@@ -60,12 +70,29 @@ public class BoardDAO {
     }
 
     /**
-     * 게시판 게시글 작성
+     * 게시글 작성
      * @param params
      * @throws Exception
      */
     public void wirteBoardContent(BoardEntity params) throws Exception {
         sqlSession.insert("wirteBoardContent", params);
     }
+    
+    /**
+     * 게시글 수정
+     * @param params
+     * @throws Exception
+     */
+    public void updateBoardContent(BoardEntity params) throws Exception {
+        sqlSession.update("updateBoardContent", params);
+    }
 
+    /**
+     * 게시글 삭제
+     * @param params
+     * @throws Exception
+     */
+    public void deleteBoardContent(BoardEntity params) throws Exception {
+        sqlSession.update("deleteBoardContent", params);
+    }
 }

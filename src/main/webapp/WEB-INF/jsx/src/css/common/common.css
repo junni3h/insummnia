@@ -5,6 +5,7 @@ body {
     height: 100%;
 }
 
+
 .main {
     font-family: 'Bright Cheerful' !important;
     font-weight: bold;
@@ -119,6 +120,12 @@ body {
 }
 
 .dataGridContainer {
+    margin: 0.7rem auto;
     width: 100%;
     height: 500px;
+}
+
+.editor{
+    padding: 1rem 1rem;
+    border: #D5D5D5 1px solid;
 }

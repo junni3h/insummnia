@@ -57,6 +57,19 @@ public class BoardServiceImpl implements BoardService {
     }
 
     /**
+     * 게시판 게시글 조회
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public BoardEntity findBoardContent(BoardEntity params) throws Exception {
+        BoardEntity rtnBrd = new BoardEntity();
+        rtnBrd = boardDAO.findBoardContent(params);
+
+        return rtnBrd;
+    }
+
+    /**
      * 게시글 작성
      * @param params
      * @return
@@ -80,6 +93,56 @@ public class BoardServiceImpl implements BoardService {
         } catch (Exception e) {
             rtnMap.put("success", false);
             rtnMap.put("message", "게시글 작성 실패되었습니다!");
+        }
+
+        return rtnMap;
+    }
+
+    /**
+     * 게시글 수정
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> updateBoardContent(BoardEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        
+        try {
+            boardDAO.updateBoardContent(params);
+
+            rtnMap.put("success", true);
+            rtnMap.put("boardId", params.getBoardId());
+            rtnMap.put("boardSeq", params.getBoardSeq());
+            rtnMap.put("message", "게시글 수정이 완료되었습니다!");
+            
+        } catch (Exception e) {
+            rtnMap.put("success", false);
+            rtnMap.put("message", "게시글 수정이 실패하였습니다!");
+        }
+
+        return rtnMap;
+    }
+
+    /**
+     * 게시글 삭제
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, Object> deleteBoardContent(BoardEntity params) throws Exception {
+        Map<String, Object> rtnMap = new HashMap<String, Object>();
+        
+        try {
+            boardDAO.deleteBoardContent(params);
+
+            rtnMap.put("success", true);
+            rtnMap.put("message", "게시글 삭제가 완료되었습니다!");
+            
+        } catch (Exception e) {
+            rtnMap.put("success", false);
+            rtnMap.put("message", "게시글 삭제가 실패하였습니다!");
         }
 
         return rtnMap;

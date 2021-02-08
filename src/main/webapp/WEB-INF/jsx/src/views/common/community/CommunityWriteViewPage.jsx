@@ -6,7 +6,6 @@ import { Editor, EditorState, convertToRaw } from 'draft-js';
 
 import CommunityAPIRoute from '../../../router/libs/CommunityAPIRoute';
 
-import 'draft-js/dist/Draft.css';
 import '../../../css/common/common.css';
 
 
@@ -14,24 +13,28 @@ export default function CommunityWriteViewPage(props) {
 
     const login = useSelector(state => state.UserReducer);
 
-    const boardId = props.match.params.boardId;
-    const [board, setBoard] = useState({});
-    const [boardUrl, setBoardUrl] = useState("");
+    const [ board, setBoard ] = useState({});
+    const [ boardId, setBoardId ] = useState("");
+    const [ boardUrl, setBoardUrl ] = useState("");
 
-    const [editorState, setEditorState] = useState(() => EditorState.createEmpty(),);
+    const [ editorState, setEditorState ] = useState(() => EditorState.createEmpty(),);
     
-    async function fetchBoardById(){
-        const params = {};
-        params.boardId = boardId;
+    async function fetchBoardByUrl(){
+        const path = props.match.path;
+        const url = path.split("/");
 
-        const result = await CommunityAPIRoute.fetchBoardById(params);
+        const params = {};
+        params.boardUrl = url[2];
+
+        const result = await CommunityAPIRoute.fetchBoardByUrl(params);
         const data = result.data;
 
+        setBoardId(data.boardId);
         setBoardUrl(data.boardUrl);
     }
 
     useEffect(() => {
-        fetchBoardById();
+        fetchBoardByUrl();
     }, [boardId]);
 
     const handleChange = ( event ) => {
@@ -79,7 +82,7 @@ export default function CommunityWriteViewPage(props) {
         return value;
     }
 
-    const goBackList = () => {
+    const goBacktoList = () => {
         props.history.push(boardUrl);
     }
 
@@ -96,10 +99,10 @@ export default function CommunityWriteViewPage(props) {
                                             <div className="btnRightField">
                                                 <ButtonGroup size="small" aria-label="small outlined button group">
                                                     <Button type="submit">
-                                                        작성 완료
+                                                        작성
                                                     </Button>
-                                                    <Button type="button" color="secondary" onClick={goBackList}>
-                                                        작성 취소
+                                                    <Button type="button" color="secondary" onClick={goBacktoList}>
+                                                        취소
                                                     </Button>
                                                 </ButtonGroup>
                                             </div>
@@ -113,7 +116,6 @@ export default function CommunityWriteViewPage(props) {
                                             <TextField 
                                                 id="boardTitle"
                                                 name="boardTitle"
-                                                value={board.boardTitle} 
                                                 onChange={handleChange} 
                                                 size="small" 
                                                 fullWidth
@@ -136,8 +138,13 @@ export default function CommunityWriteViewPage(props) {
                                         </TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell colSpan={12}>
-                                            <Editor editorState={editorState} onChange={setEditorState} />
+                                        <TableCell colspan={1}>
+                                            내용
+                                        </TableCell>
+                                        <TableCell colSpan={11}>
+                                            <div className="editor">
+                                                <Editor editorState={editorState} onChange={setEditorState} ariaLabel="내용을 입력하세요"/>
+                                            </div>
                                         </TableCell>
                                     </TableRow>
                                 </TableBody>

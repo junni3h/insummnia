@@ -13,11 +13,23 @@ class CommunityAPIRoute {
     }
 
     fetchBoardContentById = ( board ) => {
-        return axios.post( COMMU_API_BASE_URL + "/findBoardContentById.json", board );
+        return axios.post( COMMU_API_BASE_URL + "findBoardContentById.json", board );
+    }
+
+    fetchBoardContent = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "findBoardContent.json", board );
     }
 
     fetchWriteBoard = ( board ) => {
         return axios.post( COMMU_API_BASE_URL + "writeBoardContent.json", board );
+    }
+
+    fetchUpdateBoard = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "updateBoardContent.json", board );
+    }
+
+    fetchDeleteBoard = ( board ) => {
+        return axios.post( COMMU_API_BASE_URL + "deleteBoardContent.json", board );
     }
 
 }

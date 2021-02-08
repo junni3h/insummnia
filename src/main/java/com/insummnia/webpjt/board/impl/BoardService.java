@@ -32,6 +32,14 @@ public interface BoardService {
     public List<BoardEntity> findBoardContentById(BoardEntity params) throws Exception;
 
     /**
+     * 게시판 게시글 조회
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public BoardEntity findBoardContent(BoardEntity params) throws Exception;
+        
+    /**
      * 게시글 작성
      * @param params
      * @return
@@ -39,4 +47,19 @@ public interface BoardService {
      */
     public Map<String, Object> wirteBoardContent(BoardEntity params) throws Exception;
 
+    /**
+     * 게시글 수정
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> updateBoardContent(BoardEntity params) throws Exception;
+
+    /**
+     * 게시글 삭제
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public Map<String, Object> deleteBoardContent(BoardEntity params) throws Exception;
 }
