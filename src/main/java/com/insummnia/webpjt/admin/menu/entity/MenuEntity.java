@@ -1,4 +1,4 @@
-package com.insummnia.webpjt.admin.entity;
+package com.insummnia.webpjt.admin.menu.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;

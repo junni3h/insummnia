@@ -14,10 +14,12 @@ import CommunityViewPage from './views/common/community/CommunityViewPage';
 import CommunityWriteViewPage from './views/common/community/CommunityWriteViewPage';
 
 import MenuMgmtViewPage from '../src/views/admin/MenuMgmtViewPage';
+import RoleMgmtViewPage from './views/admin/RoleMgmtViewPage';
 
 import NotFoundErrorPage from '../src/views/error/NotFoundErrorPage';
 import AccessErrorPage from '../src/views/error/AccessErrorPage';
 import AuthoriziedErrorPage from '../src/views/error/AuthoriziedErrorPage';
+
 
 export default function App(){
     return(
@@ -44,6 +46,7 @@ export default function App(){
           <Route path="/admin/user/list" component={UserListViewPage}/>
           <Route path="/admin/user/info/:userId" component={UserInfoViewPage}/>
           <Route path="/admin/menu/list" component={MenuMgmtViewPage}/>
+          <Route path="/admin/role" component={RoleMgmtViewPage}/>
 
           <Route path="/error/notfound" component={NotFoundErrorPage}/>
           <Route path="/error/auth" component={AuthoriziedErrorPage}/>

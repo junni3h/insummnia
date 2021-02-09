@@ -100,6 +100,7 @@
             ,   BOARD_SEQ
             ,   BOARD_TITLE
             ,   BOARD_CONTENT
+            ,   IS_DELETED
             ,   CREATE_USER_ID
             ,   CREATE_DATETIME
         ) VALUES (
@@ -107,6 +108,7 @@
             ,   #{boardSeq}
             ,   #{boardTitle}
             ,   #{boardContent}
+            ,   FALSE
             ,   #{createUserId}
             ,   NOW()
         ) 

@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.insummnia.webpjt.admin.impl.MenuMgmtService;
+import com.insummnia.webpjt.admin.menu.impl.MenuMgmtService;
 import com.insummnia.webpjt.auth.authentication.impl.LoginService;
 import com.insummnia.webpjt.common.utils.CommonUtils;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;

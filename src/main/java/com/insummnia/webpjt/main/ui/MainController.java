@@ -1,16 +1,12 @@
 package com.insummnia.webpjt.main.ui;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.insummnia.webpjt.admin.entity.MenuEntity;
-import com.insummnia.webpjt.admin.impl.MenuMgmtService;
-import com.insummnia.webpjt.user.entity.UserMSTEntity;
+import com.insummnia.webpjt.admin.menu.impl.MenuMgmtService;
 import com.insummnia.webpjt.user.impl.UserService;
 
 import org.slf4j.Logger;
@@ -60,6 +56,5 @@ public class MainController {
 
         return ResponseEntity.ok(rtnParams);
     }
-
 
 }

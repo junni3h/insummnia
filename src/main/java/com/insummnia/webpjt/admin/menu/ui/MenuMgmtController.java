@@ -1,16 +1,13 @@
-package com.insummnia.webpjt.admin.ui;
+package com.insummnia.webpjt.admin.menu.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
-import com.insummnia.webpjt.admin.entity.MenuEntity;
-import com.insummnia.webpjt.admin.entity.MenuTreeEntity;
-import com.insummnia.webpjt.admin.impl.MenuMgmtService;
+import com.insummnia.webpjt.admin.menu.entity.MenuEntity;
+import com.insummnia.webpjt.admin.menu.entity.MenuTreeEntity;
+import com.insummnia.webpjt.admin.menu.impl.MenuMgmtService;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
