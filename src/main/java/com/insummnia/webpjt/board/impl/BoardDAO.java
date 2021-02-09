@@ -95,4 +95,8 @@ public class BoardDAO {
     public void deleteBoardContent(BoardEntity params) throws Exception {
         sqlSession.update("deleteBoardContent", params);
     }
+
+    public void updateHitBoardContent(BoardEntity params) throws Exception {
+        sqlSession.update("updateHitBoardContent", params);
+    }
 }

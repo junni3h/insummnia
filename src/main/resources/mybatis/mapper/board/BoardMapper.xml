@@ -49,14 +49,25 @@
     <select id="findBoardContentById" parameterType="board" resultType="board">
         SELECT BOARD_ID
              , BOARD_SEQ
-             , BOARD_TITLE
+             , CONCAT(
+                    BOARD_TITLE
+                 , ' ('
+                 , ( 
+                        SELECT ifnull(MAX(REPLY_ID), 0)
+                        FROM TB_REPLY_DTL RD
+                        WHERE RD.BOARD_ID = BD.board_id 
+                        AND RD.BOARD_SEQ = BD.BOARD_SEQ
+                        )
+                , ')'
+                ) AS BOARD_TITLE
              , CREATE_USER_ID
              , (
                     SELECT CONCAT(NICK_NM, ' (', USER_ID, ')')
                       FROM TB_USER_MST UM
                      WHERE UM.USER_ID = BD.CREATE_USER_ID
                ) AS CREATE_USER_NM
-             , CREATE_DATETIME
+             , DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+             , BOARD_HIT
           FROM TB_BOARD_DTL BD
          WHERE BOARD_ID = #{boardId}
             <include refid="searchBoardContentSQL"></include>
@@ -69,13 +80,14 @@
              , BOARD_SEQ
              , BOARD_TITLE
              , BOARD_CONTENT
+             , BOARD_HIT
              , CREATE_USER_ID
              , (
                     SELECT CONCAT(NICK_NM, ' (', USER_ID, ')')
                       FROM TB_USER_MST UM
                      WHERE UM.USER_ID = BD.CREATE_USER_ID
                ) AS CREATE_USER_NM
-             , CREATE_DATETIME
+             , DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
           FROM TB_BOARD_DTL BD
          WHERE BOARD_ID = #{boardId}
             <include refid="searchBoardContentSQL"></include>
@@ -113,6 +125,13 @@
     <update id="deleteBoardContent" parameterType="board">
         UPDATE TB_BOARD_DTL
            SET IS_DELETED = TRUE
+         WHERE BOARD_ID = #{boardId}
+           AND BOARD_SEQ = #{boardSeq}
+    </update>
+
+    <update id="updateHitBoardContent" parameterType="board">
+        UPDATE TB_BOARD_DTL
+           SET BOARD_HIT = BOARD_HIT + 1
          WHERE BOARD_ID = #{boardId}
            AND BOARD_SEQ = #{boardSeq}
     </update>

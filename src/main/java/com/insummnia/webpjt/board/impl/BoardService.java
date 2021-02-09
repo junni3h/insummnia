@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.insummnia.webpjt.board.entity.BoardEntity;
+import com.insummnia.webpjt.common.entity.CommonResultEntity;
 
 public interface BoardService {
 
@@ -62,4 +63,13 @@ public interface BoardService {
      * @throws Exception
      */
     public Map<String, Object> deleteBoardContent(BoardEntity params) throws Exception;
+    
+    /**
+     * 게시글 조회수
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public CommonResultEntity updateHitBoardContent(BoardEntity params) throws Exception;
+
 }

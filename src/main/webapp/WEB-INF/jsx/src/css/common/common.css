@@ -119,6 +119,11 @@ body {
     margin: 0.5rem auto !important;
 }
 
+.tableContainer {
+    margin: 0.7rem auto;
+    width: 100%;
+}
+
 .dataGridContainer {
     margin: 0.7rem auto;
     width: 100%;
@@ -128,4 +133,8 @@ body {
 .editor{
     padding: 1rem 1rem;
     border: #D5D5D5 1px solid;
+}
+
+.text{
+    font-size: smaller;
 }

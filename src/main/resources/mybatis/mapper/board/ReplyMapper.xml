@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.insummnia.webpjt.board.impl.ReplyDAO">
+
+    <select id="findReplyIdByBoardId" parameterType="reply" resultType="java.lang.Integer">
+        SELECT IFNULL(MAX(REPLY_ID) + 1, 1) 
+          FROM TB_REPLY_DTL
+         WHERE BOARD_ID = #{boardId}
+           AND BOARD_SEQ = #{boardSeq}
+    </select>
+
+    <select id="findReplyContentByBoard" parameterType="board" resultType="reply">
+        SELECT REPLY_ID
+             , REPLY_CONTENT
+             , CREATE_USER_ID
+             , ( 
+                    SELECT CONCAT(UM.NICK_NM, ' (', UM.USER_ID, ')')
+                      FROM TB_USER_MST UM
+                     WHERE UM.USER_ID = RD.CREATE_USER_ID
+               ) AS CREATE_USER_NM
+             , DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+          FROM TB_REPLY_DTL RD
+         WHERE BOARD_ID = #{boardId}
+           AND BOARD_SEQ = #{boardSeq}
+         ORDER BY REPLY_ID ASC
+    </select>
+
+    <insert id="writeReplyContent" parameterType="reply">
+        INSERT INTO TB_REPLY_DTL
+        (
+                REPLY_ID
+            ,   REPLY_CONTENT
+            ,   BOARD_ID
+            ,   BOARD_SEQ
+            ,   CREATE_USER_ID
+            ,   CREATE_DATETIME
+        ) VALUES (
+                #{replyId}
+            ,   #{replyContent}
+            ,   #{boardId}
+            ,   #{boardSeq}
+            ,   #{createUserId}
+            ,   NOW()
+        )
+    </insert>
+
+</mapper>

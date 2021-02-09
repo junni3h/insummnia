@@ -1,6 +1,8 @@
 package com.insummnia.webpjt.board.entity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Entity;
 
@@ -18,6 +20,9 @@ public class BoardEntity extends CommonEntity implements Serializable {
     private Integer boardSeq;
     private String boardTitle;
     private String boardContent;
+    private Integer boardHit;
+
+    private List<ReplyEntity> reply = new ArrayList<ReplyEntity>();
 
     public String getBoardId() {
         return boardId;
@@ -67,10 +72,27 @@ public class BoardEntity extends CommonEntity implements Serializable {
         this.boardContent = boardContent;
     }
 
-    @Override
-    public String toString() {
-        return "BoardEntity [boardContent=" + boardContent + ", boardId=" + boardId + ", boardNm=" + boardNm
-                + ", boardSeq=" + boardSeq + ", boardTitle=" + boardTitle + ", boardUrl=" + boardUrl + "]";
+    public Integer getBoardHit() {
+        return boardHit;
     }
 
+    public void setBoardHit(Integer boardHit) {
+        this.boardHit = boardHit;
+    }
+
+    public List<ReplyEntity> getReply() {
+        return reply;
+    }
+
+    public void setReply(List<ReplyEntity> reply) {
+        this.reply = reply;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardEntity [boardContent=" + boardContent + ", boardHit=" + boardHit + ", boardId=" + boardId
+                + ", boardNm=" + boardNm + ", boardSeq=" + boardSeq + ", boardTitle=" + boardTitle + ", boardUrl="
+                + boardUrl + ", reply=" + reply + "]";
+    }
+    
 }

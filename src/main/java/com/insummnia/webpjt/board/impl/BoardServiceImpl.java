@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.insummnia.webpjt.board.entity.BoardEntity;
+import com.insummnia.webpjt.common.entity.CommonResultEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class BoardServiceImpl implements BoardService {
 
     @Autowired
     private BoardDAO boardDAO;
+
+    @Autowired
+    private ReplyDAO replyDAO;
 
     /**
      * 게시판 아이디별 게시판 조회
@@ -65,6 +69,7 @@ public class BoardServiceImpl implements BoardService {
     public BoardEntity findBoardContent(BoardEntity params) throws Exception {
         BoardEntity rtnBrd = new BoardEntity();
         rtnBrd = boardDAO.findBoardContent(params);
+        rtnBrd.setReply(replyDAO.findReplyContentByBoard(params));
 
         return rtnBrd;
     }
@@ -147,5 +152,24 @@ public class BoardServiceImpl implements BoardService {
 
         return rtnMap;
     }
-    
+
+    /**
+     * 조회수 업데이트
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public CommonResultEntity updateHitBoardContent(BoardEntity params) throws Exception {
+        CommonResultEntity result = new CommonResultEntity();
+
+        try {
+            boardDAO.updateHitBoardContent(params);
+            result.setSuccess(true);
+        } catch (Exception e) {
+            result.setSuccess(false);
+        }
+        
+        return result;
+    }    
 }

@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.insummnia.webpjt.board.entity.BoardEntity;
 import com.insummnia.webpjt.board.impl.BoardService;
+import com.insummnia.webpjt.common.entity.CommonResultEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -51,8 +52,14 @@ public class BoardController {
     @RequestMapping(value = "/findBoardContent.json", method = RequestMethod.POST)
     public ResponseEntity findBoardContent(@RequestBody BoardEntity params) throws Exception {
         BoardEntity rtnBrd = new BoardEntity();
-        rtnBrd = boardService.findBoardContent(params);
 
+        CommonResultEntity result = new CommonResultEntity();
+        result = boardService.updateHitBoardContent(params);
+
+        if(result.getSuccess()){
+            rtnBrd = boardService.findBoardContent(params);
+        }
+        
         return ResponseEntity.ok(rtnBrd);
     }
 

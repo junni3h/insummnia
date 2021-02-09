@@ -25,11 +25,11 @@ export default function CommunityListViewPage({match, history}) {
     const [ rows, setRows ] = useState([]);
     const columns = [
             {field: 'id',               hide: true}
-        ,   {field: 'boardId',          hide: true}
         ,   {field: 'boardSeq',         headerName: '글번호',       width: 100}
-        ,   {field: 'boardTitle',       headerName: '글제목',       width: 500}
-        ,   {field: 'createUserNm',     headerName: '작성자',       width: 300}
-        ,   {field: 'createDatetime',   headerName: '작성일',       width: 300}
+        ,   {field: 'boardTitle',       headerName: '글제목',       width: 350}
+        ,   {field: 'createUserNm',     headerName: '작성자',       width: 250}
+        ,   {field: 'createDatetime',   headerName: '작성일',       width: 200}
+        ,   {filed: 'boardHit',         headerName: '조회수',       width: 100}
         
     ];
 
@@ -59,6 +59,7 @@ export default function CommunityListViewPage({match, history}) {
                                 row.boardTitle = item.boardTitle;
                                 row.createUserNm = item.createUserNm;
                                 row.createDatetime = item.createDatetime;
+                                row.boardHit = item.boardHit;
                                 list.push(row);
                             });
 
@@ -125,8 +126,8 @@ export default function CommunityListViewPage({match, history}) {
                                         </TableCell>
                                         <TableCell colSpan={3}>
                                             <TextField 
-                                                id="createUserId"
-                                                name="createUserId"
+                                                id="createUserNm"
+                                                name="createUserNm"
                                                 label="작성자"
                                                 size="small"
                                                 fullWidth

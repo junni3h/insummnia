@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Editor, EditorState, convertToRaw, ContentState } from 'draft-js';
 import CommunityAPIRoute from '../../../router/libs/CommunityAPIRoute';
+import ReplyAPIRoute from '../../../router/libs/ReplyAPIRoute';
 
-import { Button, ButtonGroup, Container, Grid, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
+import { Button, ButtonGroup, Container, Grid, InputAdornment, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
 import SubdirectoryArrowRightRoundedIcon from '@material-ui/icons/SubdirectoryArrowRightRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 
@@ -15,6 +16,7 @@ export default function CommunityViewPage(props) {
 
     const [ board, setBoard ] = useState({});
     const [ boardUrl, setBoardUrl ] = useState("");
+    const [ reply, setReply ] = useState([]);
 
     const [ isModified, setIsModified ] = useState(false);
     const [ isReply, setIsReply ] = useState(false);
@@ -29,11 +31,14 @@ export default function CommunityViewPage(props) {
 
         const result = await CommunityAPIRoute.fetchBoardContent(params);
         const data = result.data;
-    
+
+        console.log(result);
+
         const content = ContentState.createFromText(data.boardContent);
         setEditorState(EditorState.createWithContent(content));
  
         setBoard(data);
+        setReply(data.reply);
     }
 
     async function fetchBoardByUrl() {
@@ -122,8 +127,42 @@ export default function CommunityViewPage(props) {
         event.preventDefault();
     }
 
+    const handleReplySubmit = ( event ) => {
+        const params = board;
+        params.replyContent = getReplyContent();
+        params.createUserId = login.loginUser.userId;
+        console.log(params);
+
+        if(window.confirm("댓글 작성을 완료하시겠습니까?")){
+            ReplyAPIRoute.fetchWriteReplyContent(params)
+                             .then( res => {
+                                 const data = res.data;
+
+                                 // 작성 성공 여부
+                                if(data.success){
+                                    // 성공시 페이지 이동
+                                    if(window.confirm(data.message)){
+                                        handleReplyWrite();
+                                        fetchBoardContent(board.boardId);
+                                    }
+                                } else { 
+                                    // 실패시 메시지 호출
+                                    alert(data.message);
+                                }
+                             });
+        }
+
+        event.preventDefault();
+    }
+
     const getContent = () => {
         const blocks = convertToRaw(editorState.getCurrentContent()).blocks;
+        const value = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
+        return value;
+    }
+
+    const getReplyContent = () => {
+        const blocks = convertToRaw(replyState.getCurrentContent()).blocks;
         const value = blocks.map(block => (!block.text.trim() && '\n') || block.text).join('\n');
         return value;
     }
@@ -135,7 +174,7 @@ export default function CommunityViewPage(props) {
     return(
         <Container className="container" component="main" maxWidth="lg" color="inherit">
             <form onSubmit={handleSubmit} method="post">
-                <TableContainer>
+                <TableContainer className="tableContainer">
                     <Table id="table" size="medium">
                         <TableHead>
                             <TableRow>
@@ -176,22 +215,23 @@ export default function CommunityViewPage(props) {
                                                                 </Button>
                                                             </ButtonGroup>
                                                         ) : (
-                                                            <Button onClick={handleContentModify}>
-                                                                수정
-                                                            </Button>
+                                                            board.createUserId === login.loginUser.userId ? 
+                                                                (
+                                                                    <ButtonGroup size="small" aria-label="small outlined button group">
+                                                                        <Button color="secondary" onClick={handleContentDelete}>
+                                                                            삭제
+                                                                        </Button>
+                                                                        <Button onClick={handleContentModify}>
+                                                                            수정
+                                                                        </Button>
+                                                                    </ButtonGroup>
+                                                                ):(
+                                                                    null
+                                                                )
+                                                            
                                                         )
                                                 )
                                             
-                                            }
-                                            {
-                                                board.createUserId === login.loginUser.userId ? 
-                                                    (
-                                                        <Button color="secondary" onClick={handleContentDelete}>
-                                                            삭제
-                                                        </Button>
-                                                    ):(
-                                                        null
-                                                    )
                                             }
                                             <Button type="button" onClick={goBacktoList}>
                                                 목록
@@ -203,8 +243,8 @@ export default function CommunityViewPage(props) {
                         </TableHead>
                         <TableBody>
                             <TableRow>
-                                <TableCell colSpan={1}>제목</TableCell>
-                                <TableCell colSpan={8}>
+                                <TableCell colSpan={2}>제목</TableCell>
+                                <TableCell colSpan={10}>
                                     <TextField 
                                         id="boardTitle"
                                         name="boardTitle"
@@ -217,8 +257,10 @@ export default function CommunityViewPage(props) {
                                     >
                                     </TextField>
                                 </TableCell>
-                                <TableCell colSpan={1}>작성자</TableCell>
-                                <TableCell colSpan={1}>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={2}>작성자</TableCell>
+                                <TableCell colSpan={2}>
                                     <TextField 
                                         id="createUserName"
                                         name="createUserName"
@@ -228,6 +270,18 @@ export default function CommunityViewPage(props) {
                                         disabled
                                     >
                                     </TextField>
+                                </TableCell>
+                                <TableCell colSpan={2}>작성일시</TableCell>
+                                <TableCell colSpan={2}>
+                                    <Typography className="menuIcon">
+                                        {board.createDatetime} 
+                                    </Typography>
+                                </TableCell>
+                                <TableCell colSpan={2}>조회수</TableCell>
+                                <TableCell colSpan={2}>
+                                    <Typography className="menuIcon">
+                                        {board.boardHit} 
+                                    </Typography>
                                 </TableCell>
                             </TableRow>
                             <TableRow>
@@ -241,63 +295,78 @@ export default function CommunityViewPage(props) {
                     </Table>
                 </TableContainer>
             </form>
-            <Grid item xs={12}>
-                <TableContainer>
-                        <Table id="table" size="medium">
-                            <TableHead>
-                                <TableRow>
-                                    <TableCell colSpan={10}>
-                                        답글
-                                    </TableCell>
-                                    <TableCell colspan={2}>
-                                            { isReply ?
-                                                (
-                                                    <div className="btnRightfield">
-                                                        <Button 
-                                                            className="btnRight" 
-                                                            color="default" 
-                                                            size="small"
-                                                            onClick={handleReplyWrite}
-                                                        >
+            <form onSubmit={handleReplySubmit} method="post">
+                <TableContainer className="tableContainer">
+                    <Table id="table" size="medium">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell colSpan={10}>댓글</TableCell>
+                                <TableCell colSpan={2}>
+                                        { isReply ? 
+                                            (
+                                                <div className="btnRightField">
+                                                    <ButtonGroup size="small" aria-label="small outlined button group">
+                                                        <Button className="rightBtn" onClick={handleReplyWrite} color="secondary">
                                                             취소
                                                         </Button>
-                                                        <Button
-                                                            className="btnRight" 
-                                                            color="default" 
-                                                            size="small"
-                                                        >
+                                                        <Button type="submit" className="rightBtn">
+                                                            완료
+                                                        </Button>
+                                                    </ButtonGroup>
+                                                </div>
+                                            ):(
+                                                <div className="btnRightField">
+                                                    <ButtonGroup size="small" aria-label="small outlined button group">
+                                                        <Button className="rightBtn" onClick={handleReplyWrite}>
                                                             작성
                                                         </Button>
-                                                    </div>
-                                                ):(
-                                                    <div className="btnRightfield">
-                                                        <Button 
-                                                            className="btnRight" 
-                                                            color="default" 
-                                                            size="small"
-                                                            startIcon={<CreateRoundedIcon />}
-                                                            onClick={handleReplyWrite}
-                                                        >
-                                                            작성
-                                                        </Button>
-                                                    </div>
-                                                )
-                                            }
-                                    </TableCell>
-                                </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                <TableRow>
-                                    <TableCell colSpan={12}>
-                                        <div className="editor">
-                                            <Editor editorState={replyState} onChange={setReplyState} readOnly={ isReply ? false : true }/>
-                                        </div>
-                                    </TableCell>
-                                </TableRow>
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                </Grid>
+                                                    </ButtonGroup>
+                                                </div>
+                                            )
+                                        }
+                                </TableCell>
+                            </TableRow>
+                            <TableRow>
+                                <TableCell colSpan={12}>
+                                    <div className="editor">
+                                        <Editor editorState={replyState} onChange={setReplyState} readOnly={ isReply ? false : true }/>  
+                                    </div>
+                                </TableCell>
+                            </TableRow>                     
+                        </TableHead>
+                        <TableBody>
+                            { 
+                                reply.map((item) => (
+                                    <TableRow>
+                                        <TableCell colSpan={12}>
+                                            <TextField 
+                                                id="replyContent"
+                                                name="replyContent"
+                                                value={item.replyContent} 
+                                                size="small"
+                                                variant="outlined"
+                                                label={item.createUserNm}
+                                                InputProps={
+                                                    {
+                                                        startAdornment: (
+                                                            <InputAdornment position="start">
+                                                                <SubdirectoryArrowRightRoundedIcon fontSize="small"/>
+                                                            </InputAdornment>
+                                                        )
+                                                    }
+                                                }
+                                                fullWidth
+                                                disabled
+                                            >
+                                            </TextField>
+                                        </TableCell>
+                                    </TableRow>
+                                ))
+                            }
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+            </form>
         </Container>
     );
 }
