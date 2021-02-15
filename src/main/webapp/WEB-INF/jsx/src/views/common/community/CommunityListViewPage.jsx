@@ -1,7 +1,7 @@
 import {React, useEffect, useState} from 'react';
 import { useSelector } from 'react-redux';
 
-import CommunityAPIRoute from '../../../router/libs/CommunityAPIRoute';
+import CommunityAPIRoute from '../../../libs/router/CommunityAPIRoute';
 
 import '../../../css/common/common.css';
 import '../../../css/common/commonTable.css';

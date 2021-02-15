@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Editor, EditorState, convertToRaw, ContentState } from 'draft-js';
-import CommunityAPIRoute from '../../../router/libs/CommunityAPIRoute';
-import ReplyAPIRoute from '../../../router/libs/ReplyAPIRoute';
+import CommunityAPIRoute from '../../../libs/router/CommunityAPIRoute';
+import ReplyAPIRoute from '../../../libs/router/ReplyAPIRoute';
 
 import { Button, ButtonGroup, Container, Grid, InputAdornment, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
 import SubdirectoryArrowRightRoundedIcon from '@material-ui/icons/SubdirectoryArrowRightRounded';

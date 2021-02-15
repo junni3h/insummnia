@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import MainAPIRoute from '../../router/libs/MainAPIRoute';
-import MenuAPIRoute from '../../router/libs/MenuAPIRoute';
-import UserAPIRoute from '../../router/libs/UserAPIRoute';
+import MainAPIRoute from '../../libs/router/MainAPIRoute';
+import MenuAPIRoute from '../../libs/router/MenuAPIRoute';
+import UserAPIRoute from '../../libs/router/UserAPIRoute';
 
 import RootActions from '../../libs/reducer/RootActions';
 

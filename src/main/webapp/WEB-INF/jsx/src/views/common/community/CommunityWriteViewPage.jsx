@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import { Editor, EditorState, convertToRaw } from 'draft-js';
 
-import CommunityAPIRoute from '../../../router/libs/CommunityAPIRoute';
+import CommunityAPIRoute from '../../../libs/router/CommunityAPIRoute';
 
 import '../../../css/common/common.css';
 

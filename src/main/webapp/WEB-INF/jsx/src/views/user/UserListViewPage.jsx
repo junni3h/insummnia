@@ -3,7 +3,7 @@ import { Link, Redirect } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import UserAPIRoute from '../../router/libs/UserAPIRoute';
+import UserAPIRoute from '../../libs/router/UserAPIRoute';
 
 import { Container } from '@material-ui/core';
 

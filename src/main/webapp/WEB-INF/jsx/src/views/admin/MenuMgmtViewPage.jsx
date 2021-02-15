@@ -2,7 +2,7 @@ import { React, useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
-import MenuAPIRoute from '../../router/libs/MenuAPIRoute';
+import MenuAPIRoute from '../../libs/router/MenuAPIRoute';
 
 import { Button, Checkbox, Container, Divider, FormControl, FormControlLabel, FormLabel, Grid, IconButton, InputAdornment, Paper, Switch, Table, TableCell, TableRow, TextField, Tooltip, Typography } from '@material-ui/core';
 import TreeView from '@material-ui/lab/TreeView';
