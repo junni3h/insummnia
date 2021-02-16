@@ -28,6 +28,7 @@ export default function UserRegistView () {
             , nickNm: ''
     });
 
+    const [ duplication, setDuplication ] = useState(false);
     const [ message, setMessage ] = useState("");
 
     const regist = useSelector(state => state.UserReducer);
@@ -61,6 +62,7 @@ export default function UserRegistView () {
             });
         } else {
             // 사용자 아이디가 공백일 경우 Message 호출
+            setDuplication(false);
             setMessage("아이디가 공백입니다!");
         }
         
@@ -71,9 +73,11 @@ export default function UserRegistView () {
         // 사용자 아이디 중복 여부
         if(duplication){
             // 사용자 아이디가 중복일 경우
-           setMessage("아이디가 중복되었습니다!");
+            setDuplication(true);
+            setMessage("아이디가 중복되었습니다!");
         } else {
             // 사용자 아이디가 중복이 아닐 경우
+            setDuplication(false);
             setMessage("아이디를 사용해도됩니다!");
         }
 
@@ -130,7 +134,7 @@ export default function UserRegistView () {
                                                 value={user.userId} 
                                                 onChange={handleInputChange}  
                                                 margin="normal"
-                                                helperText={message}
+                                                helperText={ duplication ? message : message }
                                                 InputProps={
                                                 {startAdornment:
                                                     (<InputAdornment position="start">
