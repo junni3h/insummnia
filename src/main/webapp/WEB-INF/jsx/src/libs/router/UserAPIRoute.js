@@ -1,23 +1,27 @@
 import axios from 'axios';
 
-const USER_API_BASE_URL = "/user/";
+const USER_API_BASE_URL = "/user";
 
 class UserAPIRoute {
 
     fetchRegistUsers = ( params ) => {
-        return axios.post( USER_API_BASE_URL + "regist.json",  params );
+        return axios.post( USER_API_BASE_URL + "/regist.json",  params );
     }
 
     fetchUpdateUsers = ( params ) => {
-        return axios.post( USER_API_BASE_URL + "update.json", params );
+        return axios.post( USER_API_BASE_URL + "/update.json", params );
     }
 
     fetchUserList = ( ) => {
-        return axios.get(USER_API_BASE_URL + "list.json");
+        return axios.get(USER_API_BASE_URL + "/list.json");
     }
 
     fetchUserInfo = ( param ) => {
-        return axios.post( USER_API_BASE_URL + "info.json",  {userId: param} );
+        return axios.post( USER_API_BASE_URL + "/info.json",  {userId: param} );
+    }
+
+    fetchRoleUser = ( param ) => {
+        return axios.post( USER_API_BASE_URL + "/findUserByRoleId.json", { roleId: param } );
     }
 
     fetchUserLogin = ( params ) => {
@@ -27,7 +31,6 @@ class UserAPIRoute {
     fetchUserLogout = ( ) => {
         return axios.post( "/logout.do" );
     }
-
 
 }
 

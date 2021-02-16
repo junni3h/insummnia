@@ -5,7 +5,6 @@ body {
     height: 100%;
 }
 
-
 .main {
     font-family: 'Bright Cheerful' !important;
     font-weight: bold;
@@ -137,4 +136,14 @@ body {
 
 .text{
     font-size: smaller;
+}
+
+.card{
+    width: 200px;
+    height: 230px;
+    overflow: scroll;
+}
+
+.gridItem{
+    margin-top: 1rem !important;
 }

@@ -140,4 +140,30 @@
          AND UI.IS_USER_DELETED IS FALSE
     </select>
 
+    <select id="findUserByRoleId" parameterType="role" resultType="user">
+      SELECT UR.USER_ID
+           , CONCAT(UM.USER_NM, ' (', UR.USER_ID, ')') AS USER_NM
+      FROM TB_USER_ROLE UR
+     INNER JOIN TB_ROLE_MST RM
+        ON ( RM.ROLE_ID = UR.ROLE_ID )
+     INNER JOIN TB_USER_MST UM
+        ON ( UM.USER_ID = UR.USER_ID )
+     WHERE UR.ROLE_ID = #{roleId}
+  </select>
+
+  <select id="findExceptUserByRoleId" parameterType="role" resultType="user">
+    SELECT UR.USER_ID
+         , CONCAT(UM.USER_NM, ' (', UR.USER_ID, ')') AS USER_NM
+      FROM (
+       SELECT USER_ID
+         FROM TB_USER_MST
+       EXCEPT
+       SELECT USER_ID
+         FROM TB_USER_ROLE
+        WHERE ROLE_ID = #{roleId}
+    ) UR
+     INNER JOIN TB_USER_MST UM
+     ON ( UM.USER_ID = UR.USER_ID )
+  </select>
+
 </mapper>

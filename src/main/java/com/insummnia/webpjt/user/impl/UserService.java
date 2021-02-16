@@ -3,6 +3,7 @@ package com.insummnia.webpjt.user.impl;
 import java.util.List;
 import java.util.Map;
 
+import com.insummnia.webpjt.admin.role.entity.RoleEntity;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
 
 public interface UserService {
@@ -37,5 +38,21 @@ public interface UserService {
      * @throws Exception
      **/
     public UserMSTEntity userInfo(String userId) throws Exception;
+
+    /**
+     * 권한별 사용자 조회
+     * @param params 권한 아이디
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findUserByRoleId(RoleEntity params) throws Exception;
+
+    /**
+     * 권한별 제외 사용자 조회
+     * @param params 권한 아이디
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findExceptUserByRoleId(RoleEntity params) throws Exception;
     
 }

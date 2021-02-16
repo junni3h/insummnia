@@ -2,6 +2,7 @@ package com.insummnia.webpjt.user.impl;
 
 import java.util.List;
 
+import com.insummnia.webpjt.admin.role.entity.RoleEntity;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
 
 import org.apache.ibatis.session.SqlSession;
@@ -94,6 +95,26 @@ public class UserDAO {
      **/
     public UserMSTEntity userInfo(String userId) throws Exception {
         return sqlSession.selectOne("selectUserInfo", userId);
+    }
+
+    /**
+     * 권한별 사용자 조회
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findUserByRoleId(RoleEntity params) throws Exception {
+        return sqlSession.selectList("findUserByRoleId", params);
+    }
+
+    /**
+     * 권한별 제외 사용자 조회
+     * @param params
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findExceptUserByRoleId(RoleEntity params) throws Exception {
+        return sqlSession.selectList("findExceptUserByRoleId", params);
     }
 
 }

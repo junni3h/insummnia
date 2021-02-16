@@ -8,6 +8,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import com.insummnia.webpjt.admin.role.entity.RoleEntity;
+import com.insummnia.webpjt.admin.role.entity.RoleUserEntity;
 import com.insummnia.webpjt.common.utils.CommonUtils;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
 import com.insummnia.webpjt.user.impl.UserService;
@@ -113,6 +115,21 @@ public class UserController {
         String userId = user.getUserId();
         UserMSTEntity rtnParams = new UserMSTEntity();
         rtnParams = userService.userInfo(userId);
+
+        return ResponseEntity.ok(rtnParams);
+    }
+
+    @RequestMapping(value = "/findUserByRoleId.json", method = RequestMethod.POST)
+    public ResponseEntity findUserByRoleId(@RequestBody RoleEntity params) throws Exception { 
+        List<UserMSTEntity> roleUsers = new ArrayList<UserMSTEntity>();
+        roleUsers = userService.findUserByRoleId(params);
+
+        List<UserMSTEntity> expectUsers = new ArrayList<UserMSTEntity>();
+        expectUsers = userService.findExceptUserByRoleId(params);
+
+        RoleUserEntity rtnParams = new RoleUserEntity();
+        rtnParams.setRoleUsers(roleUsers);
+        rtnParams.setExpectUsers(expectUsers);
 
         return ResponseEntity.ok(rtnParams);
     }

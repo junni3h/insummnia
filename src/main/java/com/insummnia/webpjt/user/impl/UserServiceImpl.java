@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.insummnia.webpjt.admin.role.entity.RoleEntity;
 import com.insummnia.webpjt.user.entity.UserMSTEntity;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,6 +97,32 @@ public class UserServiceImpl implements UserService {
     public UserMSTEntity userInfo(String userId) throws Exception {
         UserMSTEntity rtnParams = new UserMSTEntity();
         rtnParams = userDAO.userInfo(userId);
+
+        return rtnParams;
+    }
+
+    /**
+     * 권한별 사용자 조회
+     * @param params 권한 아이디
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findUserByRoleId(RoleEntity params) throws Exception {
+        List<UserMSTEntity> rtnParams = new ArrayList<UserMSTEntity>();
+        rtnParams = userDAO.findUserByRoleId(params);
+
+        return rtnParams;
+    }
+
+    /**
+     * 권한별 제외 사용자 조회
+     * @param params 권한 아이디
+     * @return
+     * @throws Exception
+     */
+    public List<UserMSTEntity> findExceptUserByRoleId(RoleEntity params) throws Exception {
+        List<UserMSTEntity> rtnParams = new ArrayList<UserMSTEntity>();
+        rtnParams = userDAO.findExceptUserByRoleId(params);
 
         return rtnParams;
     }

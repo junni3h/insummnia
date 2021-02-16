@@ -2,4 +2,66 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.insummnia.webpjt.admin.role.impl.RoleMgmtDAO">
+
+    <select id="findRoleTree" resultType="roleTree">
+        SELECT ROLE_ID AS ID
+             , ROLE_NM_EN AS LABEL
+          FROM TB_ROLE_MST
+    </select>
+
+    <select id="findRoleById" parameterType="role" resultType="role">
+        SELECT ROLE_ID
+             , ROLE_NM_KR
+             , ROLE_NM_EN
+             , CREATE_USER_ID
+             , ( 
+                    SELECT CONCAT(UM.NICK_NM, ' (', UM.USER_ID, ')')
+                      FROM TB_USER_MST UM
+                     WHERE UM.USER_ID = RM.CREATE_USER_ID
+               ) AS CREATE_USER_NM
+             , DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS CREATE_DATETIME
+             , UPDATE_USER_ID
+             , ( 
+                    SELECT CONCAT(UM.NICK_NM, ' (', UM.USER_ID, ')')
+                      FROM TB_USER_MST UM
+                     WHERE UM.USER_ID = RM.CREATE_USER_ID
+               ) AS UPDATE_USER_NM
+             , DATE_FORMAT(CREATE_DATETIME, '%Y-%m-%d %H:%i:%s') AS UPDATE_DATETIME
+          FROM TB_ROLE_MST AS RM
+         WHERE ROLE_ID = #{roleId}
+    </select>
+
+    <update id="updateRoleById" parameterType="role">
+      UPDATE TB_ROLE_MST
+         SET ROLE_NM_KR = #{roleNmKr}
+           , ROLE_NM_EN = #{roleNmEn}
+           , UPDATE_USER_ID = #{updateUserId}
+           , UPDATE_DATETIME = NOW()
+       WHERE ROLE_ID = #{roleId}
+    </update>
+
+    <insert id="insertUserRole" parameterType="user">
+      INSERT INTO TB_USER_ROLE
+      (
+          USER_ID
+        , ROLE_ID
+        , CREATE_USER_ID
+        , CREATE_DATETIME
+
+      ) VALUES (
+      
+          #{userId}
+        , #{roleId}
+        , #{createUserId}
+        , NOW()
+
+      )
+    </insert>
+
+    <delete id="removeUserRole" parameterType="user">
+       DELETE FROM TB_USER_ROLE
+        WHERE USER_ID = #{userId}
+          AND ROLE_ID = #{roleId}
+    </delete>
+
 </mapper>
