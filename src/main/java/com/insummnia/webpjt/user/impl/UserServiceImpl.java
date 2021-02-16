@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
      **/
     @Transactional(rollbackFor = Exception.class)
     public Map<String, Object> userRegist(UserMSTEntity params) throws Exception {
-
         Map<String, Object> rtnMap = new HashMap<String, Object>();
 
         Boolean isRegist = false;
@@ -35,7 +34,7 @@ public class UserServiceImpl implements UserService {
             userDAO.userRegist(params);
             
             try {
-                isRegist = userDAO.userCheck(params.getUserId());
+                isRegist = userDAO.userCheck(params);
 
                 rtnMap.put("regist", isRegist);
                 rtnMap.put("message", "회원가입에 성공하였습니다!");
@@ -99,6 +98,19 @@ public class UserServiceImpl implements UserService {
         rtnParams = userDAO.userInfo(userId);
 
         return rtnParams;
+    }
+
+    /**
+     * 사용자 아이디 중복검사 체크
+     * @param params 사용자 아이디
+     * @return
+     * @throws Exception
+     */
+    public Boolean findUserDuplicationById(UserMSTEntity params) throws Exception {
+        Boolean duplication = false;
+        duplication = userDAO.findUserDuplicationById(params);
+
+        return duplication;
     }
 
     /**

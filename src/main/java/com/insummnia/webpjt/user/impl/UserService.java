@@ -40,6 +40,14 @@ public interface UserService {
     public UserMSTEntity userInfo(String userId) throws Exception;
 
     /**
+     * 사용자 아이디 중복체크
+     * @param params 사용자 아이디
+     * @return
+     * @throws Exception
+     */
+    public Boolean findUserDuplicationById(UserMSTEntity params) throws Exception;
+
+    /**
      * 권한별 사용자 조회
      * @param params 권한 아이디
      * @return

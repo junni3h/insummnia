@@ -119,6 +119,13 @@ public class UserController {
         return ResponseEntity.ok(rtnParams);
     }
 
+    @RequestMapping(value = "/findUserDuplicationById.json", method = RequestMethod.POST)
+    public ResponseEntity findUserDuplicationById(@RequestBody UserMSTEntity params) throws Exception {
+        Boolean duplication = false;
+        duplication = userService.findUserDuplicationById(params);
+        return ResponseEntity.ok(duplication);
+    }
+
     @RequestMapping(value = "/findUserByRoleId.json", method = RequestMethod.POST)
     public ResponseEntity findUserByRoleId(@RequestBody RoleEntity params) throws Exception { 
         List<UserMSTEntity> roleUsers = new ArrayList<UserMSTEntity>();

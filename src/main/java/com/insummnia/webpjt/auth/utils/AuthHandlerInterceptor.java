@@ -17,14 +17,7 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        logger.info("AuthHandlerInterceptor ==> preHandle");
-        logger.info("AuthHandlerInterceptor ==> preHandle ==> getRequestURI ==> {}", request.getRequestURI());
-        
         HttpSession session = request.getSession();
-
-        logger.info("AuthHandlerInterceptor ==> preHandle ==> session ==> {}", session.getAttribute("loginUser"));
-        logger.info("AuthHandlerInterceptor ==> preHandle ==> session ==> {}", session.getAttribute("menu"));
-        
         if(session.getAttribute("loginUser") != null && session.getAttribute("menu") != null){
             session.setMaxInactiveInterval(30 * 60);
             return true;
@@ -37,14 +30,12 @@ public class AuthHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {    
-        logger.info("AuthHandlerInterceptor ==> postHandle");
-        logger.info("session ==> {}", request.getSession().getAttribute("loginUser"));
-        logger.info("session ==> {}", request.getSession().getAttribute("menu"));
+
     }
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        logger.info("AuthHandlerInterceptor ==> afterCompletion");
+
     }
 
 }

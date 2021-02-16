@@ -40,14 +40,18 @@ public class UserDAO {
         sqlSession.update("updateUserMST", params);
     }
 
+    public Boolean findUserDuplicationById(UserMSTEntity params) throws Exception {
+        return sqlSession.selectOne("findUserDuplicationById", params);
+    }
+
     /**
      * 사용자 가입확인 (회원가입 후처리)
      * @param userId 사용자 아이디
      * @return
      * @throws Exception
      **/
-    public Boolean userCheck(String userId) throws Exception {
-        return sqlSession.selectOne("selectUserCheck", userId);
+    public Boolean userCheck(UserMSTEntity params) throws Exception {
+        return sqlSession.selectOne("findUserDuplicationById", params);
     }
 
     /**
