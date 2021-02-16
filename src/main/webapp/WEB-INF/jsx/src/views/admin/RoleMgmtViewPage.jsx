@@ -29,7 +29,6 @@ export default function RoleMgmtViewPage(){
     const [ roleUser, setRoleUser ] = useState([]);
 
     const [ checked, setChecked ] = useState([]);
-    const [ type, setType ] = useState([]);
 
     async function fetchTree(){
         const result = await RoleAPIRoute.fetchRoleTree();
@@ -120,7 +119,32 @@ export default function RoleMgmtViewPage(){
 
     }
 
-    // 사용자 권한 추가 및 삭제
+    // 권한 정보 수정 이벤트
+    const handleSubmitChangeRole = ( event ) => {
+        const params = role;
+        params.updateUserId = login.loginUser.userId;
+
+        // 권한 정보 수정 API 호출
+        RoleAPIRoute.fetchUpdateRoleById(params)
+                    .then( res => {
+                        const data = res.data;
+
+                        // 정보 수정 성공 여부 판단
+                        if(data.success){
+                            // 정보 수정 성공시 메시지 호출
+                            alert(data.message);
+                            // 페이지 재호출
+                            fetchTree();
+                        } else {
+                            // 정보 수정 실패시 메시지 호출
+                            alert(data.message);
+                        }
+                    });
+        
+        event.preventDefault();
+    }
+
+    // 사용자 권한 추가 및 삭제 이벤트
     const handleSubmitChangeUser = ( event ) => {
         const params = {};
 
@@ -302,70 +326,73 @@ export default function RoleMgmtViewPage(){
                             Role Info
                         </Typography>
                         <Divider className="divider"/>
-                        <Table size="small">
-                            <TableRow>
-                                <TableCell colSpan={3}>
-                                    <TextField 
-                                        className="textField"
-                                        id="roleNmKr"
-                                        name="roleNmKr"
-                                        label="Name (Korean)"
-                                        value={role.roleNmKr} 
-                                        onChange={handleInputChange}
-                                        variant="outlined" 
-                                        size="small" 
-                                        fullWidth
-                                        InputProps={
-                                            {
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <InfoRoundedIcon fontSize="small"/>
-                                                    </InputAdornment>
-                                                )
-                                            }
-                                        }
-                                        InputLabelProps={{ shrink: true }}>
-                                    </TextField>
-                                </TableCell>
-                                <TableCell colSpan={3}>
-                                    <TextField
-                                        className="textField" 
-                                        id="roleNmEn"
-                                        name="roleNmEn" 
-                                        label="Name (English)" 
-                                        value={role.roleNmEn} 
-                                        onChange={handleInputChange}
-                                        variant="outlined" 
-                                        size="small" 
-                                        fullWidth
-                                        InputProps={
-                                            {
-                                                startAdornment: (
-                                                    <InputAdornment position="start">
-                                                        <InfoRoundedIcon fontSize="small"/>
-                                                    </InputAdornment>
-                                                )
-                                            }
-                                        }
-                                        InputLabelProps={{ shrink: true }}>
-                                    </TextField>
-                                </TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell colSpan={6}>
-                                    <div className="btnRightField">
-                                        <Button className="btnRight" 
-                                            type="submit" 
-                                            variant="contained" 
-                                            color="primary" 
+                        <form method="post" onSubmit={handleSubmitChangeRole}>
+                            <Table size="small">
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            className="textField"
+                                            id="roleNmKr"
+                                            name="roleNmKr"
+                                            label="Name (Korean)"
+                                            value={role.roleNmKr} 
+                                            onChange={handleInputChange}
+                                            variant="outlined" 
                                             size="small" 
-                                            startIcon={<UpdateRoundedIcon />}>
-                                        저장</Button>
-                                    </div>
-                                </TableCell>
-                            </TableRow>
-                        </Table>
+                                            fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField
+                                            className="textField" 
+                                            id="roleNmEn"
+                                            name="roleNmEn" 
+                                            label="Name (English)" 
+                                            value={role.roleNmEn} 
+                                            onChange={handleInputChange}
+                                            variant="outlined" 
+                                            size="small" 
+                                            fullWidth
+                                            InputProps={
+                                                {
+                                                    startAdornment: (
+                                                        <InputAdornment position="start">
+                                                            <InfoRoundedIcon fontSize="small"/>
+                                                        </InputAdornment>
+                                                    )
+                                                }
+                                            }
+                                            InputLabelProps={{ shrink: true }}>
+                                        </TextField>
+                                    </TableCell>
+                                </TableRow>
+                                <TableRow>
+                                    <TableCell colSpan={6}>
+                                        <div className="btnRightField">
+                                            <Button className="btnRight" 
+                                                type="submit" 
+                                                variant="contained" 
+                                                color="primary" 
+                                                size="small" 
+                                                startIcon={<UpdateRoundedIcon />}>
+                                            저장</Button>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            </Table>
+                        </form>
                     </Grid>
+                    
                     <Grid item className="gridItem">
                         <Typography>
                             Role User

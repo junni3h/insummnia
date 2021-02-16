@@ -45,9 +45,10 @@ public class RoleMgmtController {
         return ResponseEntity.ok(rtnRole);
     }
 
-    @RequestMapping(value = "/updateRoleInfo.json", method = RequestMethod.POST)
-    public ResponseEntity updateRoleInfo(@RequestBody RoleEntity params) throws Exception {
+    @RequestMapping(value = "/updateRoleById.json", method = RequestMethod.POST)
+    public ResponseEntity updateRoleById(@RequestBody RoleEntity params) throws Exception {
         CommonResultEntity result = new CommonResultEntity();
+        result = roleMgmtService.updateRoleById(params);
 
         return ResponseEntity.ok(result);
     }
