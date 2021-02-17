@@ -114,6 +114,19 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
+     * 사용자 별명 중복검사 체크
+     * @param params 사용자 별명
+     * @return
+     * @throws Exception
+     */
+    public Boolean findUserDuplicationByNickName(UserMSTEntity params) throws Exception {
+        Boolean duplication = false;
+        duplication = userDAO.findUserDuplicationByNickName(params);
+
+        return duplication;
+    }
+
+    /**
      * 권한별 사용자 조회
      * @param params 권한 아이디
      * @return

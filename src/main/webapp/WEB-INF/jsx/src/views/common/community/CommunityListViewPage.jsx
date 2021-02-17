@@ -20,6 +20,7 @@ import PageviewRoundedIcon from '@material-ui/icons/PageviewRounded';
 export default function CommunityListViewPage({match, history}) {
 
     const login = useSelector(state => state.UserReducer);
+    console.log(login);
     const [ board, setBoard ] = useState({});
 
     const [ rows, setRows ] = useState([]);
@@ -100,128 +101,132 @@ export default function CommunityListViewPage({match, history}) {
         history.push(match.path + "/view/" + seq);
     }
 
-    if(login.isLogin){
-        return(
-            <Container className="container" component="main" maxWidth="lg" color="inherit">
-                <Grid container className="gridContainer">
-                    <Grid item xs={12}>
-                        <TableContainer>
-                            <Table id="table" size="small">
-                                <TableHead>
-                                </TableHead>
-                                <TableBody>
-                                    <TableRow>
-                                        <TableCell colSpan={3}>
-                                            <TextField 
-                                                id="boardTitle"
-                                                name="boardTitle"
-                                                label="글제목"
+    return(
+        <Container className="container" component="main" maxWidth="lg" color="inherit">
+            <Grid container className="gridContainer">
+                <Grid item xs={12}>
+                    <TableContainer>
+                        <Table id="table" size="small">
+                            <TableHead>
+                            </TableHead>
+                            <TableBody>
+                                <TableRow>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            id="boardTitle"
+                                            name="boardTitle"
+                                            label="글제목"
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}
+                                            onChange={handleChange}
+                                            autoFocus={true}
+                                            >
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={3}>
+                                        <TextField 
+                                            id="createUserNm"
+                                            name="createUserNm"
+                                            label="작성자"
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}
+                                            onChange={handleChange}
+                                            >
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={2}>
+                                        <TextField 
+                                            id="startedOn"
+                                            name="startedOn"
+                                            className="datefield"
+                                            type="date"
+                                            label="작성일(시작일)"
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}
+                                            onChange={handleChange}
+                                            >
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={2}>
+                                        <TextField 
+                                            id="endedOn"
+                                            name="endedOn"
+                                            type="date"
+                                            label="작성일(종료일)"
+                                            size="small"
+                                            fullWidth
+                                            InputLabelProps={{ shrink: true }}
+                                            onChange={handleChange}
+                                            >
+                                        </TextField>
+                                    </TableCell>
+                                    <TableCell colSpan={2}>
+                                        <div className="btnRightField">
+                                            <Button 
+                                                className="btnRight" 
+                                                color="default" 
                                                 size="small"
-                                                fullWidth
-                                                InputLabelProps={{ shrink: true }}
-                                                onChange={handleChange}
-                                                autoFocus={true}
-                                                >
-                                            </TextField>
-                                        </TableCell>
-                                        <TableCell colSpan={3}>
-                                            <TextField 
-                                                id="createUserNm"
-                                                name="createUserNm"
-                                                label="작성자"
-                                                size="small"
-                                                fullWidth
-                                                InputLabelProps={{ shrink: true }}
-                                                onChange={handleChange}
-                                                >
-                                            </TextField>
-                                        </TableCell>
-                                        <TableCell colSpan={2}>
-                                            <TextField 
-                                                id="startedOn"
-                                                name="startedOn"
-                                                className="datefield"
-                                                type="date"
-                                                label="작성일(시작일)"
-                                                size="small"
-                                                fullWidth
-                                                InputLabelProps={{ shrink: true }}
-                                                onChange={handleChange}
-                                                >
-                                            </TextField>
-                                        </TableCell>
-                                        <TableCell colSpan={2}>
-                                            <TextField 
-                                                id="endedOn"
-                                                name="endedOn"
-                                                type="date"
-                                                label="작성일(종료일)"
-                                                size="small"
-                                                fullWidth
-                                                InputLabelProps={{ shrink: true }}
-                                                onChange={handleChange}
-                                                >
-                                            </TextField>
-                                        </TableCell>
-                                        <TableCell colSpan={2}>
-                                            <div className="btnRightField">
-                                                <Button 
-                                                    className="btnRight" 
-                                                    color="default" 
-                                                    size="small"
-                                                    onClick={handleSearch}
-                                                    startIcon={<PageviewRoundedIcon />}
-                                                > 
-                                                    검색
-                                                </Button>
-                                                {
-                                                    board.boardId === "COMMUNITY_NOTICE" ? (
-                                                        login.loginUser.roleId === "ROLE_ADMIN" ? (
-                                                            <Button 
-                                                                className="btnRight" 
-                                                                color="default" 
-                                                                size="small" 
-                                                                startIcon={<CreateRoundedIcon />}
-                                                                onClick={goToWriteView}> 
-                                                                작성
-                                                            </Button>
-                                                        ) : (
+                                                onClick={handleSearch}
+                                                startIcon={<PageviewRoundedIcon />}
+                                            > 
+                                                검색
+                                            </Button>
+                                            {
+                                                board.boardId === "COMMUNITY_NOTICE" ? (
+                                                    ( Object.keys(login).includes('loginUser') ? (
+                                                            login.loginUser.roleId === "ROLE_ADMIN" ? (
+                                                                <Button 
+                                                                    className="btnRight" 
+                                                                    color="default" 
+                                                                    size="small" 
+                                                                    startIcon={<CreateRoundedIcon />}
+                                                                    onClick={goToWriteView}> 
+                                                                    작성
+                                                                </Button>
+                                                            ) : (
+                                                                null
+                                                            )
+                                                        ):(
                                                             null
                                                         )
-
-                                                    ) : (
-                                                        <Button 
-                                                            className="btnRight" 
-                                                            color="default" 
-                                                            size="small" 
-                                                            startIcon={<CreateRoundedIcon />}
-                                                            onClick={goToWriteView}> 
-                                                            작성
-                                                        </Button>
                                                     )
-                                                }
-                                            </div>
-                                        </TableCell>
-                                    </TableRow>
-                                </TableBody>
-                            </Table>
-                        </TableContainer>
-                    </Grid>
+                                                ) : (
+                                                    Object.keys(login).includes('loginUser') ? (
+                                                        <Button 
+                                                        className="btnRight" 
+                                                        color="default" 
+                                                        size="small" 
+                                                        startIcon={<CreateRoundedIcon />}
+                                                        onClick={goToWriteView}> 
+                                                        작성
+                                                        </Button>
+                                                    ):(
+                                                        null
+                                                    )
+                                                )
+                                            }
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                 </Grid>
-                <Grid container className="dataGridContainer">
-                    <DataGrid 
-                        rows={rows} 
-                        columns={columns} 
-                        rowHeight={30}
-                        onRowClick={goToContentView}
-                        checkboxSelection={login.loginUser.roleId === "ROLE_ADMIN" ? true : false}
-                    />
-                </Grid>
-            </Container>
-        );
-    } else {
-        return( <Redirect to="/error/auth"/> );
-    }
+            </Grid>
+            <Grid container className="dataGridContainer">
+                <DataGrid 
+                    rows={rows} 
+                    columns={columns} 
+                    rowHeight={30}
+                    onRowClick={goToContentView}
+                    
+                />
+            </Grid>
+        </Container>
+     );
 
 }
 

@@ -48,6 +48,14 @@ public interface UserService {
     public Boolean findUserDuplicationById(UserMSTEntity params) throws Exception;
 
     /**
+     * 사용자 별명 중복검사 체크
+     * @param params 사용자 별명
+     * @return
+     * @throws Exception
+     */
+    public Boolean findUserDuplicationByNickName(UserMSTEntity params) throws Exception;
+
+    /**
      * 권한별 사용자 조회
      * @param params 권한 아이디
      * @return

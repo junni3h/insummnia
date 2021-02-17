@@ -104,6 +104,7 @@ body {
 
 .textField {
     margin: 0.5rem auto !important;
+    width: 220px;
 }
 
 .textArea {

@@ -24,6 +24,10 @@ class UserAPIRoute {
         return axios.post( USER_API_BASE_URL + "/findUserDuplicationById.json", { userId: param } );
     }
 
+    fetchUserDuplicationByNickName = ( param ) => {
+        return axios.post( USER_API_BASE_URL + "/findUserDuplicationByNickName.json", { nickNm: param } );
+    }
+
     fetchRoleUser = ( param ) => {
         return axios.post( USER_API_BASE_URL + "/findUserByRoleId.json", { roleId: param } );
     }

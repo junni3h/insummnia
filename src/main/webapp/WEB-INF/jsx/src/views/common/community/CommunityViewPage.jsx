@@ -183,26 +183,31 @@ export default function CommunityViewPage(props) {
                                         <ButtonGroup size="small" aria-label="small outlined button group">
                                             {
                                                 board.boardId === "COMMUNITY_NOTICE" ? (
-                                                    login.loginUser.roleId === "ROLE_ADMIN" ? (
-                                                        isModified ? 
-                                                            (
-                                                                <ButtonGroup size="small" aria-label="small outlined button group">
-                                                                    <Button onClick={handleContentModify} color="secondary">
-                                                                        취소
-                                                                    </Button>
-                                                                    <Button type="submit">
-                                                                        완료
-                                                                    </Button>
-                                                                </ButtonGroup>
+                                                    (
+                                                        Object.keys(login).includes('loginUser') ? (
+                                                            login.loginUser.roleId === "ROLE_ADMIN" ? (
+                                                                isModified ? 
+                                                                    (
+                                                                        <ButtonGroup size="small" aria-label="small outlined button group">
+                                                                            <Button onClick={handleContentModify} color="secondary">
+                                                                                취소
+                                                                            </Button>
+                                                                            <Button type="submit">
+                                                                                완료
+                                                                            </Button>
+                                                                        </ButtonGroup>
+                                                                    ) : (
+                                                                        <Button onClick={handleContentModify}>
+                                                                            수정
+                                                                        </Button>
+                                                                    )
                                                             ) : (
-                                                                <Button onClick={handleContentModify}>
-                                                                    수정
-                                                                </Button>
+                                                                null
                                                             )
-                                                    ) : (
-                                                        null
+                                                        ) : (
+                                                            null
+                                                        )
                                                     )
-
                                                 ) : (
                                                     isModified ? 
                                                         (
@@ -215,7 +220,8 @@ export default function CommunityViewPage(props) {
                                                                 </Button>
                                                             </ButtonGroup>
                                                         ) : (
-                                                            board.createUserId === login.loginUser.userId ? 
+                                                            Object.keys(login).includes('loginUser') ? (
+                                                                board.createUserId === login.loginUser.userId ? 
                                                                 (
                                                                     <ButtonGroup size="small" aria-label="small outlined button group">
                                                                         <Button color="secondary" onClick={handleContentDelete}>
@@ -228,7 +234,9 @@ export default function CommunityViewPage(props) {
                                                                 ):(
                                                                     null
                                                                 )
-                                                            
+                                                            ) : (
+                                                                null
+                                                            )
                                                         )
                                                 )
                                             
@@ -315,13 +323,17 @@ export default function CommunityViewPage(props) {
                                                     </ButtonGroup>
                                                 </div>
                                             ):(
-                                                <div className="btnRightField">
+                                                Object.keys(login).includes("loginUser") ? (
+                                                    <div className="btnRightField">
                                                     <ButtonGroup size="small" aria-label="small outlined button group">
                                                         <Button className="rightBtn" onClick={handleReplyWrite}>
                                                             작성
                                                         </Button>
                                                     </ButtonGroup>
-                                                </div>
+                                                    </div>
+                                                ) : (
+                                                    null
+                                                )
                                             )
                                         }
                                 </TableCell>

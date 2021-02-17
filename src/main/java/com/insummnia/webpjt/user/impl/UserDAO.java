@@ -40,8 +40,24 @@ public class UserDAO {
         sqlSession.update("updateUserMST", params);
     }
 
+    /**
+     * 사용자 아이디 중복검사 체크
+     * @param params 사용자 아이디
+     * @return
+     * @throws Exception
+     */
     public Boolean findUserDuplicationById(UserMSTEntity params) throws Exception {
         return sqlSession.selectOne("findUserDuplicationById", params);
+    }
+
+    /**
+     * 사용자 별명 중복검사 체크
+     * @param params 사용자 닉네임
+     * @return
+     * @throws Exception
+     */
+    public Boolean findUserDuplicationByNickName(UserMSTEntity params) throws Exception {
+        return sqlSession.selectOne("findUserDuplicationByNickName", params);
     }
 
     /**
